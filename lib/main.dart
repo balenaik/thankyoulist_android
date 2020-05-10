@@ -3,26 +3,42 @@ import 'package:flutter/material.dart';
 void main() => runApp(ThankYouListApp());
 
 class ThankYouListApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Thank You List',
-      home: BottomNavigationBarWidget(),
-//      home: MyHomePage(title: 'title'),
+      home: BottomNavigationBarWidget(
+        items: [
+          BottomAppBarItem(icon: Icons.list, title: 'List'),
+          BottomAppBarItem(icon: Icons.calendar_today, title: 'calendar'),
+        ],
+        centerItemTitle: 'Add Thank You',
+      ),
     );
   }
 }
 
 class BottomNavigationBarWidget extends StatefulWidget {
+  BottomNavigationBarWidget({
+    this.items,
+    this.centerItemTitle,
+  }) {
+    assert(this.items.length == 2 || this.items.length == 4);
+  }
+  final List<BottomAppBarItem> items;
+  final String centerItemTitle;
   @override
   _BottomNavigationBarWidgetState createState() => _BottomNavigationBarWidgetState();
 }
 
 class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
   final _bottomNavigationBarColor = Colors.pink;
+  final _selectedItemColor = Colors.white;
+  final _unselectedItemColor = Colors.white30;
+  final _height = 60.0;
+  final _iconSize = 24.0;
   List<Widget> _dynamicPageList;
-  int _index = 0;
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -31,16 +47,34 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
     super.initState();
   }
 
+  _updateIndex(int index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Widget> items = List.generate(
+        widget.items.length, (int index) {
+      return _buildTabItem(
+        item: widget.items[index],
+        index: index,
+        onPressed: _updateIndex,
+      );
+    });
+
+    items.insert(
+        items.length >> 1, _buildMiddleTabItem());
+
     return Scaffold(
-      body: _dynamicPageList[_index],
+//      body: _dynamicPageList[_selectedIndex],
       floatingActionButton: FloatingActionButton(
         backgroundColor: _bottomNavigationBarColor,
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder:(BuildContext context){
-                return DynamicPage('Add Thank You');
+                return DynamicPage(widget.centerItemTitle);
               }
           ));
         },
@@ -49,41 +83,58 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
-          color: _bottomNavigationBarColor,
-          shape: CircularNotchedRectangle(),
-          child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+        shape: CircularNotchedRectangle(),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: items,
+        ),
+        color: _bottomNavigationBarColor,
+      )
+    );
+  }
+
+  Widget _buildMiddleTabItem() {
+    return Expanded(
+      child: SizedBox(
+        height: _height,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(height: _iconSize),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTabItem({
+    BottomAppBarItem item,
+    int index,
+    ValueChanged<int> onPressed,
+  }) {
+    Color color = _selectedIndex == index ? _selectedItemColor : _unselectedItemColor;
+    return Expanded(
+      child: SizedBox(
+        height: _height,
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            onTap: () => onPressed(index),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                IconButton(
-                    icon: Icon(Icons.home),
-                    color: Colors.white,
-                    onPressed: (){
-                      setState(() {
-                        _index = 0;
-                      });
-                    }
-                ),
-                IconButton(
-                    icon: Icon(Icons.dns),
-                    color: Colors.white,
-                    onPressed: (){
-                      setState(() {
-                        _index = 1;
-                      });
-                    }
-                ),
-                IconButton(
-                    icon: Icon(Icons.mail),
-                    color: Colors.white,
-                    onPressed: (){
-                      setState(() {
-                        _index = 2;
-                      });
-                    }
-                ),
-              ]
-          )
+                Icon(item.icon, color: color, size: _iconSize),
+                Text(
+                  item.title,
+                  style: TextStyle(color: color),
+                )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -104,4 +155,10 @@ class _DynamicPageState extends State<DynamicPage> {
         body: Center(child:Text(widget._title))
     );
   }
+}
+
+class BottomAppBarItem {
+  BottomAppBarItem({this.icon, this.title});
+  IconData icon;
+  String title;
 }
