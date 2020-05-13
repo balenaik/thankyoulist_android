@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thankyoulist/thankyoulist_screen.dart';
 
 void main() => runApp(ThankYouListApp());
 
@@ -37,15 +38,11 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
   final _unselectedItemColor = Colors.white30;
   final _height = 60.0;
   final _iconSize = 24.0;
-  List<Widget> _dynamicPageList;
   int _selectedIndex = 0;
-
-  @override
-  void initState() {
-    _dynamicPageList = List();
-    _dynamicPageList..add(DynamicPage('1'))..add(DynamicPage('2'));
-    super.initState();
-  }
+  final List<Widget> _children = [
+    ThankYouListScreen(Colors.purple),
+    ThankYouListScreen(Colors.amber)
+  ];
 
   _updateIndex(int index) {
       setState(() {
@@ -68,7 +65,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
         items.length >> 1, _buildMiddleTabItem());
 
     return Scaffold(
-//      body: _dynamicPageList[_selectedIndex],
+      body: _children[_selectedIndex],
       floatingActionButton: FloatingActionButton(
         backgroundColor: _bottomNavigationBarColor,
         onPressed: () {
