@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:thankyoulist/thankyoulist_screen.dart';
 
+import 'package:thankyoulist/login_screen.dart';
+
 void main() => runApp(ThankYouListApp());
 
 class ThankYouListApp extends StatelessWidget {
@@ -8,13 +10,14 @@ class ThankYouListApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Thank You List',
-      home: BottomNavigationBarWidget(
-        items: [
-          BottomAppBarItem(icon: Icons.list, title: 'List'),
-          BottomAppBarItem(icon: Icons.calendar_today, title: 'calendar'),
-        ],
-        centerItemTitle: 'Add Thank You',
-      ),
+      home: LoginScreen()
+//      BottomNavigationBarWidget(
+//        items: [
+//          BottomAppBarItem(icon: Icons.list, title: 'List'),
+//          BottomAppBarItem(icon: Icons.calendar_today, title: 'calendar'),
+//        ],
+//        centerItemTitle: 'Add Thank You',
+//      ),
     );
   }
 }
