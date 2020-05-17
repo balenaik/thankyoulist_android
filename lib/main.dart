@@ -40,7 +40,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
   final _iconSize = 24.0;
   int _selectedIndex = 0;
   final List<Widget> _children = [
-    ThankYouListScreen(Colors.purple),
+    ThankYouListScreen(Colors.white70),
     ThankYouListScreen(Colors.amber)
   ];
 
