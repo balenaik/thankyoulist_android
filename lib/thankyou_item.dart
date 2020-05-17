@@ -60,6 +60,11 @@ class ThankYouItem extends StatelessWidget {
                 ),
               ),
               Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    left: BorderSide(width: 0.5, color: Colors.black26)
+                  )
+                ),
                 padding: EdgeInsets.all(12),
                 child: Text('abc\nabc\nabc\n\nabc\nabc\nabc\nabc\n\n\n\n\nabc'),
               )
