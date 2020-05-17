@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import 'package:thankyoulist/main.dart';
+import 'package:thankyoulist/main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key, this.title}) : super(key: key);
@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (user == null) return;
 
     Navigator.push(context, MaterialPageRoute(builder: (context) =>
-        BottomNavigationBarWidget(
+        MainScreen(
           items: [
             BottomAppBarItem(icon: Icons.list, title: 'List'),
             BottomAppBarItem(icon: Icons.calendar_today, title: 'calendar'),
