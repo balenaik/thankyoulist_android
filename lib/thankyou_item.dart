@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class ThankYouItem extends StatelessWidget {
   ThankYouItem({
     Key key,
-    this.thumbnail,
     this.title,
     this.subtitle,
     this.author,
@@ -11,7 +10,6 @@ class ThankYouItem extends StatelessWidget {
     this.readDuration,
   }) : super(key: key);
 
-  final Widget thumbnail;
   final String title;
   final String subtitle;
   final String author;
@@ -44,15 +42,23 @@ class ThankYouItem extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              AspectRatio(
-                aspectRatio: 1.0,
-                child: thumbnail,
-              ),
-              Expanded(
+              Center(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20.0, 10.0, 2.0, 0.0),
-                  child: Text('abc'),
+                  padding: EdgeInsets.only(left: 12.0),
+                    child: SizedBox(
+                      width: 96,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('14'),
+                            Text('Apr')
+                          ]
+                      ),
+                    )
                 ),
+              ),
+              Center(
+                child: Text('abc\nabc\nabc\n\nabc\nabc\nabc\nabc\nabc'),
               )
             ],
           ),
