@@ -37,10 +37,12 @@ class ThankYouItem extends StatelessWidget {
             vertical: 8.0,
             horizontal: 24.0
         ),
-        child: SizedBox(
-          height: 120,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: 140,
+          ),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Center(
                 child: Padding(
@@ -57,8 +59,9 @@ class ThankYouItem extends StatelessWidget {
                     )
                 ),
               ),
-              Center(
-                child: Text('abc\nabc\nabc\n\nabc\nabc\nabc\nabc\nabc'),
+              Container(
+                padding: EdgeInsets.all(12),
+                child: Text('abc\nabc\nabc\n\nabc\nabc\nabc\nabc\n\n\n\n\nabc'),
               )
             ],
           ),
