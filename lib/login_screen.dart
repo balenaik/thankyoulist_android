@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<FirebaseUser> _handleSignIn() async {
+  Future<FirebaseUser> _handleGoogleSignIn() async {
     GoogleSignInAccount googleCurrentUser = _googleSignIn.currentUser;
     try {
       if (googleCurrentUser == null) googleCurrentUser = await _googleSignIn.signInSilently();
@@ -65,7 +65,9 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Image(image: AssetImage("assets/ic_login_screen.png"), height: 250.0),
-                _signInButton(),
+                _facebookSignInButton(),
+                SizedBox(height: 10),
+                _googleSignInButton()
               ],
             )
         ),
@@ -73,11 +75,11 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _signInButton() {
+  Widget _googleSignInButton() {
     return OutlineButton(
       splashColor: Colors.grey,
       onPressed: () {
-        _handleSignIn()
+        _handleGoogleSignIn()
             .then((FirebaseUser user) =>
             transitionNextPage(user)
         )
@@ -86,24 +88,66 @@ class _LoginScreenState extends State<LoginScreen> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
       borderSide: BorderSide(color: Colors.grey),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image(image: AssetImage("assets/google_logo.png"), height: 35.0),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                'Sign in with Google',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.grey,
+      child: SizedBox(
+        width: 230,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image(image: AssetImage("assets/ic_google.png"), height: 35.0),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text(
+                  'Continue with Google',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey,
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _facebookSignInButton() {
+    return OutlineButton(
+      splashColor: Colors.grey,
+      onPressed: () {
+        _handleGoogleSignIn()
+            .then((FirebaseUser user) =>
+            transitionNextPage(user)
+        )
+            .catchError((e) => print(e));
+      },
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      highlightElevation: 0,
+      borderSide: BorderSide(color: Colors.grey),
+      child: SizedBox(
+        width: 230,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image(image: AssetImage("assets/ic_facebook.png"), height: 35.0),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text(
+                  'Continue with Facebook',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
