@@ -30,6 +30,7 @@ dependencies:
   google_sign_in: ^4.4.6
   flutter_facebook_login: ^3.0.0
   encrypt: ^4.0.2
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import 'package:thankyoulist/models/thankyou.dart';
 
 class ThankYouItem extends StatelessWidget {
@@ -44,8 +46,8 @@ class ThankYouItem extends StatelessWidget {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('14'),
-                            Text('Apr')
+                            Text(DateFormat("dd").format(thankYou.date)),
+                            Text(DateFormat("MMM").format(thankYou.date))
                           ]
                       ),
                     )

@@ -1,4 +1,6 @@
 import 'dart:core';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:thankyoulist/crypto.dart';
 
 class ThankYou {
@@ -17,12 +19,17 @@ class ThankYou {
   });
 
   factory ThankYou.fromJson({Map<String, dynamic> json, String documentId, String userId}) {
+    DateTime createdDate;
+    final createTime = json['createTime'];
+    if (createTime is Timestamp) {
+      createdDate = createTime.toDate();
+    }
     return ThankYou(
       id: documentId,
       value: Crypto().decryptAESCrypto(json['encryptedValue'], userId.substring(0, 16)),
       encryptedValue: json['encryptedValue'],
-      date: null,
-      createdDate: null,
+      date: DateFormat('yyyy/MM/dd').parse(json['date']),
+      createdDate: createdDate,
     );
   }
 }
