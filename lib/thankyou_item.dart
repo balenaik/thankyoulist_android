@@ -3,18 +3,12 @@ import 'package:flutter/material.dart';
 class ThankYouItem extends StatelessWidget {
   ThankYouItem({
     Key key,
-    this.title,
-    this.subtitle,
-    this.author,
-    this.publishDate,
-    this.readDuration,
+    this.thankYou,
+    this.date,
   }) : super(key: key);
 
-  final String title;
-  final String subtitle;
-  final String author;
-  final String publishDate;
-  final String readDuration;
+  final String thankYou;
+  final String date;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +60,7 @@ class ThankYouItem extends StatelessWidget {
                   )
                 ),
                 padding: EdgeInsets.all(12),
-                child: Text('abc\nabc\nabc\n\nabc\nabc\nabc\nabc\n\n\n\n\nabc'),
+                child: Text(thankYou),
               )
             ],
           ),
