@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:thankyoulist/models/thankyou.dart';
 
 class ThankYouItem extends StatelessWidget {
   ThankYouItem({
-    Key key,
     this.thankYou,
-    this.date,
-  }) : super(key: key);
+  });
 
-  final String thankYou;
-  final String date;
+  final ThankYou thankYou;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +58,7 @@ class ThankYouItem extends StatelessWidget {
                   )
                 ),
                 padding: EdgeInsets.all(12),
-                child: Text(thankYou),
+                child: Text(thankYou.value),
               )
             ],
           ),

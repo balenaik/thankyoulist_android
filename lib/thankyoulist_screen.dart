@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:thankyoulist/models/thankyou.dart';
 import 'package:thankyoulist/thankyou_item.dart';
-import 'package:thankyoulist/crypto.dart';
 
 class ThankYouListScreen extends StatelessWidget {
   final Color color;
@@ -29,8 +29,13 @@ class ThankYouListScreen extends StatelessWidget {
                 backgroundColor: color,
                 body: ListView(
                   children: snapshot.data.documents.map((DocumentSnapshot document) {
+                    ThankYou thankYou = ThankYou.fromJson(
+                      json: document.data,
+                      documentId: document.documentID,
+                      userId: userId
+                    );
                     return ThankYouItem(
-                      thankYou: Crypto().decryptAESCrypto(document['encryptedValue'], userId.substring(0, 16)),
+                      thankYou: thankYou,
                     );
                   }).toList(),
                 )
