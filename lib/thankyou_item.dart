@@ -9,6 +9,7 @@ class ThankYouItem extends StatelessWidget {
   });
 
   final ThankYou thankYou;
+  final Color textColor = Colors.black87;
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +48,14 @@ class ThankYouItem extends StatelessWidget {
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(DateFormat("dd").format(thankYou.date)),
-                              Text(DateFormat("MMM").format(thankYou.date))
+                              Text(
+                                DateFormat("dd").format(thankYou.date),
+                                style: _dateTextStyle(textSize: 23),
+                              ),
+                              Text(
+                                DateFormat("MMM").format(thankYou.date),
+                                style: _dateTextStyle(textSize: 14),
+                              )
                             ]
                         ),
                       )
@@ -61,7 +68,12 @@ class ThankYouItem extends StatelessWidget {
                 Flexible(
                     child: Container(
                       padding: EdgeInsets.fromLTRB(12, 16, 16, 16),
-                      child: Text(thankYou.value),
+                      child: Text(thankYou.value,
+                        style: TextStyle(
+                            color: textColor,
+                            fontSize: 15.0
+                        ),
+                      ),
                     )
                 )
               ],
@@ -69,6 +81,15 @@ class ThankYouItem extends StatelessWidget {
           )
         ),
       ),
+    );
+  }
+
+  TextStyle _dateTextStyle({@required double textSize}) {
+    return TextStyle(
+        color: textColor,
+        fontSize: textSize,
+        fontFamily: 'ProductSans',
+        fontWeight: FontWeight.w400
     );
   }
 }
