@@ -35,35 +35,38 @@ class ThankYouItem extends StatelessWidget {
           constraints: BoxConstraints(
             minHeight: 140,
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 12.0),
-                    child: SizedBox(
-                      width: 96,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(DateFormat("dd").format(thankYou.date)),
-                            Text(DateFormat("MMM").format(thankYou.date))
-                          ]
-                      ),
+          child: IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Center(
+                  child: Padding(
+                      padding: EdgeInsets.only(left: 12.0),
+                      child: SizedBox(
+                        width: 96,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(DateFormat("dd").format(thankYou.date)),
+                              Text(DateFormat("MMM").format(thankYou.date))
+                            ]
+                        ),
+                      )
+                  ),
+                ),
+                VerticalDivider(
+                  color: Colors.black26,
+                  thickness:  0.5,
+                ),
+                Flexible(
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(12, 16, 16, 16),
+                      child: Text(thankYou.value),
                     )
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    left: BorderSide(width: 0.5, color: Colors.black26)
-                  )
-                ),
-                padding: EdgeInsets.all(12),
-                child: Text(thankYou.value),
-              )
-            ],
-          ),
+                )
+              ],
+            ),
+          )
         ),
       ),
     );
