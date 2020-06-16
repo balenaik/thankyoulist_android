@@ -31,6 +31,7 @@ dependencies:
   flutter_facebook_login: ^3.0.0
   encrypt: ^4.0.2
   intl: ^0.16.1
+  table_calendar: ^2.2.3
 
 dev_dependencies:
   flutter_test:

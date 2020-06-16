@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thankyoulist/thankyoulist_screen.dart';
+import 'package:thankyoulist/calendar_screen.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -27,7 +28,7 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   final List<Widget> _children = [
     ThankYouListScreen(Colors.white70),
-    ThankYouListScreen(Colors.amber)
+    CalendarScreen()
   ];
 
   _updateIndex(int index) {
