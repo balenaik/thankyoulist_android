@@ -62,6 +62,36 @@ class CalendarScreen extends StatelessWidget {
           markersMaxAmount: 1,
         ),
         builders: CalendarBuilders(
+          selectedDayBuilder: (context, date, _) {
+            final isToday = date.day == DateTime.now().day;
+            return AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.yellowAccent),
+              margin: const EdgeInsets.all(12.0),
+              alignment: Alignment.center,
+              child: Text(
+                '${date.day}',
+                style: TextStyle(
+                    color: isToday ? Colors.pinkAccent : Colors.black87,
+                    fontSize: 17.0,
+                    fontFamily: 'Nunito'
+                ),
+              ),
+            );
+          },
+          todayDayBuilder: (context, date, _) {
+            return Container(
+              alignment: Alignment.center,
+              child: Text(
+                '${date.day}',
+                 style: TextStyle(
+                    color: Colors.pinkAccent,
+                    fontSize: 17.0,
+                    fontFamily: 'Nunito'
+                ),
+              ),
+            );
+          },
           singleMarkerBuilder:  (context, date, event) {
             final color = Colors.red[700];
 
