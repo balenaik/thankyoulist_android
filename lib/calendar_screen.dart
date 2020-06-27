@@ -92,18 +92,45 @@ class CalendarScreen extends StatelessWidget {
               ),
             );
           },
-          singleMarkerBuilder:  (context, date, event) {
-            final color = Colors.red[700];
-
-            return Container(
-              width: 10.0,
-              height: 10.0,
-              color: color,
-              margin: const EdgeInsets.symmetric(horizontal: 1.5),
-            );
+          markersBuilder: (context, date, events, holidays) {
+            final eventsCount = events.length;
+            List<Widget> markers = [];
+            if (eventsCount > 0) {
+              markers.add(_marker());
+            }
+            if (eventsCount > 1) {
+              markers.add(_marker());
+            }
+            if (eventsCount == 3) {
+              markers.add(_marker());
+            } else if (eventsCount > 3) {
+              markers.add(_moreMarker());
+            }
+            return [
+              Row(mainAxisAlignment: MainAxisAlignment.center,
+                  children: markers)
+            ];
           },
         ),
       ),
+    );
+  }
+
+  Widget _marker() {
+    return Container(
+        width: 10.0,
+        height: 10.0,
+        color: Colors.red[700],
+        margin: const EdgeInsets.symmetric(horizontal: 1.5)
+    );
+  }
+
+  Widget _moreMarker() {
+    return Container(
+        width: 10.0,
+        height: 10.0,
+        color: Colors.red[700],
+        margin: const EdgeInsets.symmetric(horizontal: 1.5)
     );
   }
 }
