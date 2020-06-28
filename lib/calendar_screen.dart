@@ -26,38 +26,14 @@ class CalendarScreen extends StatelessWidget {
           // TODO: Wait for `showLeftChevron`, `showRightChevron` property to be released to hide the buttons
         ),
         daysOfWeekStyle: DaysOfWeekStyle(
-          weekdayStyle: TextStyle(
-            color: Colors.black38,
-            fontSize: 13.0,
-            fontFamily: 'Nunito'
-          ),
-          weekendStyle: TextStyle(
-            color: Colors.black38,
-            fontSize: 13.0,
-              fontFamily: 'Nunito'
-          )
+          weekdayStyle: _dayTextStyle(color: Colors.black38),
+          weekendStyle: _dayTextStyle(color: Colors.black38)
         ),
         calendarStyle: CalendarStyle(
-            weekdayStyle: TextStyle(
-                color: Colors.black87,
-                fontSize: 17.0,
-                fontFamily: 'Nunito'
-            ),
-          weekendStyle: TextStyle(
-              color: Colors.black87,
-              fontSize: 17.0,
-              fontFamily: 'Nunito'
-          ),
-          outsideStyle: TextStyle(
-              color: Colors.black38,
-              fontSize: 17.0,
-              fontFamily: 'Nunito'
-          ),
-          outsideWeekendStyle: TextStyle(
-              color: Colors.black38,
-              fontSize: 17.0,
-              fontFamily: 'Nunito'
-          ),
+          weekdayStyle: _dayTextStyle(color: Colors.black87),
+          weekendStyle: _dayTextStyle(color: Colors.black87),
+          outsideStyle: _dayTextStyle(color: Colors.black38),
+          outsideWeekendStyle: _dayTextStyle(color: Colors.black38),
           contentPadding: EdgeInsets.only(bottom: 12.0, left: 8.0, right: 8.0),
           markersMaxAmount: 1,
         ),
@@ -71,11 +47,7 @@ class CalendarScreen extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(
                 '${date.day}',
-                style: TextStyle(
-                    color: isToday ? Colors.pinkAccent : Colors.black87,
-                    fontSize: 17.0,
-                    fontFamily: 'Nunito'
-                ),
+                style: _dayTextStyle(color: isToday ? Colors.pinkAccent : Colors.black87),
               ),
             );
           },
@@ -84,11 +56,7 @@ class CalendarScreen extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(
                 '${date.day}',
-                 style: TextStyle(
-                    color: Colors.pinkAccent,
-                    fontSize: 17.0,
-                    fontFamily: 'Nunito'
-                ),
+                 style: _dayTextStyle(color: Colors.pinkAccent),
               ),
             );
           },
@@ -113,6 +81,14 @@ class CalendarScreen extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  TextStyle _dayTextStyle({color: Color}) {
+    return TextStyle(
+        color: color,
+        fontSize: 17.0,
+        fontFamily: 'Nunito'
     );
   }
 
