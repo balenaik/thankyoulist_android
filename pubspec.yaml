@@ -32,6 +32,7 @@ dependencies:
   encrypt: ^4.0.2
   intl: ^0.16.1
   table_calendar: ^2.2.3
+  sliding_up_panel: ^1.0.2
 
 dev_dependencies:
   flutter_test:
