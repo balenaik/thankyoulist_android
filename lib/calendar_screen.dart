@@ -6,7 +6,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:thankyoulist/models/thankyou.dart';
+import 'package:thankyoulist/models/thankyou_model.dart';
 
 class CalendarScreen extends StatelessWidget {
   CalendarController _calendarController = CalendarController();
@@ -48,7 +48,7 @@ class CalendarScreen extends StatelessWidget {
                     calendarController: _calendarController,
                     events: Map.fromIterable(snapshot.data.documents
                         .map((DocumentSnapshot document) {
-                      ThankYou thankYou = ThankYou.fromJson(
+                      ThankYouModel thankYou = ThankYouModel.fromJson(
                           json: document.data,
                           documentId: document.documentID,
                           userId: userId);
