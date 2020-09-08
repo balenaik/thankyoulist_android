@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:thankyoulist/launch_screen.dart';
+import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
 import 'package:thankyoulist/viewmodels/thankyoulist_view_model.dart';
 
@@ -16,11 +17,14 @@ void main() {
 
 class ThankYouListApp extends StatelessWidget {
   final _firestore = Firestore.instance;
-  final _auth = FirebaseAuth.instance;
+  final _firebaseAuth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ThankYouListViewModel(ThankYouListRepositoryImpl(firestore: _firestore)),
+      create: (context) => ThankYouListViewModel(
+          ThankYouListRepositoryImpl(firestore: _firestore),
+          AuthRepositoryImpl(firebaseAuth: _firebaseAuth)
+      ),
       child: MaterialApp(
           title: 'Thank You List',
           home: LaunchScreen()

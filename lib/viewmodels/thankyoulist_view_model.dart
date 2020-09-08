@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:thankyoulist/models/thankyou_model.dart';
+import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/repositories/model_change_type.dart';
 import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
 
@@ -8,16 +9,16 @@ class ThankYouListViewModel with ChangeNotifier {
   List<ThankYouModel> _thankYouList = List<ThankYouModel>();
   List<ThankYouModel> get thankYouList => _thankYouList;
 
-  final ThankYouListRepository repository;
+  final ThankYouListRepository thankYouListRepository;
+  final AuthRepository authRepository;
 
-  ThankYouListViewModel(this.repository){
+  ThankYouListViewModel(this.thankYouListRepository, this.authRepository){
     _addThankYouListListener();
   }
 
   void _addThankYouListListener() async {
-    // TODO: Get userId from authRepository
-    final user = await FirebaseAuth.instance.currentUser();
-    Stream<List<ThankYouListChange>> stream = repository.addThankYouListener(user.uid);
+    final userId = await authRepository.getUserId();
+    Stream<List<ThankYouListChange>> stream = thankYouListRepository.addThankYouListener(userId);
     stream.listen((event) {
       event.forEach((change) {
         switch (change.type) {
