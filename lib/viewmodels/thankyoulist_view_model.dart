@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:thankyoulist/models/thankyou_model.dart';
 import 'package:thankyoulist/repositories/model_change_type.dart';
@@ -7,17 +8,18 @@ class ThankYouListViewModel with ChangeNotifier {
   List<ThankYouModel> _thankYouList = List<ThankYouModel>();
   List<ThankYouModel> get thankYouList => _thankYouList;
 
-  // TODO: Use factory
-  final ThankYouListRepository repository = ThankYouListRepositoryImpl();
+  final ThankYouListRepository repository;
 
-  ThankYouListViewModel(){
+  ThankYouListViewModel(this.repository){
     _addThankYouListListener();
   }
 
-  void _addThankYouListListener({ String userId }) async {
-    Stream<List<ThankYouListChange>> stream = repository.addThankYouListener(userId);
+  void _addThankYouListListener() async {
+    // TODO: Get userId from authRepository
+    final user = await FirebaseAuth.instance.currentUser();
+    Stream<List<ThankYouListChange>> stream = repository.addThankYouListener(user.uid);
     stream.listen((event) {
-      event.map((change) {
+      event.forEach((change) {
         switch (change.type) {
           case ModelChangeType.added:
             _thankYouList.add(change.thankYou);
@@ -30,8 +32,8 @@ class ThankYouListViewModel with ChangeNotifier {
             _thankYouList.removeWhere((thankYou) => thankYou.id == change.thankYou.id);
             break;
         }
-        notifyListeners();
       });
+      notifyListeners();
     });
   }
 }
