@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:thankyoulist/models/thankyou.dart';
+import 'package:thankyoulist/models/thankyou_model.dart';
 import 'package:thankyoulist/thankyou_item.dart';
 
 class ThankYouListScreen extends StatelessWidget {
@@ -29,7 +29,7 @@ class ThankYouListScreen extends StatelessWidget {
                 backgroundColor: color,
                 body: ListView(
                   children: snapshot.data.documents.map((DocumentSnapshot document) {
-                    ThankYou thankYou = ThankYou.fromJson(
+                    ThankYouModel thankYou = ThankYouModel.fromJson(
                       json: document.data,
                       documentId: document.documentID,
                       userId: userId

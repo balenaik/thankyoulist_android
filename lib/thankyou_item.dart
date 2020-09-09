@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:thankyoulist/models/thankyou.dart';
+import 'package:thankyoulist/models/thankyou_model.dart';
 
 class ThankYouItem extends StatelessWidget {
   ThankYouItem({
     this.thankYou,
   });
 
-  final ThankYou thankYou;
+  final ThankYouModel thankYou;
   final Color textColor = Colors.black87;
 
   @override
