@@ -9,8 +9,6 @@ import 'package:thankyoulist/viewmodels/thankyoulist_view_model.dart';
 
 class CalendarScreen extends StatelessWidget {
   CalendarController _calendarController = CalendarController();
-  FirebaseAuth auth = FirebaseAuth.instance;
-  String userId;
 
   @override
   Widget build(BuildContext context) {
