@@ -15,6 +15,12 @@ class CalendarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThankYouListViewModel viewModel = Provider.of<ThankYouListViewModel>(context, listen: true);
+    Map<DateTime,  List<String>> eventMap = {};
+    viewModel.thankYouList.forEach((thankYou) {
+      eventMap[thankYou.date] ??= List<String>();
+      eventMap[thankYou.date].add(thankYou.value);
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Thank You Calendar'),
@@ -38,8 +44,7 @@ class CalendarScreen extends StatelessWidget {
         },
         body: TableCalendar(
           calendarController: _calendarController,
-          events: Map.fromIterable(
-            viewModel.thankYouList, key: (e) => e.date, value: (e) => [e.value]),
+          events: eventMap,
           headerStyle: HeaderStyle(
             centerHeaderTitle: true,
             formatButtonVisible: false,
@@ -106,8 +111,10 @@ class CalendarScreen extends StatelessWidget {
               }
               return [
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: markers)
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: markers
+                )
               ];
             },
           ),
@@ -121,18 +128,20 @@ class CalendarScreen extends StatelessWidget {
   }
 
   Widget _marker() {
-    return Container(
-        width: 10.0,
-        height: 10.0,
-        color: Colors.red[700],
-        margin: const EdgeInsets.symmetric(horizontal: 1.5));
+    return SizedBox(
+      width: 5.0,
+      height: 5.0,
+      child: CircleAvatar(
+        backgroundColor: Colors.red,
+      ),
+    );
   }
 
   Widget _moreMarker() {
-    return Container(
-        width: 10.0,
-        height: 10.0,
-        color: Colors.red[700],
-        margin: const EdgeInsets.symmetric(horizontal: 1.5));
+    return Icon(
+      Icons.add,
+      color: Colors.red,
+      size: 10.0,
+    );
   }
 }
