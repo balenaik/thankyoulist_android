@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:thankyoulist/launch_screen.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
-import 'package:thankyoulist/viewmodels/thankyoulist_view_model.dart';
+import 'package:thankyoulist/viewmodels/thankyou_calendar_view_model.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +21,7 @@ class ThankYouListApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ThankYouListViewModel(
+      create: (context) => ThankYouCalendarViewModel(
           ThankYouListRepositoryImpl(firestore: _firestore),
           AuthRepositoryImpl(firebaseAuth: _firebaseAuth)
       ),

@@ -3,21 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:thankyoulist/viewmodels/thankyoulist_view_model.dart';
+import 'package:thankyoulist/viewmodels/thankyou_calendar_view_model.dart';
 
 class CalendarScreen extends StatelessWidget {
   CalendarController _calendarController = CalendarController();
 
   @override
   Widget build(BuildContext context) {
-    ThankYouListViewModel viewModel = Provider.of<ThankYouListViewModel>(context, listen: true);
-    Map<DateTime,  List<String>> eventMap = {};
-    viewModel.thankYouList.forEach((thankYou) {
-      eventMap[thankYou.date] ??= List<String>();
-      eventMap[thankYou.date].add(thankYou.value);
-    });
+    ThankYouCalendarViewModel viewModel = Provider.of<ThankYouCalendarViewModel>(context, listen: true);
 
     return Scaffold(
       appBar: AppBar(
@@ -32,17 +25,17 @@ class CalendarScreen extends StatelessWidget {
         panelBuilder: (scrollController) {
           return ListView.builder(
               controller: scrollController,
-              itemCount: 50,
+              itemCount: viewModel.thankYouEvents[viewModel.selectedDate]?.length ?? 0,
               itemBuilder: (BuildContext context, int i) {
                 return Container(
                   padding: const EdgeInsets.all(12.0),
-                  child: Text("$i"),
+                  child: Text(viewModel.thankYouEvents[viewModel.selectedDate][i].value),
                 );
               });
         },
         body: TableCalendar(
           calendarController: _calendarController,
-          events: eventMap,
+          events: viewModel.thankYouEvents,
           headerStyle: HeaderStyle(
             centerHeaderTitle: true,
             formatButtonVisible: false,
@@ -65,6 +58,11 @@ class CalendarScreen extends StatelessWidget {
             EdgeInsets.only(bottom: 12.0, left: 8.0, right: 8.0),
             markersMaxAmount: 1,
           ),
+          onDaySelected: (date, events) {
+            // Since date here always returns XXXX-XX-XX 12:00:00.000Z, remove 12 hours
+            DateTime adjustedDate = date.add(Duration(hours: -12));
+            viewModel.updateSelectedDate(adjustedDate);
+          },
           builders: CalendarBuilders(
             selectedDayBuilder: (context, date, _) {
               final isToday = date.day == DateTime.now().day;
