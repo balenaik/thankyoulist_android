@@ -4,6 +4,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:thankyoulist/viewmodels/thankyou_calendar_view_model.dart';
+import 'package:thankyoulist/views/common/thankyou_item.dart';
 
 class CalendarScreen extends StatelessWidget {
   CalendarController _calendarController = CalendarController();
@@ -19,7 +20,8 @@ class CalendarScreen extends StatelessWidget {
       body: SlidingUpPanel(
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(24.0),
-            topRight: Radius.circular(24.0)),
+            topRight: Radius.circular(24.0)
+        ),
         maxHeight: MediaQuery.of(context).size.height,
         minHeight: MediaQuery.of(context).size.height * 0.3,
         panelBuilder: (scrollController) {
@@ -27,9 +29,8 @@ class CalendarScreen extends StatelessWidget {
               controller: scrollController,
               itemCount: viewModel.thankYouEvents[viewModel.selectedDate]?.length ?? 0,
               itemBuilder: (BuildContext context, int i) {
-                return Container(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Text(viewModel.thankYouEvents[viewModel.selectedDate][i].value),
+                return ThankYouItem(
+                  thankYou: viewModel.thankYouEvents[viewModel.selectedDate][i],
                 );
               });
         },
