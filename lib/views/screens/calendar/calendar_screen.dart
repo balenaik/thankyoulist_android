@@ -3,8 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import 'package:thankyoulist/models/thankyou_model.dart';
 import 'package:thankyoulist/viewmodels/thankyou_calendar_view_model.dart';
 import 'package:thankyoulist/views/common/thankyou_item.dart';
+import 'package:thankyoulist/extensions/list_extension.dart';
+
+final double _calendarPanelListViewBottomInset = 150.0;
 
 class CalendarScreen extends StatelessWidget {
   CalendarController _calendarController = CalendarController();
@@ -12,6 +16,7 @@ class CalendarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThankYouCalendarViewModel viewModel = Provider.of<ThankYouCalendarViewModel>(context, listen: true);
+    List<ThankYouModel> selectedThankYous = viewModel.thankYouEvents[viewModel.selectedDate];
 
     return Scaffold(
       appBar: AppBar(
@@ -27,11 +32,18 @@ class CalendarScreen extends StatelessWidget {
         panelBuilder: (scrollController) {
           return ListView.builder(
               controller: scrollController,
-              itemCount: viewModel.thankYouEvents[viewModel.selectedDate]?.length ?? 0,
+              scrollDirection: Axis.vertical,
+              // Returns count +1 because of a bug which the bottom of ListView is a little higher
+              itemCount: (selectedThankYous?.length ?? 0) + 1,
               itemBuilder: (BuildContext context, int i) {
-                return ThankYouItem(
-                  thankYou: viewModel.thankYouEvents[viewModel.selectedDate][i],
-                );
+                if (selectedThankYous.get(i) != null) {
+                  return ThankYouItem(
+                      thankYou: selectedThankYous.get(i)
+                  );
+                } else {
+                  // Adjust for a bug which the bottom of ListView is a little higher
+                  return SizedBox(height: _calendarPanelListViewBottomInset);
+                }
               });
         },
         body: TableCalendar(
