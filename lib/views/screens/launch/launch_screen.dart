@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'package:thankyoulist/login_screen.dart';
-import 'package:thankyoulist/main_screen.dart';
+import 'package:thankyoulist/views/screens/login/login_screen.dart';
+import 'package:thankyoulist/views/screens/main/main_screen.dart';
 
 class LaunchScreen extends StatelessWidget {
   @override

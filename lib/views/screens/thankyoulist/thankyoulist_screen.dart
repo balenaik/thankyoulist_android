@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:thankyoulist/models/thankyou_model.dart';
-import 'package:thankyoulist/thankyou_item.dart';
+import 'package:thankyoulist/views/common/thankyou_item.dart';
 
 class ThankYouListScreen extends StatelessWidget {
   final Color color;

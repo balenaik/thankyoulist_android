@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:thankyoulist/thankyoulist_screen.dart';
-import 'package:thankyoulist/calendar_screen.dart';
-import 'package:thankyoulist/login_screen.dart';
+import 'package:thankyoulist/views/screens/thankyoulist/thankyoulist_screen.dart';
+import 'package:thankyoulist/views/screens/calendar/calendar_screen.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
