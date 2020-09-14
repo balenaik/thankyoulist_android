@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -30,21 +31,28 @@ class CalendarScreen extends StatelessWidget {
         maxHeight: MediaQuery.of(context).size.height,
         minHeight: MediaQuery.of(context).size.height * 0.3,
         panelBuilder: (scrollController) {
-          return ListView.builder(
-              controller: scrollController,
-              scrollDirection: Axis.vertical,
-              // Returns count +1 because of a bug which the bottom of ListView is a little higher
-              itemCount: (selectedThankYous?.length ?? 0) + 1,
-              itemBuilder: (BuildContext context, int i) {
-                if (selectedThankYous.get(i) != null) {
-                  return ThankYouItem(
-                      thankYou: selectedThankYous.get(i)
-                  );
-                } else {
-                  // Adjust for a bug which the bottom of ListView is a little higher
-                  return SizedBox(height: _calendarPanelListViewBottomInset);
-                }
-              });
+          return Column(
+            children: <Widget>[
+              _panelDateView(viewModel.selectedDate),
+              Expanded(child:
+                ListView.builder(
+                  controller: scrollController,
+                  scrollDirection: Axis.vertical,
+                  // Returns count +1 because of a bug which the bottom of ListView is a little higher
+                  itemCount: (selectedThankYous?.length ?? 0) + 1,
+                  itemBuilder: (BuildContext context, int i) {
+                    if (selectedThankYous.get(i) != null) {
+                      return ThankYouItem(
+                          thankYou: selectedThankYous.get(i)
+                      );
+                    } else {
+                      // Adjust for a bug which the bottom of ListView is a little higher
+                      return SizedBox(height: _calendarPanelListViewBottomInset);
+                    }
+                  })
+              ),
+            ],
+          );
         },
         body: TableCalendar(
           calendarController: _calendarController,
@@ -129,6 +137,34 @@ class CalendarScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _panelDateView(DateTime date) {
+    return Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24.0),
+                    topRight: Radius.circular(24.0)
+                ),
+                color: Colors.yellowAccent,
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Colors.black38,
+                      offset: Offset(0, 1.5),
+                      blurRadius: 1
+                  )
+                ]
+            ),
+            height: 60,
+            child: Center(child: Text(DateFormat("yyyy/MM/dd").format(date)),),
+          ),
+          SizedBox(
+              height: 3.0
+          )
+        ]
     );
   }
 
