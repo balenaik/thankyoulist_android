@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'package:thankyoulist/models/thankyou_model.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/repositories/model_change_type.dart';
 import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
 
 class ThankYouCalendarViewModel with ChangeNotifier {
-  // TODO: Is String date better as mapping key than UTC DateTime?
+  // TODO: Is String date better than UTC DateTime as mapping key?
   /// [DateTime(UTC): ThankYouModel] map
-  Map<DateTime,  List<ThankYouModel>> _thankYouEvents = {};
+  Map<DateTime, List<ThankYouModel>> _thankYouEvents = {};
   DateTime _selectedDate;
 
-  Map<DateTime,  List<ThankYouModel>> get thankYouEvents => _thankYouEvents;
+  final _calendarController = CalendarController();
+
+  Map<DateTime, List<ThankYouModel>> get thankYouEvents => _thankYouEvents;
   DateTime get selectedDate => _selectedDate;
+  CalendarController get calendarController => _calendarController;
 
   final ThankYouListRepository thankYouListRepository;
   final AuthRepository authRepository;
@@ -19,6 +23,12 @@ class ThankYouCalendarViewModel with ChangeNotifier {
   ThankYouCalendarViewModel(this.thankYouListRepository, this.authRepository){
     _selectedDate = _utcDateTime(DateTime.now());
     _addThankYousListener();
+  }
+
+  @override
+  void dispose() {
+    _calendarController.dispose();
+    super.dispose();
   }
 
   void updateSelectedDate(DateTime selectedDate) {

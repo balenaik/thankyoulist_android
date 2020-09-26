@@ -24,7 +24,6 @@ class CalendarScreen extends StatelessWidget {
 }
 
 class CalendarSlidingUpPanel extends StatelessWidget {
-  CalendarController _calendarController = CalendarController();
   @override
   Widget build(BuildContext context) {
     ThankYouCalendarViewModel viewModel = Provider.of<ThankYouCalendarViewModel>(context, listen: true);
@@ -61,7 +60,7 @@ class CalendarSlidingUpPanel extends StatelessWidget {
         );
       },
       body: TableCalendar(
-        calendarController: _calendarController,
+        calendarController: viewModel.calendarController,
         events: viewModel.thankYouEvents,
         headerStyle: HeaderStyle(
           centerHeaderTitle: true,
