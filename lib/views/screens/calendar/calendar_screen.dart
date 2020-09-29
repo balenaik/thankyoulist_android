@@ -8,6 +8,7 @@ import 'package:thankyoulist/models/thankyou_model.dart';
 import 'package:thankyoulist/viewmodels/thankyou_calendar_view_model.dart';
 import 'package:thankyoulist/views/common/thankyou_item.dart';
 import 'package:thankyoulist/extensions/list_extension.dart';
+import 'package:thankyoulist/views/common/remove_glowingover_scrollindicator_behavior.dart';
 
 final double _calendarPanelListViewBottomInset = 150.0;
 
@@ -39,22 +40,25 @@ class CalendarSlidingUpPanel extends StatelessWidget {
         return Column(
           children: <Widget>[
             _panelDateView(viewModel.selectedDate),
-            Expanded(child:
-            ListView.builder(
-                controller: scrollController,
-                scrollDirection: Axis.vertical,
-                // Returns count +1 because of a bug which the bottom of ListView is a little higher
-                itemCount: (selectedThankYous?.length ?? 0) + 1,
-                itemBuilder: (BuildContext context, int i) {
-                  if (selectedThankYous.get(i) != null) {
-                    return ThankYouItem(
-                        thankYou: selectedThankYous.get(i)
-                    );
-                  } else {
-                    // Adjust for a bug which the bottom of ListView is a little higher
-                    return SizedBox(height: _calendarPanelListViewBottomInset);
-                  }
-                })
+            Expanded(
+                child: ScrollConfiguration(
+                    behavior:RemoveGlowingOverScrollIndicatorBehavior(),
+                    child: ListView.builder(
+                        controller: scrollController,
+                        scrollDirection: Axis.vertical,
+                        // Returns count +1 because of a bug which the bottom of ListView is a little higher
+                        itemCount: (selectedThankYous?.length ?? 0) + 1,
+                        itemBuilder: (BuildContext context, int i) {
+                          if (selectedThankYous.get(i) != null) {
+                            return ThankYouItem(
+                                thankYou: selectedThankYous.get(i)
+                            );
+                          } else {
+                            // Adjust for a bug which the bottom of ListView is a little higher
+                            return SizedBox(height: _calendarPanelListViewBottomInset);
+                          }
+                        })
+                )
             ),
           ],
         );
