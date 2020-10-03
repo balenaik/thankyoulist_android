@@ -89,7 +89,17 @@ class CalendarSlidingUpPanel extends StatelessWidget {
                 ]
             ),
             height: 60,
-            child: Center(child: Text(DateFormat("yyyy/MM/dd").format(date)),),
+            child: Center(
+              child: Text(
+                DateFormat.yMMMMd('en_US').format(date),
+                style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w400
+                ),
+
+              ),
+            ),
           ),
           SizedBox(
               height: 3.0
