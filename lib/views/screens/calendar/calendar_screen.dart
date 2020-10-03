@@ -19,6 +19,7 @@ class CalendarScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Thank You Calendar'),
       ),
+      backgroundColor: Colors.grey[100],
       body: CalendarSlidingUpPanel()
     );
   }
@@ -34,8 +35,10 @@ class CalendarSlidingUpPanel extends StatelessWidget {
           topLeft: Radius.circular(24.0),
           topRight: Radius.circular(24.0)
       ),
+      boxShadow: <BoxShadow>[], // Delete shadow
       maxHeight: MediaQuery.of(context).size.height,
       minHeight: MediaQuery.of(context).size.height * 0.3,
+      color: Colors.white,
       panelBuilder: (scrollController) {
         return Column(
           children: <Widget>[
@@ -76,12 +79,12 @@ class CalendarSlidingUpPanel extends StatelessWidget {
                     topLeft: Radius.circular(24.0),
                     topRight: Radius.circular(24.0)
                 ),
-                color: Colors.yellowAccent,
+                color: Colors.white,
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                      color: Colors.black38,
-                      offset: Offset(0, 1.5),
-                      blurRadius: 1
+                      color: Colors.black26,
+                      offset: Offset(0, 0.5),
+                      blurRadius: 2
                   )
                 ]
             ),
