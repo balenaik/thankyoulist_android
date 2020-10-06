@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thankyoulist/views/screens/thankyoulist/thankyoulist_screen.dart';
 import 'package:thankyoulist/views/screens/calendar/calendar_screen.dart';
+import 'package:thankyoulist/views/screens/add_thankyou/add_thankyou_screen.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -55,13 +56,13 @@ class _MainScreenState extends State<MainScreen> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: _bottomNavigationBarColor,
           onPressed: () {
-//            Navigator.of(context).push(MaterialPageRoute(
-//                builder:(BuildContext context){
-//                  return DynamicPage(widget.centerItemTitle);
-//                }
-//            ));
-            signOutGoogle();
-//            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {return LoginScreen();}), ModalRoute.withName('/'));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder:(BuildContext context){
+                  return DynamicPage(widget.centerItemTitle);
+                }
+            ));
+//            signOutGoogle();
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {return AddThankYouScreen();}), ModalRoute.withName('/'));
           },
           tooltip: 'Add Thank You',
           child: Icon(Icons.add),
