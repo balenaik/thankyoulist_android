@@ -25,11 +25,11 @@ class AddThankYouScreen extends StatelessWidget {
                 ),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(color: Colors.grey[300], width: 2.0)
+                    borderSide: BorderSide(color: Theme.of(context).unselectedWidgetColor, width: 2.0)
                 ),
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(color: Color(0xFFFF8980), width: 2.0)
+                    borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2.0)
                 ),
                 filled: true,
                 fillColor: Colors.white
