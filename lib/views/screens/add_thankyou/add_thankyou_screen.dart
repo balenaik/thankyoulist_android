@@ -16,13 +16,14 @@ class AddThankYouScreen extends StatelessWidget {
                   horizontal: 24.0
               ),
               child: TextField(
+                style: TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 17
+                ),
               minLines: 4,
               maxLines: null,
               decoration: InputDecoration(
                 hintText: 'What are you thankful for?',
-                labelStyle: TextStyle(
-                  fontFamily: 'Nunito',
-                ),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: BorderSide(color: Theme.of(context).unselectedWidgetColor, width: 2.0)
