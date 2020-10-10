@@ -55,39 +55,47 @@ class AddThankYouDatePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        height: 50,
         margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                color: Theme.of(context).unselectedWidgetColor,
-                spreadRadius: 1.5),
-          ],
-        ),
-        child: Container(
-            margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+        child: FlatButton(
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
             child: Row(
                 children: <Widget>[
-                  Expanded(child: Text(
-                    'Date',
-                    style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold
-                    )
-                  )),
-                  Expanded(child: Text(
+                  Expanded(
+                      child: Text(
+                          'Date',
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold
+                          )
+                      )
+                  ),
+              Expanded(
+                  child: Text(
                       '2020/11/21',
                       style: TextStyle(
                           fontSize: 17,
                           color: Colors.black54
                       ),
                       textAlign: TextAlign.right
-                  ))
-                ]
-            ),
-            height: 50
+                  )
+              )
+            ]),
+          ),
+          color: Colors.white,
+          highlightColor: Colors.transparent,
+          splashColor: Theme.of(context).primaryColorLight,
+          shape: _outlineBorder(Theme.of(context).unselectedWidgetColor),
+          onPressed: () {},
         )
+    );
+  }
+
+  OutlineInputBorder _outlineBorder(Color color) {
+    return OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: BorderSide(color: color, width: 2.0)
     );
   }
 }
