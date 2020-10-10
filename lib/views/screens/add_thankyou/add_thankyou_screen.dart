@@ -87,7 +87,10 @@ class AddThankYouDatePicker extends StatelessWidget {
           highlightColor: Colors.transparent,
           splashColor: Theme.of(context).primaryColorLight,
           shape: _outlineBorder(Theme.of(context).unselectedWidgetColor),
-          onPressed: () {},
+          onPressed: () {
+            FocusManager.instance.primaryFocus.unfocus();
+            _selectDate(context);
+          },
         )
     );
   }
@@ -96,6 +99,13 @@ class AddThankYouDatePicker extends StatelessWidget {
     return OutlineInputBorder(
         borderRadius: BorderRadius.circular(10.0),
         borderSide: BorderSide(color: color, width: 2.0)
+    );
+  }
+
+  _selectDate(BuildContext context) async {
+    final DateTime pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
     );
   }
 }
