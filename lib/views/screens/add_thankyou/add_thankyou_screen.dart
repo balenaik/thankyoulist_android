@@ -62,15 +62,28 @@ class AddThankYouDatePicker extends StatelessWidget {
           boxShadow: [
             BoxShadow(
                 color: Theme.of(context).unselectedWidgetColor,
-                spreadRadius: 2.0),
+                spreadRadius: 1.5),
           ],
         ),
         child: Container(
-            margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+            margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
             child: Row(
                 children: <Widget>[
-                  Expanded(child: Text('Date')),
-                  Expanded(child: Text('2020/11/21', textAlign: TextAlign.right))
+                  Expanded(child: Text(
+                    'Date',
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold
+                    )
+                  )),
+                  Expanded(child: Text(
+                      '2020/11/21',
+                      style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.black54
+                      ),
+                      textAlign: TextAlign.right
+                  ))
                 ]
             ),
             height: 50
