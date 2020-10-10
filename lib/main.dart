@@ -26,11 +26,16 @@ class ThankYouListApp extends StatelessWidget {
           ThankYouListRepositoryImpl(firestore: _firestore),
           AuthRepositoryImpl(firebaseAuth: _firebaseAuth)
       ),
-      child: MaterialApp(
-          title: 'Thank You List',
-          theme: lightTheme,
-          home: LaunchScreen()
-      ),
+      child: GestureDetector(
+        onTap: () {
+          FocusManager.instance.primaryFocus.unfocus();
+        },
+        child: MaterialApp(
+            title: 'Thank You List',
+            theme: lightTheme,
+            home: LaunchScreen()
+        ),
+      )
     );
   }
 }
