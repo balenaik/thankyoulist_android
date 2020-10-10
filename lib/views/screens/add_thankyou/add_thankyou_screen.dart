@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+import 'package:thankyoulist/viewmodels/add_thankyou_view_model.dart';
 
 class AddThankYouScreen extends StatelessWidget {
   @override
@@ -54,6 +57,7 @@ class AddThankYouTextField extends StatelessWidget {
 class AddThankYouDatePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AddThankYouViewModel viewModel = Provider.of<AddThankYouViewModel>(context, listen: true);
     return Container(
         height: 50,
         margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
@@ -73,7 +77,7 @@ class AddThankYouDatePicker extends StatelessWidget {
                   ),
               Expanded(
                   child: Text(
-                      '2020/11/21',
+                      DateFormat.yMd().format(viewModel.selectedDate),
                       style: TextStyle(
                           fontSize: 17,
                           color: Colors.black54
@@ -87,9 +91,17 @@ class AddThankYouDatePicker extends StatelessWidget {
           highlightColor: Colors.transparent,
           splashColor: Theme.of(context).primaryColorLight,
           shape: _outlineBorder(Theme.of(context).unselectedWidgetColor),
-          onPressed: () {
+          onPressed: () async {
             FocusManager.instance.primaryFocus.unfocus();
-            _selectDate(context);
+            final DateTime pickedDate = await showDatePicker(
+              context: context,
+              initialDate: viewModel.selectedDate,
+              firstDate: DateTime(2010),
+              lastDate: DateTime(2030)
+            );
+            if (pickedDate != null) {
+              viewModel.updateSelectedDate(pickedDate);
+            }
           },
         )
     );
@@ -99,13 +111,6 @@ class AddThankYouDatePicker extends StatelessWidget {
     return OutlineInputBorder(
         borderRadius: BorderRadius.circular(10.0),
         borderSide: BorderSide(color: color, width: 2.0)
-    );
-  }
-
-  _selectDate(BuildContext context) async {
-    final DateTime pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
     );
   }
 }
