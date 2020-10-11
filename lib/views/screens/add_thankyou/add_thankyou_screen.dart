@@ -93,6 +93,7 @@ class AddThankYouDatePicker extends StatelessWidget {
           shape: _outlineBorder(Theme.of(context).unselectedWidgetColor),
           onPressed: () async {
             FocusManager.instance.primaryFocus.unfocus();
+            // TODO: OK and cancel colors are too light for the current primary swatch colors
             final DateTime pickedDate = await showDatePicker(
               context: context,
               initialDate: viewModel.selectedDate,
