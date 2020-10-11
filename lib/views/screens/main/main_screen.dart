@@ -56,13 +56,12 @@ class _MainScreenState extends State<MainScreen> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: _bottomNavigationBarColor,
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder:(BuildContext context){
-                  return DynamicPage(widget.centerItemTitle);
-                }
-            ));
 //            signOutGoogle();
-            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {return AddThankYouScreen();}), ModalRoute.withName('/'));
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => AddThankYouScreen(),
+                    fullscreenDialog: true
+                ),
+            );
           },
           tooltip: 'Add Thank You',
           child: Icon(Icons.add),
