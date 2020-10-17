@@ -6,9 +6,22 @@ import 'package:thankyoulist/viewmodels/add_thankyou_view_model.dart';
 class AddThankYouScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AddThankYouViewModel viewModel = Provider.of<AddThankYouViewModel>(context, listen: true);
     return Scaffold(
         appBar: AppBar(
           title: Text('Add Thank You'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Add", style: TextStyle(fontSize: 17)),
+              shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+              onPressed: () async {
+                final bool succeed = await viewModel.createThankYou();
+                if (succeed == true) {
+                  Navigator.pop(context);
+                }
+              },
+            ),
+          ],
         ),
         backgroundColor: Colors.grey[200],
         body: ListView(
@@ -24,6 +37,7 @@ class AddThankYouScreen extends StatelessWidget {
 class AddThankYouTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AddThankYouViewModel viewModel = Provider.of<AddThankYouViewModel>(context, listen: true);
     return Container(
         margin: EdgeInsets.only(
             left: 24.0,
@@ -42,6 +56,7 @@ class AddThankYouTextField extends StatelessWidget {
               filled: true,
               fillColor: Colors.white
           ),
+          onChanged: (String value) => viewModel.updateInputValue(value),
         )
     );
   }

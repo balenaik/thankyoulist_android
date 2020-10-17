@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:thankyoulist/repositories/thankyou_repiository.dart';
 import 'package:thankyoulist/viewmodels/add_thankyou_view_model.dart';
 
 import 'package:thankyoulist/views/themes/light_theme.dart';
@@ -31,7 +32,10 @@ class ThankYouListApp extends StatelessWidget {
               )
           ),
           ChangeNotifierProvider<AddThankYouViewModel>(
-              create: (context) => AddThankYouViewModel()
+              create: (context) => AddThankYouViewModel(
+                ThankYouRepositoryImpl(firestore: _firestore),
+                AuthRepositoryImpl(firebaseAuth: _firebaseAuth)
+              )
           )
         ],
       child: GestureDetector(
