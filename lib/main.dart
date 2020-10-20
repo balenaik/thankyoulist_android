@@ -24,28 +24,25 @@ class ThankYouListApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: <ChangeNotifierProvider>[
-          ChangeNotifierProvider<ThankYouCalendarViewModel>(
-              create: (context) => ThankYouCalendarViewModel(
-                  ThankYouListRepositoryImpl(firestore: _firestore),
-                  AuthRepositoryImpl(firebaseAuth: _firebaseAuth)
-              )
+        providers: [
+          Provider(
+            create: (context) => AuthRepositoryImpl(firebaseAuth: _firebaseAuth),
           ),
-          ChangeNotifierProvider<AddThankYouViewModel>(
-              create: (context) => AddThankYouViewModel(
-                ThankYouRepositoryImpl(firestore: _firestore),
-                AuthRepositoryImpl(firebaseAuth: _firebaseAuth)
-              )
+          Provider(
+            create: (context) => ThankYouListRepositoryImpl(firestore: _firestore),
+          ),
+          Provider(
+            create: (context) => ThankYouRepositoryImpl(firestore: _firestore),
           )
         ],
-      child: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus.unfocus(),
-        child: MaterialApp(
+        child: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus.unfocus(),
+          child: MaterialApp(
             title: 'Thank You List',
             theme: lightTheme,
             home: LaunchScreen()
-        ),
-      )
+          ),
+        )
     );
   }
 }

@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:thankyoulist/repositories/thankyou_repiository.dart';
+import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/viewmodels/add_thankyou_view_model.dart';
 
 class AddThankYouScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    AddThankYouViewModel viewModel = Provider.of<AddThankYouViewModel>(context, listen: true);
+    return ChangeNotifierProvider(
+        create: (context) => AddThankYouViewModel(
+          Provider.of<ThankYouRepositoryImpl>(context, listen: false),
+          Provider.of<AuthRepositoryImpl>(context, listen: false),
+        ),
+        child: AddThankYouContent()
+    );
+  }
+}
+
+class AddThankYouContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    AddThankYouViewModel viewModel = Provider.of<AddThankYouViewModel>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
           title: Text('Add Thank You'),
