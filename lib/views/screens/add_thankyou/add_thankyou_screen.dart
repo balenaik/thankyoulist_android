@@ -52,7 +52,7 @@ class AddThankYouContent extends StatelessWidget {
 class AddThankYouTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    AddThankYouViewModel viewModel = Provider.of<AddThankYouViewModel>(context, listen: true);
+    AddThankYouViewModel viewModel = Provider.of<AddThankYouViewModel>(context, listen: false);
     return Container(
         margin: EdgeInsets.only(
             left: 24.0,
@@ -87,55 +87,57 @@ class AddThankYouTextField extends StatelessWidget {
 class AddThankYouDatePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    AddThankYouViewModel viewModel = Provider.of<AddThankYouViewModel>(context, listen: true);
-    return Container(
-        height: 50,
-        margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-        child: FlatButton(
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
-            child: Row(
-                children: <Widget>[
-                  Expanded(
-                      child: Text(
-                          'Date',
-                          style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold
-                          )
-                      )
-                  ),
-              Expanded(
-                  child: Text(
-                      DateFormat.yMd().format(viewModel.selectedDate),
-                      style: TextStyle(
-                          fontSize: 17,
-                          color: Colors.black54
-                      ),
-                      textAlign: TextAlign.right
-                  )
-              )
-            ]),
-          ),
-          color: Colors.white,
-          highlightColor: Colors.transparent,
-          splashColor: Theme.of(context).primaryColorLight,
-          shape: _outlineBorder(Theme.of(context).unselectedWidgetColor),
-          onPressed: () async {
-            FocusManager.instance.primaryFocus.unfocus();
-            // TODO: OK and cancel colors are too light for the current primary swatch colors
-            final DateTime pickedDate = await showDatePicker(
-              context: context,
-              initialDate: viewModel.selectedDate,
-              firstDate: DateTime(2010),
-              lastDate: DateTime(2030)
-            );
-            if (pickedDate != null) {
-              viewModel.updateSelectedDate(pickedDate);
-            }
-          },
-        )
-    );
+    AddThankYouViewModel viewModel = Provider.of<AddThankYouViewModel>(context, listen: false);
+    return Selector<AddThankYouViewModel, DateTime>(
+        selector: (context, viewModel) => viewModel.selectedDate,
+        builder: (context, selectedDate, child) {
+          return Container(
+              height: 50,
+              margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+              child: FlatButton(
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                  child: Row(
+                      children: <Widget>[
+                        Expanded(
+                            child: Text(
+                                'Date',
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold
+                                )
+                            )
+                        ),
+                        Expanded(
+                            child: Text(
+                                DateFormat.yMd().format(selectedDate),
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    color: Colors.black54
+                                ),
+                                textAlign: TextAlign.right
+                            )
+                        )
+                      ]),
+                ),
+                color: Colors.white,
+                highlightColor: Colors.transparent,
+                splashColor: Theme.of(context).primaryColorLight,
+                shape: _outlineBorder(Theme.of(context).unselectedWidgetColor),
+                onPressed: () async {
+                  FocusManager.instance.primaryFocus.unfocus();
+                  // TODO: OK and cancel colors are too light for the current primary swatch colors
+                  final DateTime pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: selectedDate,
+                      firstDate: DateTime(2010),
+                      lastDate: DateTime(2030)
+                  );
+                  if (pickedDate != null) {
+                    viewModel.updateSelectedDate(pickedDate);
+                  }},
+              ));
+        });
   }
 
   OutlineInputBorder _outlineBorder(Color color) {
