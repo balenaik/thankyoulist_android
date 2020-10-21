@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:thankyoulist/repositories/thankyou_repiository.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/viewmodels/add_thankyou_view_model.dart';
+import 'package:thankyoulist/status.dart';
 
 class AddThankYouScreen extends StatelessWidget {
   @override
@@ -29,21 +30,21 @@ class AddThankYouContent extends StatelessWidget {
             FlatButton(
               child: Text("Add", style: TextStyle(fontSize: 17)),
               shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
-              onPressed: () async {
-                final bool succeed = await viewModel.createThankYou();
-                if (succeed == true) {
-                  Navigator.pop(context);
-                }
-              },
+              onPressed: () => viewModel.createThankYou(),
             ),
           ],
         ),
         backgroundColor: Colors.grey[200],
-        body: ListView(
-            children: <Widget>[
-              AddThankYouTextField(),
-              AddThankYouDatePicker()
-            ]
+        body: Stack(
+          children: <Widget>[
+            ListView(
+                children: <Widget>[
+                  AddThankYouTextField(),
+                  AddThankYouDatePicker()
+                ]
+            ),
+            AddThankYouStatusHandler()
+          ],
         )
     );
   }
@@ -144,6 +145,32 @@ class AddThankYouDatePicker extends StatelessWidget {
     return OutlineInputBorder(
         borderRadius: BorderRadius.circular(10.0),
         borderSide: BorderSide(color: color, width: 2.0)
+    );
+  }
+}
+
+class AddThankYouStatusHandler extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Selector<AddThankYouViewModel, Status>(
+      selector: (context, viewModel) => viewModel.status,
+      builder: (context, status, child) {
+        switch (status) {
+          case AddThankYouStatus.addThankYouAdding:
+            return Container(
+                decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0.3)),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                )
+            );
+          case AddThankYouStatus.addThankYouSuccess:
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.of(context).pop();
+            });
+            break;
+        }
+        return Container();
+      },
     );
   }
 }
