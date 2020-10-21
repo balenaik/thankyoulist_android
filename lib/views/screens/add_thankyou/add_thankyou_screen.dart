@@ -5,6 +5,7 @@ import 'package:thankyoulist/repositories/thankyou_repiository.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/viewmodels/add_thankyou_view_model.dart';
 import 'package:thankyoulist/status.dart';
+import 'package:thankyoulist/views/common/default_dialog.dart';
 
 class AddThankYouScreen extends StatelessWidget {
   @override
@@ -150,6 +151,18 @@ class AddThankYouDatePicker extends StatelessWidget {
 }
 
 class AddThankYouStatusHandler extends StatelessWidget {
+  Widget _showErrorDialog(BuildContext context, String title, String message) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      showDialog<DefaultDialog>(
+          context: context,
+          builder: (context) => DefaultDialog(
+            title,
+            message,
+            onPositiveButtonPressed: () {},
+          ));
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Selector<AddThankYouViewModel, Status>(
@@ -168,6 +181,8 @@ class AddThankYouStatusHandler extends StatelessWidget {
               Navigator.of(context).pop();
             });
             break;
+          case AddThankYouStatus.addThankYouFailed:
+            _showErrorDialog(context, 'Error', 'Could not add Thank You');
         }
         return Container();
       },
