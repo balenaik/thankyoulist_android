@@ -5,6 +5,8 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:thankyoulist/models/thankyou_model.dart';
+import 'package:thankyoulist/repositories/auth_repository.dart';
+import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
 import 'package:thankyoulist/viewmodels/thankyou_calendar_view_model.dart';
 import 'package:thankyoulist/views/common/thankyou_item.dart';
 import 'package:thankyoulist/extensions/list_extension.dart';
@@ -15,12 +17,18 @@ final double _calendarPanelListViewBottomInset = 150.0;
 class CalendarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Thank You Calendar'),
-      ),
-      backgroundColor: Colors.grey[100],
-      body: CalendarSlidingUpPanel()
+    return ChangeNotifierProvider(
+        create: (context) => ThankYouCalendarViewModel(
+          Provider.of<ThankYouListRepositoryImpl>(context, listen: false),
+          Provider.of<AuthRepositoryImpl>(context, listen: false),
+        ),
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text('Thank You Calendar'),
+            ),
+            backgroundColor: Colors.grey[100],
+            body: CalendarSlidingUpPanel()
+        )
     );
   }
 }
