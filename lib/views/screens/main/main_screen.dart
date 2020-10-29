@@ -27,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
   final _iconSize = 24.0;
   int _selectedIndex = 0;
   final List<Widget> _children = [
-    ThankYouListScreen(Colors.white70),
+    ThankYouListScreen(),
     CalendarScreen()
   ];
 
