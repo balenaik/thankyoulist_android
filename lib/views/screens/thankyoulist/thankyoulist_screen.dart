@@ -30,7 +30,19 @@ class ThankYouListView extends StatelessWidget {
   Widget build(BuildContext context) {
     ThankYouListViewModel viewModel = Provider.of<ThankYouListViewModel>(context, listen: true);
     return ListView(
-      children: viewModel.thankYouList.map((e) => ThankYouItem(thankYou: e)).toList()
+      children: viewModel.thankYouListWithDate.map((uiModel) {
+        if (uiModel.sectionDate != null) {
+          return _dateSectionView(uiModel.sectionDate);
+        }
+        if (uiModel.thankYou != null) {
+          return ThankYouItem(thankYou: uiModel.thankYou);
+        }
+      }).toList()
     );
   }
+  
+  Widget _dateSectionView(DateTime date) {
+    return Text(date.toIso8601String());
+  }
 }
+
