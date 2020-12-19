@@ -9,12 +9,11 @@ import 'package:thankyoulist/views/common/thankyou_item.dart';
 class ThankYouListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) =>
-            ThankYouListViewModel(
-              Provider.of<ThankYouListRepositoryImpl>(context, listen: false),
-              Provider.of<AuthRepositoryImpl>(context, listen: false),
-            ),
+    return ChangeNotifierProvider<ThankYouListViewModel>.value(
+        value: ThankYouListViewModel(
+          Provider.of<ThankYouListRepositoryImpl>(context, listen: false),
+          Provider.of<AuthRepositoryImpl>(context, listen: false),
+        ),
         child: Scaffold(
             appBar: AppBar(
               title: Text('Thank You List'),

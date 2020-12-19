@@ -10,8 +10,8 @@ import 'package:thankyoulist/views/common/default_dialog.dart';
 class AddThankYouScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => AddThankYouViewModel(
+    return ChangeNotifierProvider<AddThankYouViewModel>.value(
+        value: AddThankYouViewModel(
           Provider.of<ThankYouRepositoryImpl>(context, listen: false),
           Provider.of<AuthRepositoryImpl>(context, listen: false),
         ),
