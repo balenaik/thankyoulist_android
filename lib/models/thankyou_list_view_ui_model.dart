@@ -1,11 +1,28 @@
 import 'package:thankyoulist/models/thankyou_model.dart';
 
 class ThankYouListViewUiModel {
-  final DateTime sectionDate;
+  final SectionMonthYearModel sectionMonthYear;
   final ThankYouModel thankYou;
 
   ThankYouListViewUiModel({
-    this.sectionDate,
+    this.sectionMonthYear,
     this.thankYou,
   });
+}
+
+class SectionMonthYearModel implements Comparable<SectionMonthYearModel> {
+  final int month;
+  final int year;
+
+  SectionMonthYearModel({
+    this.month,
+    this.year,
+  });
+
+  @override
+  int compareTo(SectionMonthYearModel other) {
+    int selfNum = year * 100 + month;
+    int otherNum = other.year * 100 + other.month;
+    return selfNum - otherNum;
+  }
 }
