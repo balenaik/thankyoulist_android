@@ -17,8 +17,8 @@ final double _calendarPanelListViewBottomInset = 150.0;
 class CalendarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => ThankYouCalendarViewModel(
+    return ChangeNotifierProvider<ThankYouCalendarViewModel>.value(
+        value: ThankYouCalendarViewModel(
           Provider.of<ThankYouListRepositoryImpl>(context, listen: false),
           Provider.of<AuthRepositoryImpl>(context, listen: false),
         ),

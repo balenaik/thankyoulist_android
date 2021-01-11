@@ -1,58 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:thankyoulist/models/thankyou_list_view_ui_model.dart';
 
-import 'package:thankyoulist/models/thankyou_model.dart';
+import 'package:thankyoulist/repositories/auth_repository.dart';
+import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
+import 'package:thankyoulist/viewmodels/thankyoulist_view_model.dart';
 import 'package:thankyoulist/views/common/thankyou_item.dart';
 
 class ThankYouListScreen extends StatelessWidget {
-  final Color color;
-  FirebaseAuth auth = FirebaseAuth.instance;
-  String userId;
-
-  ThankYouListScreen(this.color);
-
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: _getThankYouList(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError)
-          return new Text('Error: ${snapshot.error}');
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting: return new Text('Loading...');
-          default:
-            return Scaffold(
-                appBar: AppBar(
-                  title: Text('Thank You List'),
-                ),
-                backgroundColor: color,
-                body: ListView(
-                  children: snapshot.data.documents.map((DocumentSnapshot document) {
-                    ThankYouModel thankYou = ThankYouModel.fromJson(
-                      json: document.data,
-                      documentId: document.documentID,
-                      userId: userId
-                    );
-                    return ThankYouItem(
-                      thankYou: thankYou,
-                    );
-                  }).toList(),
-                )
-            );
-        }
-      },
+    return ChangeNotifierProvider<ThankYouListViewModel>.value(
+        value: ThankYouListViewModel(
+          Provider.of<ThankYouListRepositoryImpl>(context, listen: false),
+          Provider.of<AuthRepositoryImpl>(context, listen: false),
+        ),
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text('Thank You List'),
+            ),
+            body: ThankYouListView()
+        )
     );
   }
+}
 
-  Stream<QuerySnapshot> _getThankYouList() async* {
-    FirebaseUser user = await auth.currentUser();
-    userId = user.uid;
-    var snapshots = Firestore.instance
-        .collection('users')
-        .document(user.uid)
-        .collection('thankYouList')
-        .snapshots();
-    yield* snapshots;
+class ThankYouListView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    ThankYouListViewModel viewModel = Provider.of<ThankYouListViewModel>(context, listen: true);
+    return ListView(
+      children: viewModel.thankYouListWithDate.map((uiModel) {
+        if (uiModel.sectionMonthYear != null) {
+          return _sectionMonthYearView(uiModel.sectionMonthYear);
+        }
+        if (uiModel.thankYou != null) {
+          return ThankYouItem(thankYou: uiModel.thankYou);
+        }
+      }).toList()
+    );
+  }
+  
+  Widget _sectionMonthYearView(SectionMonthYearModel monthYear) {
+    DateTime dateTime = DateTime.utc(monthYear.year, monthYear.month);
+    DateFormat formatter = DateFormat('MMMM yyyy');
+    String formatted = formatter.format(dateTime);
+    return Container(
+      margin: EdgeInsets.symmetric(
+          vertical: 8.0,
+          horizontal: 24.0
+      ),
+      child: Text(formatted,
+        style: TextStyle(
+          fontSize: 16
+        ))
+    );
   }
 }
+

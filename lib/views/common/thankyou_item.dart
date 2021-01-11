@@ -29,7 +29,7 @@ class ThankYouItem extends StatelessWidget {
             ]
         ),
         margin: EdgeInsets.symmetric(
-            vertical: 8.0,
+            vertical: 0.0,
             horizontal: 24.0
         ),
         child: ConstrainedBox(
