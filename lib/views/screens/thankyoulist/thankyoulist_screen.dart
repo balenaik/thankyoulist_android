@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:thankyoulist/models/thankyou_list_view_ui_model.dart';
 
@@ -32,7 +33,7 @@ class ThankYouListView extends StatelessWidget {
     return ListView(
       children: viewModel.thankYouListWithDate.map((uiModel) {
         if (uiModel.sectionMonthYear != null) {
-          return _SectionMonthYearView(uiModel.sectionMonthYear);
+          return _sectionMonthYearView(uiModel.sectionMonthYear);
         }
         if (uiModel.thankYou != null) {
           return ThankYouItem(thankYou: uiModel.thankYou);
@@ -41,8 +42,20 @@ class ThankYouListView extends StatelessWidget {
     );
   }
   
-  Widget _SectionMonthYearView(SectionMonthYearModel monthYear) {
-    return Text(monthYear.month.toString());
+  Widget _sectionMonthYearView(SectionMonthYearModel monthYear) {
+    DateTime dateTime = DateTime.utc(monthYear.year, monthYear.month);
+    DateFormat formatter = DateFormat('MMMM yyyy');
+    String formatted = formatter.format(dateTime);
+    return Container(
+      margin: EdgeInsets.symmetric(
+          vertical: 8.0,
+          horizontal: 24.0
+      ),
+      child: Text(formatted,
+        style: TextStyle(
+          fontSize: 16
+        ))
+    );
   }
 }
 
