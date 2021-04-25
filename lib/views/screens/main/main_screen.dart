@@ -52,7 +52,10 @@ class _MainScreenState extends State<MainScreen> {
         items.length >> 1, _buildMiddleTabItem());
 
     return Scaffold(
-        body: _children[_selectedIndex],
+        body: IndexedStack(
+          index: _selectedIndex,
+          children: _children,
+        ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: _bottomNavigationBarColor,
           onPressed: () {
@@ -121,23 +124,6 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class DynamicPage extends StatefulWidget {
-  String _title;
-  DynamicPage(this._title);
-  @override
-  _DynamicPageState createState() => _DynamicPageState();
-}
-
-class _DynamicPageState extends State<DynamicPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text(widget._title)),
-        body: Center(child:Text(widget._title))
     );
   }
 }
