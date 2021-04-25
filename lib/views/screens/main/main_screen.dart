@@ -52,7 +52,10 @@ class _MainScreenState extends State<MainScreen> {
         items.length >> 1, _buildMiddleTabItem());
 
     return Scaffold(
-        body: _children[_selectedIndex],
+        body: IndexedStack(
+          index: _selectedIndex,
+          children: _children,
+        ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: _bottomNavigationBarColor,
           onPressed: () {
