@@ -125,23 +125,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
-class DynamicPage extends StatefulWidget {
-  String _title;
-  DynamicPage(this._title);
-  @override
-  _DynamicPageState createState() => _DynamicPageState();
-}
-
-class _DynamicPageState extends State<DynamicPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text(widget._title)),
-        body: Center(child:Text(widget._title))
-    );
-  }
-}
-
 class BottomAppBarItem {
   BottomAppBarItem({this.icon, this.title});
   IconData icon;
