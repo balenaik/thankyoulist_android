@@ -11,6 +11,7 @@ import 'package:thankyoulist/viewmodels/thankyou_calendar_view_model.dart';
 import 'package:thankyoulist/views/common/thankyou_item.dart';
 import 'package:thankyoulist/extensions/list_extension.dart';
 import 'package:thankyoulist/views/common/remove_glowingover_scrollindicator_behavior.dart';
+import 'package:thankyoulist/views/screens/edit_thankyou/edit_thankyou_screen.dart';
 
 final double _calendarPanelListViewBottomInset = 150.0;
 
@@ -53,7 +54,7 @@ class CalendarSlidingUpPanel extends StatelessWidget {
             _panelDateView(viewModel.selectedDate),
             Expanded(
                 child: ScrollConfiguration(
-                    behavior:RemoveGlowingOverScrollIndicatorBehavior(),
+                    behavior: RemoveGlowingOverScrollIndicatorBehavior(),
                     child: ListView.builder(
                         controller: scrollController,
                         scrollDirection: Axis.vertical,
@@ -62,7 +63,14 @@ class CalendarSlidingUpPanel extends StatelessWidget {
                         itemBuilder: (BuildContext context, int i) {
                           if (selectedThankYous.get(i) != null) {
                             return ThankYouItem(
-                                thankYou: selectedThankYous.get(i)
+                              thankYou: selectedThankYous.get(i),
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => EditThankYouScreen(selectedThankYous.get(i).id),
+                                      fullscreenDialog: true
+                                  ),
+                                );
+                              },
                             );
                           } else {
                             // Adjust for a bug which the bottom of ListView is a little higher
