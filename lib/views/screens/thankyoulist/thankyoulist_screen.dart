@@ -7,6 +7,7 @@ import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
 import 'package:thankyoulist/viewmodels/thankyoulist_view_model.dart';
 import 'package:thankyoulist/views/common/thankyou_item.dart';
+import 'package:thankyoulist/views/screens/edit_thankyou/edit_thankyou_screen.dart';
 
 class ThankYouListScreen extends StatelessWidget {
   @override
@@ -36,7 +37,16 @@ class ThankYouListView extends StatelessWidget {
           return _sectionMonthYearView(uiModel.sectionMonthYear);
         }
         if (uiModel.thankYou != null) {
-          return ThankYouItem(thankYou: uiModel.thankYou);
+          return ThankYouItem(
+            thankYou: uiModel.thankYou,
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => EditThankYouScreen(uiModel.thankYou.id),
+                    fullscreenDialog: true
+                ),
+              );
+            },
+          );
         }
       }).toList()
     );
