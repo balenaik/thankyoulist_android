@@ -42,12 +42,29 @@ class EditThankYouViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createThankYou() async {  }
+  Future<void> editThankYou() async {
+    _status = EditThankYouStatus.editThankYouEditing;
+    notifyListeners();
+    final userId = await authRepository.getUserId();
+    final thankYouUpdate = ThankYouUpdateModel.from(
+        id: _editingThankYou.id,
+        value: _inputValue,
+        date: _selectedDate,
+        userId: userId
+    );
+    try {
+      await thankYouRepository.updateThankYou(userId, thankYouUpdate);
+      _status = EditThankYouStatus.editThankYouSuccess;
+    } on Exception {
+      _status = EditThankYouStatus.editThankYouFailed;
+    }
+    notifyListeners();
+  }
 
   void _loadEditingThankYou() async {
     final userId = await authRepository.getUserId();
     _editingThankYou = await thankYouRepository.fetchThankYou(userId, editingThankYouId);
-    _inputValue = _editingThankYou.encryptedValue;
+    _inputValue = _editingThankYou.value;
     _selectedDate = _utcDateTime(_editingThankYou.date);
     notifyListeners();
   }

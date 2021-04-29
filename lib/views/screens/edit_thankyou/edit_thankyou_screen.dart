@@ -36,7 +36,7 @@ class EditThankYouContent extends StatelessWidget {
             FlatButton(
               child: Text("Edit", style: TextStyle(fontSize: 17)),
               shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
-              onPressed: () => viewModel.createThankYou(),
+              onPressed: () => viewModel.editThankYou(),
             ),
           ],
         ),
