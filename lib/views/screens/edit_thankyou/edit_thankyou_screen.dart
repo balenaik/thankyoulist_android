@@ -60,27 +60,32 @@ class EditThankYouTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     EditThankYouViewModel viewModel = Provider.of<EditThankYouViewModel>(context, listen: false);
-    return Container(
-        margin: EdgeInsets.only(
-            left: 24.0,
-            right: 24.0,
-            top: 24.0,
-            bottom: 12.0
-        ),
-        child: TextField(
-          style: TextStyle(fontSize: 17),
-          minLines: 4,
-          maxLines: null,
-          decoration: InputDecoration(
-              hintText: 'What are you thankful for?',
-              enabledBorder: _outlineBorder(Theme.of(context).unselectedWidgetColor),
-              focusedBorder: _outlineBorder(Theme.of(context).primaryColor),
-              filled: true,
-              fillColor: Colors.white
-          ),
-          onChanged: (String value) => viewModel.updateInputValue(value),
-        )
-    );
+    return Selector<EditThankYouViewModel, String>(
+        selector: (context, viewModel) => viewModel.inputValue,
+        builder: (context, inputValue, child) {
+          return Container(
+              margin: EdgeInsets.only(
+                  left: 24.0,
+                  right: 24.0,
+                  top: 24.0,
+                  bottom: 12.0
+              ),
+              child: TextField(
+                style: TextStyle(fontSize: 17),
+                minLines: 4,
+                maxLines: null,
+                decoration: InputDecoration(
+                    hintText: 'What are you thankful for?',
+                    enabledBorder: _outlineBorder(Theme.of(context).unselectedWidgetColor),
+                    focusedBorder: _outlineBorder(Theme.of(context).primaryColor),
+                    filled: true,
+                    fillColor: Colors.white
+                ),
+                onChanged: (String value) => viewModel.updateInputValue(value),
+                controller: TextEditingController(text: inputValue),
+              )
+          );
+        });
   }
 
   OutlineInputBorder _outlineBorder(Color color) {
