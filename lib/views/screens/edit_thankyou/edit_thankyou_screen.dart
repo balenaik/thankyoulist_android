@@ -46,7 +46,8 @@ class EditThankYouContent extends StatelessWidget {
             ListView(
                 children: <Widget>[
                   EditThankYouTextField(),
-                  EditThankYouDatePicker()
+                  EditThankYouDatePicker(),
+                  EditThankYouDeleteButton()
                 ]
             ),
             EditThankYouStatusHandler()
@@ -151,6 +152,40 @@ class EditThankYouDatePicker extends StatelessWidget {
                   }},
               ));
         });
+  }
+
+  OutlineInputBorder _outlineBorder(Color color) {
+    return OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: BorderSide(color: color, width: 2.0)
+    );
+  }
+}
+
+class EditThankYouDeleteButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    EditThankYouViewModel viewModel = Provider.of<EditThankYouViewModel>(context, listen: false);
+    return Container(
+        height: 50,
+        margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+        child: FlatButton(
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+            child: Text(
+                'Delete',
+                style: TextStyle(
+                    fontSize: 17,
+                    color: Colors.red
+                )
+            )
+          ),
+          color: Colors.white,
+          highlightColor: Colors.transparent,
+          splashColor: Theme.of(context).primaryColorLight,
+          shape: _outlineBorder(Theme.of(context).unselectedWidgetColor),
+          onPressed: () async {},
+        ));
   }
 
   OutlineInputBorder _outlineBorder(Color color) {
