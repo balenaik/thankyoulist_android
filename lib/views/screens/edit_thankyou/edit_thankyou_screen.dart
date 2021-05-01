@@ -184,8 +184,37 @@ class EditThankYouDeleteButton extends StatelessWidget {
           highlightColor: Colors.transparent,
           splashColor: Theme.of(context).primaryColorLight,
           shape: _outlineBorder(Theme.of(context).unselectedWidgetColor),
-          onPressed: () async {},
+          onPressed: () async {
+            _showDeleteDialog(context);
+          },
         ));
+  }
+
+  void _showDeleteDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+                title: Text('Delete Thank You'),
+                content: Container(
+                  child: Text('Are you sure you want to delete this thank you?'),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("Cancel"),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  FlatButton(
+                    child: Text("OK"),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0))
+                )
+              );
+        }
+    );
   }
 
   OutlineInputBorder _outlineBorder(Color color) {
