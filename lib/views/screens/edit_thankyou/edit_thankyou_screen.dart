@@ -165,7 +165,6 @@ class EditThankYouDatePicker extends StatelessWidget {
 class EditThankYouDeleteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    EditThankYouViewModel viewModel = Provider.of<EditThankYouViewModel>(context, listen: false);
     return Container(
         height: 50,
         margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
@@ -191,6 +190,7 @@ class EditThankYouDeleteButton extends StatelessWidget {
   }
 
   void _showDeleteDialog(BuildContext context) {
+    EditThankYouViewModel viewModel = Provider.of<EditThankYouViewModel>(context, listen: false);
     showDialog(
         context: context,
         builder: (context) {
@@ -206,7 +206,7 @@ class EditThankYouDeleteButton extends StatelessWidget {
                   ),
                   FlatButton(
                     child: Text("OK"),
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => viewModel.deleteThankYou(),
                   ),
                 ],
                 shape: RoundedRectangleBorder(
@@ -245,6 +245,7 @@ class EditThankYouStatusHandler extends StatelessWidget {
       builder: (context, status, child) {
         switch (status) {
           case EditThankYouStatus.editThankYouEditing:
+          case EditThankYouStatus.deleteThankYouDeleting:
             return Container(
                 decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0.3)),
                 child: Center(
@@ -257,7 +258,20 @@ class EditThankYouStatusHandler extends StatelessWidget {
             });
             break;
           case EditThankYouStatus.editThankYouFailed:
-            _showErrorDialog(context, 'Error', 'Could not add Thank You');
+            _showErrorDialog(context, 'Error', 'Could not edit Thank You');
+            break;
+          case EditThankYouStatus.deleteThankYouSuccess:
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            });
+            break;
+          case EditThankYouStatus.deleteThankYouFailed:
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              // Close the delete confirm dialog first
+              Navigator.of(context).pop();
+            });
+            _showErrorDialog(context, 'Error', 'Could not delete Thank You');
+            break;
         }
         return Container();
       },
