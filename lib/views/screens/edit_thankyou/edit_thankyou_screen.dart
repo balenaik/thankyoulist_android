@@ -46,7 +46,8 @@ class EditThankYouContent extends StatelessWidget {
             ListView(
                 children: <Widget>[
                   EditThankYouTextField(),
-                  EditThankYouDatePicker()
+                  EditThankYouDatePicker(),
+                  EditThankYouDeleteButton()
                 ]
             ),
             EditThankYouStatusHandler()
@@ -161,6 +162,69 @@ class EditThankYouDatePicker extends StatelessWidget {
   }
 }
 
+class EditThankYouDeleteButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: 50,
+        margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+        child: FlatButton(
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+            child: Text(
+                'Delete',
+                style: TextStyle(
+                    fontSize: 17,
+                    color: Colors.red
+                )
+            )
+          ),
+          color: Colors.white,
+          highlightColor: Colors.transparent,
+          splashColor: Theme.of(context).primaryColorLight,
+          shape: _outlineBorder(Theme.of(context).unselectedWidgetColor),
+          onPressed: () async {
+            _showDeleteDialog(context);
+          },
+        ));
+  }
+
+  void _showDeleteDialog(BuildContext context) {
+    EditThankYouViewModel viewModel = Provider.of<EditThankYouViewModel>(context, listen: false);
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+                title: Text('Delete Thank You'),
+                content: Container(
+                  child: Text('Are you sure you want to delete this thank you?'),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("Cancel"),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  FlatButton(
+                    child: Text("OK"),
+                    onPressed: () => viewModel.deleteThankYou(),
+                  ),
+                ],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0))
+                )
+              );
+        }
+    );
+  }
+
+  OutlineInputBorder _outlineBorder(Color color) {
+    return OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: BorderSide(color: color, width: 2.0)
+    );
+  }
+}
+
 class EditThankYouStatusHandler extends StatelessWidget {
   Widget _showErrorDialog(BuildContext context, String title, String message) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -181,6 +245,7 @@ class EditThankYouStatusHandler extends StatelessWidget {
       builder: (context, status, child) {
         switch (status) {
           case EditThankYouStatus.editThankYouEditing:
+          case EditThankYouStatus.deleteThankYouDeleting:
             return Container(
                 decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0.3)),
                 child: Center(
@@ -193,7 +258,20 @@ class EditThankYouStatusHandler extends StatelessWidget {
             });
             break;
           case EditThankYouStatus.editThankYouFailed:
-            _showErrorDialog(context, 'Error', 'Could not add Thank You');
+            _showErrorDialog(context, 'Error', 'Could not edit Thank You');
+            break;
+          case EditThankYouStatus.deleteThankYouSuccess:
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            });
+            break;
+          case EditThankYouStatus.deleteThankYouFailed:
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              // Close the delete confirm dialog first
+              Navigator.of(context).pop();
+            });
+            _showErrorDialog(context, 'Error', 'Could not delete Thank You');
+            break;
         }
         return Container();
       },

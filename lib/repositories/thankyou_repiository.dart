@@ -12,6 +12,7 @@ abstract class ThankYouRepository {
   Future<ThankYouModel> fetchThankYou(String userId, String id);
   Future<void> createThankYou(String userId, ThankYouCreateModel thankYouCreate);
   Future<void> updateThankYou(String userId, ThankYouUpdateModel thankYouUpdate);
+  Future<void> deleteThankYou(String userId, String thankYouId);
 }
 
 class ThankYouRepositoryImpl implements ThankYouRepository {
@@ -48,5 +49,15 @@ class ThankYouRepositoryImpl implements ThankYouRepository {
         .collection(THANKYOULIST_COLLECTION)
         .document(thankYouUpdate.id)
         .updateData(thankYouUpdate.toJson());
+  }
+
+  @override
+  Future<void> deleteThankYou(String userId, String thankYouId) async {
+    return await firestore
+        .collection(USERS_COLLECTION)
+        .document(userId)
+        .collection(THANKYOULIST_COLLECTION)
+        .document(thankYouId)
+        .delete();
   }
 }
