@@ -20,6 +20,13 @@ class ThankYouListScreen extends StatelessWidget {
         child: Scaffold(
             appBar: AppBar(
               title: Text('Thank You List'),
+              actions: [
+                IconButton(
+                  // TODO: This icon needs to be changed
+                  icon: Icon(Icons.person),
+                  onPressed: () {},
+                )
+              ],
             ),
             body: ThankYouListView()
         )
