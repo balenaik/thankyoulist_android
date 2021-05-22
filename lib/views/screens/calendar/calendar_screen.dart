@@ -12,6 +12,7 @@ import 'package:thankyoulist/views/common/thankyou_item.dart';
 import 'package:thankyoulist/extensions/list_extension.dart';
 import 'package:thankyoulist/views/common/remove_glowingover_scrollindicator_behavior.dart';
 import 'package:thankyoulist/views/screens/edit_thankyou/edit_thankyou_screen.dart';
+import 'package:thankyoulist/views/screens/my_page/my_page_screen.dart';
 
 final double _calendarPanelListViewBottomInset = 150.0;
 
@@ -26,6 +27,18 @@ class CalendarScreen extends StatelessWidget {
         child: Scaffold(
             appBar: AppBar(
               title: Text('Thank You Calendar'),
+              actions: [
+                IconButton(
+                  icon: Image.asset("assets/icons/account_circle_20.png"),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => MyPageScreen(),
+                          fullscreenDialog: true
+                      ),
+                    );
+                  },
+                )
+              ],
             ),
             backgroundColor: Colors.grey[100],
             body: CalendarSlidingUpPanel()

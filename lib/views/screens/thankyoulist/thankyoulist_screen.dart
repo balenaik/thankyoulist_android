@@ -8,6 +8,7 @@ import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
 import 'package:thankyoulist/viewmodels/thankyoulist_view_model.dart';
 import 'package:thankyoulist/views/common/thankyou_item.dart';
 import 'package:thankyoulist/views/screens/edit_thankyou/edit_thankyou_screen.dart';
+import 'package:thankyoulist/views/screens/my_page/my_page_screen.dart';
 
 class ThankYouListScreen extends StatelessWidget {
   @override
@@ -20,6 +21,18 @@ class ThankYouListScreen extends StatelessWidget {
         child: Scaffold(
             appBar: AppBar(
               title: Text('Thank You List'),
+              actions: [
+                IconButton(
+                  icon: Image.asset("assets/icons/account_circle_20.png"),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => MyPageScreen(),
+                          fullscreenDialog: true
+                      ),
+                    );
+                  },
+                )
+              ],
             ),
             body: ThankYouListView()
         )
