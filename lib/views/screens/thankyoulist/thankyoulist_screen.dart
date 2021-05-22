@@ -8,6 +8,7 @@ import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
 import 'package:thankyoulist/viewmodels/thankyoulist_view_model.dart';
 import 'package:thankyoulist/views/common/thankyou_item.dart';
 import 'package:thankyoulist/views/screens/edit_thankyou/edit_thankyou_screen.dart';
+import 'package:thankyoulist/views/screens/my_page/my_page_screen.dart';
 
 class ThankYouListScreen extends StatelessWidget {
   @override
@@ -24,7 +25,13 @@ class ThankYouListScreen extends StatelessWidget {
                 IconButton(
                   // TODO: This icon needs to be changed
                   icon: Icon(Icons.person),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => MyPageScreen(),
+                          fullscreenDialog: true
+                      ),
+                    );
+                  },
                 )
               ],
             ),

@@ -18,7 +18,6 @@ class MyPageScreen extends StatelessWidget {
 class MyPageScreenContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    MyPageViewModel viewModel = Provider.of<MyPageViewModel>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
           title: Text('Account')
@@ -28,10 +27,56 @@ class MyPageScreenContent extends StatelessWidget {
           children: <Widget>[
             ListView(
                 children: <Widget>[
+                  UserProfileWidget(),
                 ]
             ),
           ],
         )
+    );
+  }
+}
+
+class UserProfileWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    MyPageViewModel viewModel = Provider.of<MyPageViewModel>(context, listen: true);
+    return Container(
+      margin: EdgeInsets.fromLTRB(36.0, 28.0, 36.0, 20.0),
+      child: Row(
+          children: <Widget>[
+            CircleAvatar(
+                radius: 28,
+                backgroundImage: viewModel.authUser != null
+                    ? NetworkImage(viewModel.authUser.photoUrl)
+                    : AssetImage("assets/icons/account_circle_20.png")
+            ),
+            Container(
+                margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 12.0),
+                child: Column(
+                  children: [
+                    Text(
+                        viewModel.authUser != null ? viewModel.authUser.displayName : "",
+                        style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.bold
+                        ),
+                        textAlign: TextAlign.left
+                    ),
+                    Text(
+                        viewModel.authUser != null ? viewModel.authUser.email : "",
+                        style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.black54
+                        ),
+                        textAlign: TextAlign.left
+                    )
+                  ],
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                )
+            )
+          ]),
     );
   }
 }
