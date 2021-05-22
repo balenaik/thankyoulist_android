@@ -13,13 +13,32 @@ class MyPageStatus extends Status {
 
 class MyPageViewModel with ChangeNotifier {
   UserModel _authUser;
+  Status _status = Status.none;
 
   UserModel get authUser => _authUser;
+  Status get status => _status;
 
   final AuthRepository authRepository;
 
   MyPageViewModel(this.authRepository) {
     _loadAuthInfo();
+  }
+
+  Future<void> logout() async {
+    _status = MyPageStatus.loggingOut;
+    notifyListeners();
+    try {
+      await authRepository.logout();
+      _status = MyPageStatus.logOutSuccess;
+    } catch(error) {
+      _status = MyPageStatus.logOutFailed;
+    }
+    notifyListeners();
+  }
+
+  void logoutErrorOkButtonDidTap() {
+    _status = Status.none;
+    notifyListeners();
   }
 
   Future<void> _loadAuthInfo() async {

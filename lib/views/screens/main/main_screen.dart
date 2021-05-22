@@ -59,7 +59,6 @@ class _MainScreenState extends State<MainScreen> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: _bottomNavigationBarColor,
           onPressed: () {
-//            signOutGoogle();
             Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => AddThankYouScreen(),
                     fullscreenDialog: true
@@ -132,12 +131,4 @@ class BottomAppBarItem {
   BottomAppBarItem({this.icon, this.title});
   IconData icon;
   String title;
-}
-
-void signOutGoogle() async{
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  await _googleSignIn.signOut();
-  await FirebaseAuth.instance.signOut();
-
-  print("User Sign Out");
 }
