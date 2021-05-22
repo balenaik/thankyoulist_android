@@ -23,8 +23,7 @@ class ThankYouListScreen extends StatelessWidget {
               title: Text('Thank You List'),
               actions: [
                 IconButton(
-                  // TODO: This icon needs to be changed
-                  icon: Icon(Icons.person),
+                  icon: Image.asset("assets/icons/account_circle_20.png"),
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => MyPageScreen(),
