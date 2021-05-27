@@ -11,11 +11,8 @@ class ThankYouCalendarViewModel with ChangeNotifier {
   Map<DateTime, List<ThankYouModel>> _thankYouEvents = {};
   DateTime _selectedDate;
 
-  final _calendarController = CalendarController();
-
   Map<DateTime, List<ThankYouModel>> get thankYouEvents => _thankYouEvents;
   DateTime get selectedDate => _selectedDate;
-  CalendarController get calendarController => _calendarController;
 
   final ThankYouListRepository thankYouListRepository;
   final AuthRepository authRepository;
@@ -25,10 +22,8 @@ class ThankYouCalendarViewModel with ChangeNotifier {
     _addThankYousListener();
   }
 
-  @override
-  void dispose() {
-    _calendarController.dispose();
-    super.dispose();
+  List<ThankYouModel> getThankYouEvents(DateTime day) {
+    return _thankYouEvents[day] ?? [];
   }
 
   void updateSelectedDate(DateTime selectedDate) {

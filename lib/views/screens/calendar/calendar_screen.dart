@@ -143,10 +143,12 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
   Widget build(BuildContext context) {
     ThankYouCalendarViewModel viewModel = Provider.of<ThankYouCalendarViewModel>(context, listen: true);
     return TableCalendar(
-      calendarController: viewModel.calendarController,
-      events: viewModel.thankYouEvents,
+      focusedDay: DateTime.now(),
+      firstDay: DateTime(2015),
+      lastDay: DateTime(2050),
+      eventLoader: viewModel.getThankYouEvents,
       headerStyle: HeaderStyle(
-        centerHeaderTitle: true,
+        titleCentered: true,
         formatButtonVisible: false,
         formatButtonShowsNext: false,
         titleTextStyle: TextStyle(
@@ -159,21 +161,20 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
           weekdayStyle: _dayTextStyle(color: Colors.black38),
           weekendStyle: _dayTextStyle(color: Colors.black38)),
       calendarStyle: CalendarStyle(
-        weekdayStyle: _dayTextStyle(color: Colors.black87),
-        weekendStyle: _dayTextStyle(color: Colors.black87),
-        outsideStyle: _dayTextStyle(color: Colors.black38),
-        outsideWeekendStyle: _dayTextStyle(color: Colors.black38),
-        contentPadding:
-        EdgeInsets.only(bottom: 12.0, left: 8.0, right: 8.0),
-        markersMaxAmount: 1,
+        defaultTextStyle: _dayTextStyle(color: Colors.black87),
+        weekendTextStyle: _dayTextStyle(color: Colors.black87),
+        outsideTextStyle: _dayTextStyle(color: Colors.black38),
+        // contentPadding:
+        // EdgeInsets.only(bottom: 12.0, left: 8.0, right: 8.0),
+        markersMaxCount: 1,
       ),
       onDaySelected: (date, events) {
         // Since date here always returns XXXX-XX-XX 12:00:00.000Z, remove 12 hours
         DateTime adjustedDate = date.add(Duration(hours: -12));
         viewModel.updateSelectedDate(adjustedDate);
       },
-      builders: CalendarBuilders(
-        selectedDayBuilder: (context, date, _) {
+      calendarBuilders: CalendarBuilders(
+        selectedBuilder: (context, date, _) {
           final isToday = date.day == DateTime.now().day;
           return AnimatedContainer(
             duration: const Duration(milliseconds: 250),
@@ -191,7 +192,7 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
             ),
           );
         },
-        todayDayBuilder: (context, date, _) {
+        todayBuilder: (context, date, _) {
           return Container(
             alignment: Alignment.center,
             child: Text(
@@ -200,7 +201,7 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
             ),
           );
         },
-        markersBuilder: (context, date, events, holidays) {
+        markerBuilder: (context, date, events) {
           final eventsCount = events.length;
           List<Widget> markers = [];
           if (eventsCount > 0) {
@@ -214,13 +215,13 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
           } else if (eventsCount > 3) {
             markers.add(_moreMarker());
           }
-          return [
-            Row(
+          return Container(
+            child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: markers
             )
-          ];
+          );
         },
       ),
     );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 import 'package:thankyoulist/views/screens/main/main_screen.dart';
 import 'package:thankyoulist/app_colors.dart';
@@ -17,10 +16,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final FacebookLogin _facebookLogin = FacebookLogin();
+  // final FacebookLogin _facebookLogin = FacebookLogin();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<FirebaseUser> _handleGoogleSignIn() async {
+  Future<User> _handleGoogleSignIn() async {
     GoogleSignInAccount googleCurrentUser = _googleSignIn.currentUser;
     try {
       if (googleCurrentUser == null) googleCurrentUser = await _googleSignIn.signInSilently();
@@ -28,11 +27,11 @@ class _LoginScreenState extends State<LoginScreen> {
       if (googleCurrentUser == null) return null;
 
       GoogleSignInAuthentication googleAuth = await googleCurrentUser.authentication;
-      final AuthCredential credential = GoogleAuthProvider.getCredential(
+      final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
+      final User user = (await _auth.signInWithCredential(credential)).user;
       print("signed in " + user.displayName);
 
       return user;
@@ -42,29 +41,29 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future<FirebaseUser> _handleFacebookSignIn() async {
-    final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
+  // Future<FirebaseUser> _handleFacebookSignIn() async {
+  //   final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
+  //
+  //   switch (result.status) {
+  //     case FacebookLoginStatus.error:
+  //       print("Error");
+  //       break;
+  //
+  //     case FacebookLoginStatus.cancelledByUser:
+  //       print("CancelledByUser");
+  //       break;
+  //
+  //     case FacebookLoginStatus.loggedIn:
+  //       print("LoggedIn");
+  //       /// calling the auth mehtod and getting the logged user
+  //       AuthCredential credential= FacebookAuthProvider.getCredential(accessToken: result.accessToken.token);
+  //       FirebaseUser firebaseUser = (await _auth.signInWithCredential(credential)).user;
+  //       print("signed in " + firebaseUser.displayName);
+  //       return firebaseUser;
+  //   }
+  // }
 
-    switch (result.status) {
-      case FacebookLoginStatus.error:
-        print("Error");
-        break;
-
-      case FacebookLoginStatus.cancelledByUser:
-        print("CancelledByUser");
-        break;
-
-      case FacebookLoginStatus.loggedIn:
-        print("LoggedIn");
-        /// calling the auth mehtod and getting the logged user
-        AuthCredential credential= FacebookAuthProvider.getCredential(accessToken: result.accessToken.token);
-        FirebaseUser firebaseUser = (await _auth.signInWithCredential(credential)).user;
-        print("signed in " + firebaseUser.displayName);
-        return firebaseUser;
-    }
-  }
-
-  void transitionNextPage(FirebaseUser user) {
+  void transitionNextPage(User user) {
     if (user == null) return;
 
     Navigator.push(context, MaterialPageRoute(builder: (context) =>
@@ -104,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
       splashColor: Colors.grey,
       onPressed: () {
         _handleGoogleSignIn()
-            .then((FirebaseUser user) =>
+            .then((User user) =>
             transitionNextPage(user)
         )
             .catchError((e) => print(e));
@@ -142,11 +141,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return OutlineButton(
       splashColor: Colors.grey,
       onPressed: () {
-        _handleFacebookSignIn()
-            .then((FirebaseUser user) =>
-            transitionNextPage(user)
-        )
-            .catchError((e) => print(e));
+        // _handleFacebookSignIn()
+        //     .then((FirebaseUser user) =>
+        //     transitionNextPage(user)
+        // )
+        //     .catchError((e) => print(e));
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,

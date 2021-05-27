@@ -25,20 +25,20 @@ class ThankYouListRepositoryImpl implements ThankYouListRepository {
   ThankYouListRepositoryImpl({ @required this.firestore })
     : assert(firestore != null);
 
-  final Firestore firestore;
+  final FirebaseFirestore firestore;
 
   @override
   Stream<List<ThankYouListChange>> addThankYouListener(String userId) {
     return firestore
         .collection(USERS_COLLECTION)
-        .document(userId)
+        .doc(userId)
         .collection(THANKYOULIST_COLLECTION)
         .snapshots()
         .map((snapshot) {
-          return snapshot.documentChanges.map( (change) {
+          return snapshot.docChanges.map( (change) {
             ThankYouModel thankYou = ThankYouModel.fromJson(
-                json: change.document.data,
-                documentId: change.document.documentID,
+                json: change.doc.data(),
+                documentId: change.doc.id,
                 userId: userId
             );
             switch (change.type) {

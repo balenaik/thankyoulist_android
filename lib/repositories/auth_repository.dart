@@ -17,13 +17,13 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<String> getUserId() async {
-    final user = await firebaseAuth.currentUser();
+    final user = await firebaseAuth.currentUser;
     return user.uid;
   }
 
   @override
   Future<UserModel> getUser() async {
-    final user = await firebaseAuth.currentUser();
+    final user = await firebaseAuth.currentUser;
     return UserModel.from(firebaseUser: user);
   }
 
