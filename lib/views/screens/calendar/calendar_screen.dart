@@ -169,9 +169,7 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
           markersMaxCount: 1,
         ),
         onDaySelected: (date, events) {
-          // Since date here always returns XXXX-XX-XX 12:00:00.000Z, remove 12 hours
-          DateTime adjustedDate = date.add(Duration(hours: -12));
-          viewModel.updateSelectedDate(adjustedDate);
+          viewModel.updateSelectedDate(date);
         },
         calendarBuilders: CalendarBuilders(
           selectedBuilder: (context, date, _) {
