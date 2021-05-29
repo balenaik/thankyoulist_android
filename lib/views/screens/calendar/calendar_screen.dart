@@ -142,88 +142,89 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThankYouCalendarViewModel viewModel = Provider.of<ThankYouCalendarViewModel>(context, listen: true);
-    return TableCalendar(
-      focusedDay: DateTime.now(),
-      firstDay: DateTime(2015),
-      lastDay: DateTime(2050),
-      eventLoader: viewModel.getThankYouEvents,
-      headerStyle: HeaderStyle(
-        titleCentered: true,
-        formatButtonVisible: false,
-        formatButtonShowsNext: false,
-        titleTextStyle: TextStyle(
-            color: Colors.brown,
-            fontWeight: FontWeight.bold,
-            fontSize: 20.0),
-        // TODO: Wait for `showLeftChevron`, `showRightChevron` property to be released to hide the buttons
-      ),
-      daysOfWeekStyle: DaysOfWeekStyle(
-          weekdayStyle: _dayTextStyle(color: Colors.black38),
-          weekendStyle: _dayTextStyle(color: Colors.black38)),
-      calendarStyle: CalendarStyle(
-        defaultTextStyle: _dayTextStyle(color: Colors.black87),
-        weekendTextStyle: _dayTextStyle(color: Colors.black87),
-        outsideTextStyle: _dayTextStyle(color: Colors.black38),
-        // contentPadding:
-        // EdgeInsets.only(bottom: 12.0, left: 8.0, right: 8.0),
-        markersMaxCount: 1,
-      ),
-      onDaySelected: (date, events) {
-        // Since date here always returns XXXX-XX-XX 12:00:00.000Z, remove 12 hours
-        DateTime adjustedDate = date.add(Duration(hours: -12));
-        viewModel.updateSelectedDate(adjustedDate);
-      },
-      calendarBuilders: CalendarBuilders(
-        selectedBuilder: (context, date, _) {
-          final isToday = date.day == DateTime.now().day;
-          return AnimatedContainer(
-            duration: const Duration(milliseconds: 250),
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.yellowAccent),
-            margin: const EdgeInsets.all(12.0),
-            alignment: Alignment.center,
-            child: Text(
-              '${date.day}',
-              style: _dayTextStyle(
-                  color: isToday
-                      ? Colors.pinkAccent
-                      : Colors.black87),
-            ),
-          );
+    return Padding(
+      padding: EdgeInsets.only(left: 8.0, right: 8.0),
+      child: TableCalendar(
+        focusedDay: DateTime.now(),
+        firstDay: DateTime(2015),
+        lastDay: DateTime(2050),
+        eventLoader: viewModel.getThankYouEvents,
+        headerStyle: HeaderStyle(
+          titleCentered: true,
+          formatButtonVisible: false,
+          formatButtonShowsNext: false,
+          titleTextStyle: TextStyle(
+              color: Colors.brown,
+              fontWeight: FontWeight.bold,
+              fontSize: 20.0),
+          // TODO: Wait for `showLeftChevron`, `showRightChevron` property to be released to hide the buttons
+        ),
+        daysOfWeekStyle: DaysOfWeekStyle(
+            weekdayStyle: _dayTextStyle(color: Colors.black38),
+            weekendStyle: _dayTextStyle(color: Colors.black38)),
+        calendarStyle: CalendarStyle(
+          defaultTextStyle: _dayTextStyle(color: Colors.black87),
+          weekendTextStyle: _dayTextStyle(color: Colors.black87),
+          outsideTextStyle: _dayTextStyle(color: Colors.black38),
+          markersMaxCount: 1,
+        ),
+        onDaySelected: (date, events) {
+          // Since date here always returns XXXX-XX-XX 12:00:00.000Z, remove 12 hours
+          DateTime adjustedDate = date.add(Duration(hours: -12));
+          viewModel.updateSelectedDate(adjustedDate);
         },
-        todayBuilder: (context, date, _) {
-          return Container(
-            alignment: Alignment.center,
-            child: Text(
-              '${date.day}',
-              style: _dayTextStyle(color: Colors.pinkAccent),
-            ),
-          );
-        },
-        markerBuilder: (context, date, events) {
-          final eventsCount = events.length;
-          List<Widget> markers = [];
-          if (eventsCount > 0) {
-            markers.add(_marker());
-          }
-          if (eventsCount > 1) {
-            markers.add(_marker());
-          }
-          if (eventsCount == 3) {
-            markers.add(_marker());
-          } else if (eventsCount > 3) {
-            markers.add(_moreMarker());
-          }
-          return Container(
-            child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: markers
-            )
-          );
-        },
-      ),
+        calendarBuilders: CalendarBuilders(
+          selectedBuilder: (context, date, _) {
+            final isToday = date.day == DateTime.now().day;
+            return AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.yellowAccent),
+              margin: const EdgeInsets.all(12.0),
+              alignment: Alignment.center,
+              child: Text(
+                '${date.day}',
+                style: _dayTextStyle(
+                    color: isToday
+                        ? Colors.pinkAccent
+                        : Colors.black87),
+              ),
+            );
+          },
+          todayBuilder: (context, date, _) {
+            return Container(
+              alignment: Alignment.center,
+              child: Text(
+                '${date.day}',
+                style: _dayTextStyle(color: Colors.pinkAccent),
+              ),
+            );
+          },
+          markerBuilder: (context, date, events) {
+            final eventsCount = events.length;
+            List<Widget> markers = [];
+            if (eventsCount > 0) {
+              markers.add(_marker());
+            }
+            if (eventsCount > 1) {
+              markers.add(_marker());
+            }
+            if (eventsCount == 3) {
+              markers.add(_marker());
+            } else if (eventsCount > 3) {
+              markers.add(_moreMarker());
+            }
+            return Container(
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: markers
+                )
+            );
+          },
+        ),
+      )
     );
   }
 
