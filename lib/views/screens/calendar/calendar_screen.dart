@@ -150,14 +150,16 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
         lastDay: DateTime(2050),
         eventLoader: viewModel.getThankYouEvents,
         headerStyle: HeaderStyle(
+          headerMargin: EdgeInsets.only(top: 4.0, bottom: 4.0),
           titleCentered: true,
           formatButtonVisible: false,
           formatButtonShowsNext: false,
           titleTextStyle: TextStyle(
               color: Colors.brown,
               fontWeight: FontWeight.bold,
-              fontSize: 20.0),
-          // TODO: Wait for `showLeftChevron`, `showRightChevron` property to be released to hide the buttons
+              fontSize: 20.0,),
+          leftChevronVisible: false,
+          rightChevronVisible: false,
         ),
         daysOfWeekStyle: DaysOfWeekStyle(
             weekdayStyle: _dayTextStyle(color: Colors.black38),
