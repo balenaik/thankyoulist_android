@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:thankyoulist/views/screens/main/main_screen.dart';
@@ -16,7 +17,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  // final FacebookLogin _facebookLogin = FacebookLogin();
+  final FacebookAuth _facebookAuth = FacebookAuth.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<User> _handleGoogleSignIn() async {
@@ -41,27 +42,27 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // Future<FirebaseUser> _handleFacebookSignIn() async {
-  //   final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
-  //
-  //   switch (result.status) {
-  //     case FacebookLoginStatus.error:
-  //       print("Error");
-  //       break;
-  //
-  //     case FacebookLoginStatus.cancelledByUser:
-  //       print("CancelledByUser");
-  //       break;
-  //
-  //     case FacebookLoginStatus.loggedIn:
-  //       print("LoggedIn");
-  //       /// calling the auth mehtod and getting the logged user
-  //       AuthCredential credential= FacebookAuthProvider.getCredential(accessToken: result.accessToken.token);
-  //       FirebaseUser firebaseUser = (await _auth.signInWithCredential(credential)).user;
-  //       print("signed in " + firebaseUser.displayName);
-  //       return firebaseUser;
-  //   }
-  // }
+  Future<User> _handleFacebookSignIn() async {
+    final LoginResult result = await _facebookAuth.login();
+
+    switch (result.status) {
+      case LoginStatus.failed:
+        print("Error");
+        break;
+
+      case LoginStatus.cancelled:
+        print("Cancelled");
+        break;
+
+      case LoginStatus.success:
+        print("LoggedIn");
+        /// calling the auth mehtod and getting the logged user
+        OAuthCredential credential= FacebookAuthProvider.credential(result.accessToken.token);
+        User firebaseUser = (await _auth.signInWithCredential(credential)).user;
+        print("signed in " + firebaseUser.displayName);
+        return firebaseUser;
+    }
+  }
 
   void transitionNextPage(User user) {
     if (user == null) return;
@@ -141,11 +142,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return OutlineButton(
       splashColor: Colors.grey,
       onPressed: () {
-        // _handleFacebookSignIn()
-        //     .then((FirebaseUser user) =>
-        //     transitionNextPage(user)
-        // )
-        //     .catchError((e) => print(e));
+        _handleFacebookSignIn()
+            .then((User user) =>
+            transitionNextPage(user)
+        )
+            .catchError((e) => print(e));
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
