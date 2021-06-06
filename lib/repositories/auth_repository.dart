@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:thankyoulist/models/user_model.dart';
 
+class AuthException implements Exception {}
+class UserNotFoundException implements AuthException {}
+
 abstract class AuthRepository {
   Future<String> getUserId();
   Future<UserModel> getUser();
@@ -10,7 +13,7 @@ abstract class AuthRepository {
 }
 
 class AuthRepositoryImpl implements AuthRepository {
-  AuthRepositoryImpl({ @required this.firebaseAuth })
+  AuthRepositoryImpl({ required this.firebaseAuth })
       : assert(firebaseAuth != null);
 
   final FirebaseAuth firebaseAuth;
@@ -18,12 +21,18 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<String> getUserId() async {
     final user = await firebaseAuth.currentUser;
+    if (user == null) {
+      throw UserNotFoundException();
+    }
     return user.uid;
   }
 
   @override
   Future<UserModel> getUser() async {
     final user = await firebaseAuth.currentUser;
+    if (user == null) {
+      throw UserNotFoundException();
+    }
     return UserModel.from(firebaseUser: user);
   }
 

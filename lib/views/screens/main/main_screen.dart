@@ -8,8 +8,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class MainScreen extends StatefulWidget {
   MainScreen({
-    this.items,
-    this.centerItemTitle,
+    required this.items,
+    required this.centerItemTitle,
   }) {
     assert(this.items.length == 2 || this.items.length == 4);
   }
@@ -97,9 +97,9 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _buildTabItem({
-    BottomAppBarItem item,
-    int index,
-    ValueChanged<int> onPressed,
+    required BottomAppBarItem item,
+    required int index,
+    required ValueChanged<int> onPressed,
   }) {
     Color color = _selectedIndex == index ? _selectedItemColor : _unselectedItemColor;
     return Expanded(
@@ -128,7 +128,7 @@ class _MainScreenState extends State<MainScreen> {
 }
 
 class BottomAppBarItem {
-  BottomAppBarItem({this.icon, this.title});
+  BottomAppBarItem({required this.icon, required this.title});
   IconData icon;
   String title;
 }

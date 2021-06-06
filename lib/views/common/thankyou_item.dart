@@ -5,8 +5,8 @@ import 'package:thankyoulist/models/thankyou_model.dart';
 
 class ThankYouItem extends StatelessWidget {
   ThankYouItem({
-    this.thankYou,
-    this.onTap
+    required this.thankYou,
+    required this.onTap
   });
 
   final ThankYouModel thankYou;
@@ -89,7 +89,7 @@ class ThankYouItem extends StatelessWidget {
     );
   }
 
-  TextStyle _dateTextStyle({@required double textSize}) {
+  TextStyle _dateTextStyle({required double textSize}) {
     return TextStyle(
         color: textColor,
         fontSize: textSize,

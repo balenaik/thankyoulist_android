@@ -51,7 +51,7 @@ class CalendarSlidingUpPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThankYouCalendarViewModel viewModel = Provider.of<ThankYouCalendarViewModel>(context, listen: true);
-    List<ThankYouModel> selectedThankYous = viewModel.thankYouEvents[viewModel.selectedDate];
+    List<ThankYouModel>? selectedThankYous = viewModel.thankYouEvents[viewModel.selectedDate];
     return SlidingUpPanel(
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24.0),
@@ -74,12 +74,13 @@ class CalendarSlidingUpPanel extends StatelessWidget {
                         // Returns count +1 because of a bug which the bottom of ListView is a little higher
                         itemCount: (selectedThankYous?.length ?? 0) + 1,
                         itemBuilder: (BuildContext context, int i) {
-                          if (selectedThankYous.get(i) != null) {
+                          final thankYou = selectedThankYous?.get(i);
+                          if (thankYou != null) {
                             return ThankYouItem(
-                              thankYou: selectedThankYous.get(i),
+                              thankYou: thankYou,
                               onTap: () {
                                 Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) => EditThankYouScreen(selectedThankYous.get(i).id),
+                                  MaterialPageRoute(builder: (context) => EditThankYouScreen(thankYou.id),
                                       fullscreenDialog: true
                                   ),
                                 );

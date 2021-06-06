@@ -36,7 +36,7 @@ class ThankYouListApp extends StatelessWidget {
           )
         ],
         child: GestureDetector(
-          onTap: () => FocusManager.instance.primaryFocus.unfocus(),
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: MaterialApp(
             title: 'Thank You List',
             theme: lightTheme,

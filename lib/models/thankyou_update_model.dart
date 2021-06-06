@@ -9,13 +9,17 @@ class ThankYouUpdateModel {
   final DateTime createdDate;
 
   ThankYouUpdateModel({
-    this.id,
-    this.encryptedValue,
-    this.date,
-    this.createdDate
+    required this.id,
+    required this.encryptedValue,
+    required this.date,
+    required this.createdDate
   });
 
-  factory ThankYouUpdateModel.from({String id, String value, DateTime date, String userId}) {
+  factory ThankYouUpdateModel.from({
+    required String id,
+    required String value,
+    required DateTime date,
+    required String userId}) {
     return ThankYouUpdateModel(
         id: id,
         encryptedValue: Crypto().encryptAESCrypto(value, userId.substring(0, 16)),

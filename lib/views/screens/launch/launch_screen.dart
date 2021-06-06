@@ -8,11 +8,11 @@ class LaunchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return StreamBuilder<User>(
+    return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
-          User user = snapshot.data;
+          User? user = snapshot.data;
           if (user == null) {
             return LoginScreen();
           }

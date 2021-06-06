@@ -8,12 +8,16 @@ class ThankYouCreateModel {
   final DateTime createdDate;
 
   ThankYouCreateModel({
-    this.encryptedValue,
-    this.date,
-    this.createdDate
+    required this.encryptedValue,
+    required this.date,
+    required this.createdDate
   });
 
-  factory ThankYouCreateModel.from({String value, DateTime date, String userId}) {
+  factory ThankYouCreateModel.from({
+    required String value,
+    required DateTime date,
+    required String userId
+  }) {
     return ThankYouCreateModel(
       encryptedValue: Crypto().encryptAESCrypto(value, userId.substring(0, 16)),
       date: date,

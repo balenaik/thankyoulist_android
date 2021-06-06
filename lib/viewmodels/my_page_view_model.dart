@@ -12,10 +12,10 @@ class MyPageStatus extends Status {
 }
 
 class MyPageViewModel with ChangeNotifier {
-  UserModel _authUser;
+  UserModel? _authUser;
   Status _status = Status.none;
 
-  UserModel get authUser => _authUser;
+  UserModel? get authUser => _authUser;
   Status get status => _status;
 
   final AuthRepository authRepository;

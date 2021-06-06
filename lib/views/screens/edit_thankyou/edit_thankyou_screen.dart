@@ -61,7 +61,7 @@ class EditThankYouTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     EditThankYouViewModel viewModel = Provider.of<EditThankYouViewModel>(context, listen: false);
-    return Selector<EditThankYouViewModel, String>(
+    return Selector<EditThankYouViewModel, String?>(
         selector: (context, viewModel) => viewModel.inputValue,
         builder: (context, inputValue, child) {
           return Container(
@@ -101,7 +101,7 @@ class EditThankYouDatePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     EditThankYouViewModel viewModel = Provider.of<EditThankYouViewModel>(context, listen: false);
-    return Selector<EditThankYouViewModel, DateTime>(
+    return Selector<EditThankYouViewModel, DateTime?>(
         selector: (context, viewModel) => viewModel.selectedDate,
         builder: (context, selectedDate, child) {
           String dateString = selectedDate != null ? DateFormat.yMd().format(selectedDate) : "";
@@ -139,9 +139,12 @@ class EditThankYouDatePicker extends StatelessWidget {
                 splashColor: Theme.of(context).primaryColorLight,
                 shape: _outlineBorder(Theme.of(context).unselectedWidgetColor),
                 onPressed: () async {
-                  FocusManager.instance.primaryFocus.unfocus();
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  if (selectedDate == null) {
+                    return;
+                  }
                   // TODO: OK and cancel colors are too light for the current primary swatch colors
-                  final DateTime pickedDate = await showDatePicker(
+                  final DateTime? pickedDate = await showDatePicker(
                       context: context,
                       initialDate: selectedDate,
                       firstDate: DateTime(2010),
@@ -226,8 +229,8 @@ class EditThankYouDeleteButton extends StatelessWidget {
 }
 
 class EditThankYouStatusHandler extends StatelessWidget {
-  Widget _showErrorDialog(BuildContext context, String title, String message) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+  Widget? _showErrorDialog(BuildContext context, String title, String message) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       showDialog<DefaultDialog>(
           context: context,
           builder: (context) => DefaultDialog(
@@ -244,6 +247,11 @@ class EditThankYouStatusHandler extends StatelessWidget {
       selector: (context, viewModel) => viewModel.status,
       builder: (context, status, child) {
         switch (status) {
+          case EditThankYouStatus.thankYouNotFound:
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
+              Navigator.of(context).pop();
+            });
+            break;
           case EditThankYouStatus.editThankYouEditing:
           case EditThankYouStatus.deleteThankYouDeleting:
             return Container(
@@ -253,7 +261,7 @@ class EditThankYouStatusHandler extends StatelessWidget {
                 )
             );
           case EditThankYouStatus.editThankYouSuccess:
-            WidgetsBinding.instance.addPostFrameCallback((_) {
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
               Navigator.of(context).pop();
             });
             break;
@@ -261,12 +269,12 @@ class EditThankYouStatusHandler extends StatelessWidget {
             _showErrorDialog(context, 'Error', 'Could not edit Thank You');
             break;
           case EditThankYouStatus.deleteThankYouSuccess:
-            WidgetsBinding.instance.addPostFrameCallback((_) {
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
               Navigator.of(context).popUntil((route) => route.isFirst);
             });
             break;
           case EditThankYouStatus.deleteThankYouFailed:
-            WidgetsBinding.instance.addPostFrameCallback((_) {
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
               // Close the delete confirm dialog first
               Navigator.of(context).pop();
             });
