@@ -163,8 +163,8 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
           rightChevronVisible: false,
         ),
         daysOfWeekStyle: DaysOfWeekStyle(
-            weekdayStyle: _dayTextStyle(color: Colors.black38),
-            weekendStyle: _dayTextStyle(color: Colors.black38)),
+            weekdayStyle: _dayTextStyle(color: Colors.black38, height: 1.0),
+            weekendStyle: _dayTextStyle(color: Colors.black38, height: 1.0)),
         calendarStyle: CalendarStyle(
           defaultTextStyle: _dayTextStyle(color: Colors.black87),
           weekendTextStyle: _dayTextStyle(color: Colors.black87),
@@ -229,8 +229,8 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
     );
   }
 
-  TextStyle _dayTextStyle({color: Color}) {
-    return TextStyle(color: color, fontSize: 17.0, fontFamily: 'Nunito');
+  TextStyle _dayTextStyle({required Color color, double? height}) {
+    return TextStyle(color: color, fontSize: 17.0, fontFamily: 'Nunito', height: height);
   }
 
   Widget _marker() {
