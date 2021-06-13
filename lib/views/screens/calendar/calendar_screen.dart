@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:thankyoulist/gen/assets.gen.dart';
+import 'package:thankyoulist/gen/fonts.gen.dart';
 
 import 'package:thankyoulist/models/thankyou_model.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
@@ -29,7 +31,7 @@ class CalendarScreen extends StatelessWidget {
               title: Text('Thank You Calendar'),
               actions: [
                 IconButton(
-                  icon: Image.asset("assets/icons/account_circle_20.png"),
+                  icon: Assets.icons.accountCircle20.image(),
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => MyPageScreen(),
@@ -124,7 +126,7 @@ class CalendarSlidingUpPanel extends StatelessWidget {
                 DateFormat.yMMMMd('en_US').format(date),
                 style: TextStyle(
                     fontSize: 16,
-                    fontFamily: 'Nunito',
+                    fontFamily: FontFamily.nunito,
                     fontWeight: FontWeight.w400
                 ),
 
@@ -230,7 +232,7 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
   }
 
   TextStyle _dayTextStyle({required Color color, double? height}) {
-    return TextStyle(color: color, fontSize: 17.0, fontFamily: 'Nunito', height: height);
+    return TextStyle(color: color, fontSize: 17.0, fontFamily: FontFamily.nunito, height: height);
   }
 
   Widget _marker() {

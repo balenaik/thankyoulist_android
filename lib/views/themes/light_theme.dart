@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thankyoulist/gen/fonts.gen.dart';
 
 final lightTheme = ThemeData(
   primaryColor: primaryColor,
@@ -6,7 +7,7 @@ final lightTheme = ThemeData(
   primaryColorDark: Color(0xFFC88585),
   unselectedWidgetColor: Colors.grey[300],
   primarySwatch: primaryColor,
-  fontFamily: 'Nunito',
+  fontFamily: FontFamily.nunito,
 );
 
 final MaterialColor primaryColor = MaterialColor(

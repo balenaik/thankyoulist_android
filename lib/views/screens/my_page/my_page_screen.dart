@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thankyoulist/gen/assets.gen.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/viewmodels/my_page_view_model.dart';
@@ -49,7 +50,7 @@ class UserProfileWidget extends StatelessWidget {
     if (photoUrl != null) {
       avatarImage = NetworkImage(photoUrl);
     } else {
-      avatarImage = AssetImage("assets/icons/account_circle_20.png");
+      avatarImage = Assets.icons.accountCircle20;
     }
     final displayName = viewModel.authUser?.displayName ?? "";
     final email = viewModel.authUser?.email ?? "";

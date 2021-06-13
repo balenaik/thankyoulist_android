@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:thankyoulist/gen/assets.gen.dart';
 
 import 'package:thankyoulist/views/screens/main/main_screen.dart';
 import 'package:thankyoulist/app_colors.dart';
@@ -91,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Image(image: AssetImage("assets/ic_login_screen.png"), height: 250.0),
+                Image(image: Assets.icLoginScreen, height: 250.0),
                 _facebookSignInButton(),
                 SizedBox(height: 10),
                 _googleSignInButton()
@@ -123,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image(image: AssetImage("assets/ic_google.png"), height: 35.0),
+              Image(image: Assets.icGoogle, height: 35.0),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
@@ -162,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image(image: AssetImage("assets/ic_facebook.png"), height: 35.0),
+              Image(image: Assets.icFacebook, height: 35.0),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
