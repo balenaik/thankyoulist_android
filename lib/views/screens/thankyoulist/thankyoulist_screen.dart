@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:thankyoulist/gen/assets.gen.dart';
 import 'package:thankyoulist/models/thankyou_list_view_ui_model.dart';
 
 import 'package:thankyoulist/repositories/auth_repository.dart';
@@ -23,7 +24,7 @@ class ThankYouListScreen extends StatelessWidget {
               title: Text('Thank You List'),
               actions: [
                 IconButton(
-                  icon: Image.asset("assets/icons/account_circle_20.png"),
+                  icon: Assets.icons.accountCircle20.image(),
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => MyPageScreen(),
