@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:collection';
+import 'package:collection/collection.dart';
 import 'package:thankyoulist/models/thankyou_list_view_ui_model.dart';
 import 'package:thankyoulist/models/thankyou_model.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
@@ -42,12 +43,12 @@ class ThankYouListViewModel with ChangeNotifier {
   }
 
   List<ThankYouListViewUiModel> _getThankYouListWithDate() {
-    List<ThankYouListViewUiModel> result = List<ThankYouListViewUiModel>();
+    List<ThankYouListViewUiModel> result = [];
     _datesByMonthsMap.forEach((monthYear, dateTimes) {
       List<DateTime> sortedDates = dateTimes.toList();
       sortedDates.sort();
       sortedDates.forEach((dateTime) {
-        _thankYouListMap[dateTime].forEach((thankYou) {
+        _thankYouListMap[dateTime]?.forEach((thankYou) {
           result.add(ThankYouListViewUiModel(thankYou: thankYou));
         });
       });
@@ -60,20 +61,17 @@ class ThankYouListViewModel with ChangeNotifier {
   void _addThankYou(ThankYouListChange change) {
     DateTime dateTime = _utcDateTime(change.thankYou.date);
     SectionMonthYearModel monthYear = SectionMonthYearModel(month: dateTime.month, year: dateTime.year);
-    _thankYouListMap[dateTime] ??= List<ThankYouModel>();
-    _thankYouListMap[dateTime].add(change.thankYou);
+    _thankYouListMap[dateTime] ??= [];
+    _thankYouListMap[dateTime]?.add(change.thankYou);
     _datesByMonthsMap[monthYear] ??= Set<DateTime>();
-    _datesByMonthsMap[monthYear].add(dateTime);
+    _datesByMonthsMap[monthYear]?.add(dateTime);
   }
 
   void _deleteThankYou(ThankYouListChange change) {
-    ThankYouModel oldThankYou;
+    ThankYouModel? oldThankYou;
     // Extract old thankyou by changed id
     for (DateTime key in _thankYouListMap.keys) {
-      oldThankYou = _thankYouListMap[key].firstWhere((thankYou) =>
-          thankYou.id == change.thankYou.id,
-          orElse: () => null
-      );
+      oldThankYou = _thankYouListMap[key]?.firstWhereOrNull((thankYou) => thankYou.id == change.thankYou.id);
       if (oldThankYou != null) {
         break;
       }
@@ -84,11 +82,11 @@ class ThankYouListViewModel with ChangeNotifier {
     }
     DateTime dateTime = _utcDateTime(oldThankYou.date);
     SectionMonthYearModel monthYear = SectionMonthYearModel(month: dateTime.month, year: dateTime.year);
-    _thankYouListMap[dateTime].removeWhere((thankYou) => thankYou.id == change.thankYou.id);
-    if (_thankYouListMap[dateTime].isEmpty) {
-      _datesByMonthsMap[monthYear].remove(dateTime);
+    _thankYouListMap[dateTime]?.removeWhere((thankYou) => thankYou.id == change.thankYou.id);
+    if (_thankYouListMap[dateTime]?.isEmpty ?? false) {
+      _datesByMonthsMap[monthYear]?.remove(dateTime);
     }
-    if (_datesByMonthsMap[monthYear].isEmpty) {
+    if (_datesByMonthsMap[monthYear]?.isEmpty ?? false) {
       _datesByMonthsMap.remove(monthYear);
     }
   }

@@ -12,8 +12,8 @@ class ThankYouListChange {
   final ThankYouModel thankYou;
 
   ThankYouListChange({
-    this.type,
-    this.thankYou
+    required this.type,
+    required this.thankYou
   });
 }
 
@@ -22,23 +22,27 @@ abstract class ThankYouListRepository {
 }
 
 class ThankYouListRepositoryImpl implements ThankYouListRepository {
-  ThankYouListRepositoryImpl({ @required this.firestore })
+  ThankYouListRepositoryImpl({ required this.firestore })
     : assert(firestore != null);
 
-  final Firestore firestore;
+  final FirebaseFirestore firestore;
 
   @override
   Stream<List<ThankYouListChange>> addThankYouListener(String userId) {
     return firestore
         .collection(USERS_COLLECTION)
-        .document(userId)
+        .doc(userId)
         .collection(THANKYOULIST_COLLECTION)
         .snapshots()
         .map((snapshot) {
-          return snapshot.documentChanges.map( (change) {
+          return snapshot.docChanges.map( (change) {
+            final json = change.doc.data();
+            if (json == null) {
+              return null;
+            }
             ThankYouModel thankYou = ThankYouModel.fromJson(
-                json: change.document.data,
-                documentId: change.document.documentID,
+                json: json,
+                documentId: change.doc.id,
                 userId: userId
             );
             switch (change.type) {
@@ -52,7 +56,8 @@ class ThankYouListRepositoryImpl implements ThankYouListRepository {
                 // Nothing should come here
                 return ThankYouListChange(type: ModelChangeType.added, thankYou: thankYou);
             }
-          }).toList();
+          }
+          ).whereType<ThankYouListChange>().toList();
         }
     );
   }

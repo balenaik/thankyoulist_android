@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:thankyoulist/models/thankyou_model.dart';
@@ -8,6 +7,9 @@ import 'package:thankyoulist/models/thankyou_update_model.dart';
 const USERS_COLLECTION = 'users';
 const THANKYOULIST_COLLECTION = 'thankYouList';
 
+class ThankYouException implements Exception {}
+class ThankYouUnableToConvertToJsonException implements ThankYouException {}
+
 abstract class ThankYouRepository {
   Future<ThankYouModel> fetchThankYou(String userId, String id);
   Future<void> createThankYou(String userId, ThankYouCreateModel thankYouCreate);
@@ -16,48 +18,52 @@ abstract class ThankYouRepository {
 }
 
 class ThankYouRepositoryImpl implements ThankYouRepository {
-  ThankYouRepositoryImpl({ @required this.firestore })
+  ThankYouRepositoryImpl({ required this.firestore })
       : assert(firestore != null);
 
-  final Firestore firestore;
+  final FirebaseFirestore firestore;
 
   @override
   Future<ThankYouModel> fetchThankYou(String userId, String id) async {
     final thankYouDocument = await firestore
         .collection(USERS_COLLECTION)
-        .document(userId)
+        .doc(userId)
         .collection(THANKYOULIST_COLLECTION)
-        .document(id)
+        .doc(id)
         .get();
-    return ThankYouModel.fromJson(json: thankYouDocument.data, documentId: id, userId: userId);
+    final json = thankYouDocument.data();
+    if (json == null) {
+      throw ThankYouUnableToConvertToJsonException();
+    }
+    return ThankYouModel.fromJson(json: json, documentId: id, userId: userId);
   }
 
   @override
   Future<void> createThankYou(String userId, ThankYouCreateModel thankYouCreate) async {
-    return await firestore
-          .collection(USERS_COLLECTION)
-          .document(userId)
-          .collection(THANKYOULIST_COLLECTION)
-          .add(thankYouCreate.toJson());
+    await firestore
+        .collection(USERS_COLLECTION)
+        .doc(userId)
+        .collection(THANKYOULIST_COLLECTION)
+        .add(thankYouCreate.toJson());
   }
 
   @override
   Future<void> updateThankYou(String userId, ThankYouUpdateModel thankYouUpdate) async {
     return await firestore
         .collection(USERS_COLLECTION)
-        .document(userId)
+        .doc(userId)
         .collection(THANKYOULIST_COLLECTION)
-        .document(thankYouUpdate.id)
-        .updateData(thankYouUpdate.toJson());
+        .doc(thankYouUpdate.id)
+        .update(thankYouUpdate.toJson());
   }
 
   @override
   Future<void> deleteThankYou(String userId, String thankYouId) async {
     return await firestore
         .collection(USERS_COLLECTION)
-        .document(userId)
+        .doc(userId)
         .collection(THANKYOULIST_COLLECTION)
-        .document(thankYouId)
+        .doc(thankYouId)
         .delete();
   }
 }

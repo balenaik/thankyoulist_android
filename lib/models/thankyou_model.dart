@@ -11,15 +11,19 @@ class ThankYouModel {
   final DateTime createdDate;
 
   ThankYouModel({
-    this.id,
-    this.value,
-    this.encryptedValue,
-    this.date,
-    this.createdDate
+    required this.id,
+    required this.value,
+    required this.encryptedValue,
+    required this.date,
+    required this.createdDate
   });
 
-  factory ThankYouModel.fromJson({Map<String, dynamic> json, String documentId, String userId}) {
-    DateTime createdDate;
+  factory ThankYouModel.fromJson({
+    required Map<String, dynamic> json,
+    required String documentId,
+    required String userId
+  }) {
+    DateTime createdDate = DateTime.now();
     final createTime = json['createTime'];
     if (createTime is Timestamp) {
       createdDate = createTime.toDate();

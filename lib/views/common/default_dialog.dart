@@ -8,8 +8,8 @@ class DefaultDialog extends StatelessWidget {
   final String message;
   final String positiveButtonTitle;
   final String negativeButtonTitle;
-  final Function onPositiveButtonPressed;
-  final Function onNegativeButtonPressed;
+  final Function? onPositiveButtonPressed;
+  final Function? onNegativeButtonPressed;
 
   DefaultDialog(this.title, this.message,
       {this.positiveButtonTitle = 'OK',
@@ -28,7 +28,7 @@ class DefaultDialog extends StatelessWidget {
             child: Text(positiveButtonTitle),
             onPressed: () {
               Navigator.pop(context);
-              onPositiveButtonPressed();
+              onPositiveButtonPressed!();
             },
           ),
         if (onNegativeButtonPressed != null)
@@ -36,7 +36,7 @@ class DefaultDialog extends StatelessWidget {
             child: Text(negativeButtonTitle),
             onPressed: () {
               Navigator.pop(context);
-              onNegativeButtonPressed();
+              onNegativeButtonPressed!();
             },
           )
       ],

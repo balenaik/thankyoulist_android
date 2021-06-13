@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:collection/collection.dart';
 import 'package:thankyoulist/models/thankyou_model.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/repositories/model_change_type.dart';
@@ -9,13 +9,10 @@ class ThankYouCalendarViewModel with ChangeNotifier {
   // TODO: Is String date better than UTC DateTime as mapping key?
   /// [DateTime(UTC): ThankYouModel] map
   Map<DateTime, List<ThankYouModel>> _thankYouEvents = {};
-  DateTime _selectedDate;
-
-  final _calendarController = CalendarController();
+  late DateTime _selectedDate;
 
   Map<DateTime, List<ThankYouModel>> get thankYouEvents => _thankYouEvents;
   DateTime get selectedDate => _selectedDate;
-  CalendarController get calendarController => _calendarController;
 
   final ThankYouListRepository thankYouListRepository;
   final AuthRepository authRepository;
@@ -25,10 +22,8 @@ class ThankYouCalendarViewModel with ChangeNotifier {
     _addThankYousListener();
   }
 
-  @override
-  void dispose() {
-    _calendarController.dispose();
-    super.dispose();
+  List<ThankYouModel> getThankYouEvents(DateTime day) {
+    return _thankYouEvents[day] ?? [];
   }
 
   void updateSelectedDate(DateTime selectedDate) {
@@ -60,18 +55,15 @@ class ThankYouCalendarViewModel with ChangeNotifier {
 
   void _addThankYou(ThankYouListChange change) {
     DateTime dateTime = _utcDateTime(change.thankYou.date);
-    _thankYouEvents[dateTime] ??= List<ThankYouModel>();
-    _thankYouEvents[dateTime].add(change.thankYou);
+    _thankYouEvents[dateTime] ??= [];
+    _thankYouEvents[dateTime]?.add(change.thankYou);
   }
 
   void _deleteThankYou(ThankYouListChange change) {
-    ThankYouModel oldThankYou;
+    ThankYouModel? oldThankYou;
     // Extract old thankyou by changed id
     for (DateTime key in _thankYouEvents.keys) {
-      oldThankYou = _thankYouEvents[key].firstWhere((thankYou) =>
-      thankYou.id == change.thankYou.id,
-          orElse: () => null
-      );
+      oldThankYou = _thankYouEvents[key]?.firstWhereOrNull((thankYou) => thankYou.id == change.thankYou.id);
       if (oldThankYou != null) {
         break;
       }
@@ -81,7 +73,7 @@ class ThankYouCalendarViewModel with ChangeNotifier {
       return;
     }
     DateTime dateTime = _utcDateTime(oldThankYou.date);
-    _thankYouEvents[dateTime].removeWhere((thankYou) => thankYou.id == change.thankYou.id);
+    _thankYouEvents[dateTime]?.removeWhere((thankYou) => thankYou.id == change.thankYou.id);
   }
   
   DateTime _utcDateTime(DateTime datetime) {

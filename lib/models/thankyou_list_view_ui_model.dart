@@ -1,8 +1,8 @@
 import 'package:thankyoulist/models/thankyou_model.dart';
 
 class ThankYouListViewUiModel {
-  final SectionMonthYearModel sectionMonthYear;
-  final ThankYouModel thankYou;
+  final SectionMonthYearModel? sectionMonthYear;
+  final ThankYouModel? thankYou;
 
   ThankYouListViewUiModel({
     this.sectionMonthYear,
@@ -15,8 +15,8 @@ class SectionMonthYearModel implements Comparable<SectionMonthYearModel> {
   final int year;
 
   SectionMonthYearModel({
-    this.month,
-    this.year,
+    required this.month,
+    required this.year,
   });
 
   @override

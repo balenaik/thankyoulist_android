@@ -44,22 +44,29 @@ class UserProfileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MyPageViewModel viewModel = Provider.of<MyPageViewModel>(context, listen: true);
+    final photoUrl = viewModel.authUser?.photoUrl;
+    final ImageProvider<Object> avatarImage;
+    if (photoUrl != null) {
+      avatarImage = NetworkImage(photoUrl);
+    } else {
+      avatarImage = AssetImage("assets/icons/account_circle_20.png");
+    }
+    final displayName = viewModel.authUser?.displayName ?? "";
+    final email = viewModel.authUser?.email ?? "";
     return Container(
       margin: EdgeInsets.fromLTRB(36.0, 28.0, 36.0, 20.0),
       child: Row(
           children: <Widget>[
             CircleAvatar(
                 radius: 28,
-                backgroundImage: viewModel.authUser != null
-                    ? NetworkImage(viewModel.authUser.photoUrl)
-                    : AssetImage("assets/icons/account_circle_20.png")
+                backgroundImage: avatarImage
             ),
             Container(
                 margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 12.0),
                 child: Column(
                   children: [
                     Text(
-                        viewModel.authUser != null ? viewModel.authUser.displayName : "",
+                        displayName,
                         style: TextStyle(
                             fontSize: 17,
                             color: Colors.black54,
@@ -68,7 +75,7 @@ class UserProfileWidget extends StatelessWidget {
                         textAlign: TextAlign.left
                     ),
                     Text(
-                        viewModel.authUser != null ? viewModel.authUser.email : "",
+                        viewModel.authUser != null ? email : "",
                         style: TextStyle(
                             fontSize: 17,
                             color: Colors.black54
@@ -152,7 +159,7 @@ class LogoutButton extends StatelessWidget {
 class MyPageStatusHandler extends StatelessWidget {
   void _showErrorDialog(BuildContext context, String title, String message) {
     MyPageViewModel viewModel = Provider.of<MyPageViewModel>(context, listen: false);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       showDialog<DefaultDialog>(
           context: context,
           builder: (context) => DefaultDialog(
@@ -178,12 +185,12 @@ class MyPageStatusHandler extends StatelessWidget {
                 )
             );
           case MyPageStatus.logOutSuccess:
-            WidgetsBinding.instance.addPostFrameCallback((_) {
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
               Navigator.popUntil(context, (Route<dynamic> predicate) => predicate.isFirst);
             });
             break;
           case MyPageStatus.logOutFailed:
-            WidgetsBinding.instance.addPostFrameCallback((_) {
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
               // Close the logout confirm dialog first
               Navigator.of(context).pop();
             });

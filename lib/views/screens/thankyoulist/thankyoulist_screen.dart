@@ -46,21 +46,24 @@ class ThankYouListView extends StatelessWidget {
     ThankYouListViewModel viewModel = Provider.of<ThankYouListViewModel>(context, listen: true);
     return ListView(
       children: viewModel.thankYouListWithDate.map((uiModel) {
-        if (uiModel.sectionMonthYear != null) {
-          return _sectionMonthYearView(uiModel.sectionMonthYear);
+        final sectionMonthYear = uiModel.sectionMonthYear;
+        if (sectionMonthYear != null) {
+          return _sectionMonthYearView(sectionMonthYear);
         }
-        if (uiModel.thankYou != null) {
+        final thankYou = uiModel.thankYou;
+        if (thankYou != null) {
           return ThankYouItem(
-            thankYou: uiModel.thankYou,
+            thankYou: thankYou,
             onTap: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => EditThankYouScreen(uiModel.thankYou.id),
+                MaterialPageRoute(builder: (context) => EditThankYouScreen(thankYou.id),
                     fullscreenDialog: true
                 ),
               );
             },
           );
         }
+        return Container();
       }).toList()
     );
   }

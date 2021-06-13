@@ -7,11 +7,12 @@ import 'package:thankyoulist/views/screens/main/main_screen.dart';
 class LaunchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<FirebaseUser>(
-      stream: FirebaseAuth.instance.onAuthStateChanged,
+
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
-          FirebaseUser user = snapshot.data;
+          User? user = snapshot.data;
           if (user == null) {
             return LoginScreen();
           }

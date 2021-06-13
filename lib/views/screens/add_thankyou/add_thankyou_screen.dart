@@ -127,9 +127,9 @@ class AddThankYouDatePicker extends StatelessWidget {
                 splashColor: Theme.of(context).primaryColorLight,
                 shape: _outlineBorder(Theme.of(context).unselectedWidgetColor),
                 onPressed: () async {
-                  FocusManager.instance.primaryFocus.unfocus();
+                  FocusManager.instance.primaryFocus?.unfocus();
                   // TODO: OK and cancel colors are too light for the current primary swatch colors
-                  final DateTime pickedDate = await showDatePicker(
+                  final DateTime? pickedDate = await showDatePicker(
                       context: context,
                       initialDate: selectedDate,
                       firstDate: DateTime(2010),
@@ -151,8 +151,8 @@ class AddThankYouDatePicker extends StatelessWidget {
 }
 
 class AddThankYouStatusHandler extends StatelessWidget {
-  Widget _showErrorDialog(BuildContext context, String title, String message) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+  Widget? _showErrorDialog(BuildContext context, String title, String message) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       showDialog<DefaultDialog>(
           context: context,
           builder: (context) => DefaultDialog(
@@ -177,7 +177,7 @@ class AddThankYouStatusHandler extends StatelessWidget {
                 )
             );
           case AddThankYouStatus.addThankYouSuccess:
-            WidgetsBinding.instance.addPostFrameCallback((_) {
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
               Navigator.of(context).pop();
             });
             break;

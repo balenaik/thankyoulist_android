@@ -7,19 +7,19 @@ class UserModel {
   final String photoUrl;
 
   UserModel({
-    this.id,
-    this.displayName,
-    this.email,
-    this.photoUrl
+    required this.id,
+    required this.displayName,
+    required this.email,
+    required this.photoUrl
   });
 
-  factory UserModel.from({FirebaseUser firebaseUser}) {
+  factory UserModel.from({required User firebaseUser}) {
     // Use providerData.last to get photoURL with Google Auth and email with facebook Auth
     return UserModel(
         id: firebaseUser.uid,
-        displayName: firebaseUser.displayName,
-        email: firebaseUser.providerData.last.email,
-        photoUrl: firebaseUser.providerData.last.photoUrl
+        displayName: firebaseUser.displayName ?? "",
+        email: firebaseUser.providerData.last.email ?? "",
+        photoUrl: firebaseUser.providerData.last.photoURL ?? ""
     );
   }
 }

@@ -13,8 +13,8 @@ class AddThankYouStatus extends Status {
 }
 
 class AddThankYouViewModel with ChangeNotifier {
-  String _inputValue;
-  DateTime _selectedDate;
+  late String _inputValue;
+  late DateTime _selectedDate;
   Status _status = Status.none;
 
   String get inputValue => _inputValue;
