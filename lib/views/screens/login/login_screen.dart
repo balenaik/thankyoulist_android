@@ -7,6 +7,7 @@ import 'package:thankyoulist/views/common/default_dialog.dart';
 
 import 'package:thankyoulist/views/screens/main/main_screen.dart';
 import 'package:thankyoulist/app_colors.dart';
+import 'package:thankyoulist/views/themes/light_theme.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -21,101 +22,106 @@ class LoginScreen extends StatelessWidget {
 class LoginContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    LoginViewModel viewModel = Provider.of<LoginViewModel>(context, listen: false);
     return Scaffold(
       body: Stack(
         children: <Widget>[
           Container(
-            color: AppColors.backgroundYellow,
-            child: Center(
-                child: Column(
+              color: AppColors.backgroundYellow,
+              child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Image(image: Assets.icLoginScreen, height: 250.0),
-                    FacebookSignInButton(),
-                    SizedBox(height: 10),
-                    GoogleSignInButton()
+                    Center(child: Image(image: Assets.icLoginScreen, height: 160.0)),
+                    _titleText(context),
+                    SizedBox(height: 12),
+                    _descriptionText(context),
+                    SizedBox(height: 24),
+                    _buttonRow(_signInButton(
+                        iconImage: Assets.icFacebook,
+                        title: 'Continue with Facebook',
+                        tapAction: () => viewModel.facebookSignInButtonDidTap())),
+                    SizedBox(height: 12),
+                    _buttonRow(_signInButton(
+                        iconImage: Assets.icGoogle,
+                        title: 'Continue with Google',
+                        tapAction: () => viewModel.googleSignInButtonDidTap()))
                   ],
-                )
+              )
             ),
-          ),
           ThankYouLoginStatusHandler()
         ]
       )
     );
   }
-}
 
-class FacebookSignInButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    LoginViewModel viewModel = Provider.of<LoginViewModel>(context, listen: false);
-    return OutlineButton(
-      splashColor: Colors.grey,
-      onPressed: () => viewModel.facebookSignInButtonDidTap(),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-      highlightElevation: 0,
-      borderSide: BorderSide(color: Colors.grey),
-      child: SizedBox(
-        width: 230,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image(image: Assets.icFacebook, height: 35.0),
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
+  Widget _buttonRow(OutlinedButton button) {
+    return Row(
+      children: [
+        Spacer(flex: 1),
+        Expanded(flex: 8, child: button),
+        Spacer(flex: 1)
+      ],
+    );
+  }
+
+  OutlinedButton _signInButton({
+    required ImageProvider iconImage,
+    required String title,
+    required VoidCallback tapAction
+  }) {
+    return OutlinedButton(
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+          overlayColor: MaterialStateProperty.all<Color>(Colors.grey.withAlpha(20)),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))
+          ),
+          side: MaterialStateProperty.all<BorderSide>(BorderSide(width: 0.5))
+      ),
+      onPressed: tapAction,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Row(
+          children: <Widget>[
+            Image(image: iconImage, height: 20.0),
+            Expanded(
+              child: Center(
                 child: Text(
-                  'Continue with Facebook',
+                  title,
                   style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.grey,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textColor,
                   ),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
   }
-}
 
-class GoogleSignInButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    LoginViewModel viewModel = Provider.of<LoginViewModel>(context, listen: false);
-    return OutlineButton(
-      splashColor: Colors.grey,
-      onPressed: () => viewModel.googleSignInButtonDidTap(),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-      highlightElevation: 0,
-      borderSide: BorderSide(color: Colors.grey),
-      child: SizedBox(
-        width: 230,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image(image: Assets.icGoogle, height: 35.0),
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Text(
-                  'Continue with Google',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.grey,
-                  ),
-                ),
-              )
-            ],
-          ),
+  Text _titleText(BuildContext context) {
+    return Text(
+        'Thank You List',
+        style: TextStyle(
+            color: primaryColor[900],
+            fontSize: 36,
+            fontWeight: FontWeight.bold
+        )
+    );
+  }
+
+  Text _descriptionText(BuildContext context) {
+    return Text(
+      'Take a simple diary \n& be happier',
+        style: TextStyle(
+            color: Theme.of(context).accentColor,
+            fontSize: 18,
         ),
-      ),
+        textAlign: TextAlign.center
     );
   }
 }
