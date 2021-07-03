@@ -7,6 +7,7 @@ import 'package:thankyoulist/views/common/default_dialog.dart';
 
 import 'package:thankyoulist/views/screens/main/main_screen.dart';
 import 'package:thankyoulist/app_colors.dart';
+import 'package:thankyoulist/views/themes/light_theme.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -31,12 +32,16 @@ class LoginContent extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Center(child: Image(image: Assets.icLoginScreen, height: 250.0)),
+                    Center(child: Image(image: Assets.icLoginScreen, height: 160.0)),
+                    _titleText(context),
+                    SizedBox(height: 12),
+                    _descriptionText(context),
+                    SizedBox(height: 24),
                     _buttonRow(_signInButton(
                         iconImage: Assets.icFacebook,
                         title: 'Continue with Facebook',
                         tapAction: () => viewModel.facebookSignInButtonDidTap())),
-                    SizedBox(height: 10),
+                    SizedBox(height: 12),
                     _buttonRow(_signInButton(
                         iconImage: Assets.icGoogle,
                         title: 'Continue with Google',
@@ -76,7 +81,7 @@ class LoginContent extends StatelessWidget {
       ),
       onPressed: tapAction,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(
           children: <Widget>[
             Image(image: iconImage, height: 20.0),
@@ -85,7 +90,7 @@ class LoginContent extends StatelessWidget {
                 child: Text(
                   title,
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: AppColors.textColor,
                   ),
@@ -95,6 +100,28 @@ class LoginContent extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Text _titleText(BuildContext context) {
+    return Text(
+        'Thank You List',
+        style: TextStyle(
+            color: primaryColor[900],
+            fontSize: 36,
+            fontWeight: FontWeight.bold
+        )
+    );
+  }
+
+  Text _descriptionText(BuildContext context) {
+    return Text(
+      'Take a simple diary \n& be happier',
+        style: TextStyle(
+            color: Theme.of(context).accentColor,
+            fontSize: 18,
+        ),
+        textAlign: TextAlign.center
     );
   }
 }
