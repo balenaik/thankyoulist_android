@@ -21,99 +21,78 @@ class LoginScreen extends StatelessWidget {
 class LoginContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    LoginViewModel viewModel = Provider.of<LoginViewModel>(context, listen: false);
     return Scaffold(
       body: Stack(
         children: <Widget>[
           Container(
-            color: AppColors.backgroundYellow,
-            child: Center(
-                child: Column(
+              color: AppColors.backgroundYellow,
+              child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Image(image: Assets.icLoginScreen, height: 250.0),
-                    FacebookSignInButton(),
+                    Center(child: Image(image: Assets.icLoginScreen, height: 250.0)),
+                    _buttonRow(_signInButton(
+                        iconImage: Assets.icFacebook,
+                        title: 'Continue with Facebook',
+                        tapAction: () => viewModel.facebookSignInButtonDidTap())),
                     SizedBox(height: 10),
-                    GoogleSignInButton()
+                    _buttonRow(_signInButton(
+                        iconImage: Assets.icGoogle,
+                        title: 'Continue with Google',
+                        tapAction: () => viewModel.googleSignInButtonDidTap()))
                   ],
-                )
+              )
             ),
-          ),
           ThankYouLoginStatusHandler()
         ]
       )
     );
   }
-}
 
-class FacebookSignInButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    LoginViewModel viewModel = Provider.of<LoginViewModel>(context, listen: false);
-    return OutlineButton(
-      splashColor: Colors.grey,
-      onPressed: () => viewModel.facebookSignInButtonDidTap(),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-      highlightElevation: 0,
-      borderSide: BorderSide(color: Colors.grey),
-      child: SizedBox(
-        width: 230,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image(image: Assets.icFacebook, height: 35.0),
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Text(
-                  'Continue with Facebook',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.grey,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+  Widget _buttonRow(OutlinedButton button) {
+    return Row(
+      children: [
+        Spacer(flex: 1),
+        Expanded(flex: 8, child: button),
+        Spacer(flex: 1)
+      ],
     );
   }
-}
 
-class GoogleSignInButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    LoginViewModel viewModel = Provider.of<LoginViewModel>(context, listen: false);
-    return OutlineButton(
-      splashColor: Colors.grey,
-      onPressed: () => viewModel.googleSignInButtonDidTap(),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-      highlightElevation: 0,
-      borderSide: BorderSide(color: Colors.grey),
-      child: SizedBox(
-        width: 230,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image(image: Assets.icGoogle, height: 35.0),
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
+  OutlinedButton _signInButton({
+    required ImageProvider iconImage,
+    required String title,
+    required VoidCallback tapAction
+  }) {
+    return OutlinedButton(
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+          overlayColor: MaterialStateProperty.all<Color>(Colors.grey.withAlpha(20)),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))
+          ),
+          side: MaterialStateProperty.all<BorderSide>(BorderSide(width: 0.5))
+      ),
+      onPressed: tapAction,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Row(
+          children: <Widget>[
+            Image(image: iconImage, height: 20.0),
+            Expanded(
+              child: Center(
                 child: Text(
-                  'Continue with Google',
+                  title,
                   style: TextStyle(
                     fontSize: 15,
-                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textColor,
                   ),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
