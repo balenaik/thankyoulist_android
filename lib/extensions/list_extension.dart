@@ -7,3 +7,10 @@ extension SafeLookup<E> on List<E> {
     }
   }
 }
+
+extension ListWithIndex<E> on List<E> {
+  Iterable<T> mapIndex<T>(T Function(E e, int i) f) {
+    var i = 0;
+    return map((e) => f(e, i++));
+  }
+}

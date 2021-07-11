@@ -5,8 +5,8 @@ import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/viewmodels/login_view_model.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
 
-import 'package:thankyoulist/views/screens/main/main_screen.dart';
 import 'package:thankyoulist/app_colors.dart';
+import 'package:thankyoulist/views/screens/main_bottom_app_bar/main_bottom_app_bar_screen.dart';
 import 'package:thankyoulist/views/themes/light_theme.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -147,13 +147,7 @@ class ThankYouLoginStatusHandler extends StatelessWidget {
         switch (status) {
           case ThankYouLoginStatus.loginSuccess:
             Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                MainScreen(
-                  items: [
-                    BottomAppBarItem(icon: Icons.list, title: 'List'),
-                    BottomAppBarItem(icon: Icons.calendar_today, title: 'calendar'),
-                  ],
-                  centerItemTitle: 'Add Thank You',
-                ),
+                MainBottomAppBarScreen(),
             ));
             break;
           case ThankYouLoginStatus.loginFailed:
