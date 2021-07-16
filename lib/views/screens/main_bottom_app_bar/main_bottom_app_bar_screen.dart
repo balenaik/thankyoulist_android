@@ -40,16 +40,19 @@ class MainBottomAppBarContent extends StatelessWidget {
           onPressed: () => _showAddThankYou(context),
           tooltip: 'Add Thank You',
           child: Icon(Icons.add),
+          elevation: 4,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(
+          elevation: 16,
+          notchMargin: 8,
           shape: CircularNotchedRectangle(),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: _createBottomAppBarItems(),
           ),
-          color: primaryColor[50],
+          color: Colors.white,
         )
     );
   }
