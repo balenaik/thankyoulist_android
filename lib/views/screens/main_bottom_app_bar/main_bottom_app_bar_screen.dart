@@ -53,7 +53,8 @@ class MainBottomAppBarContent extends StatelessWidget {
             children: _createBottomAppBarItems(),
           ),
           color: Colors.white,
-        )
+        ),
+        extendBody: true,
     );
   }
 
