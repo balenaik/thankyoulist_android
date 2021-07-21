@@ -121,13 +121,11 @@ class MiddleBottomAppBarWidget extends StatelessWidget implements BottomAppBarWi
     return Expanded(
       child: SizedBox(
         height: _bottomAppBarHeight,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(height: _bottomAppBarIconSize),
-          ],
-        ),
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: (){},
+          child: Container(),
+        )
       ),
     );
   }
