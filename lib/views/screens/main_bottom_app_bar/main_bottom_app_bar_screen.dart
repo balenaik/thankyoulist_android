@@ -39,7 +39,7 @@ class MainBottomAppBarContent extends StatelessWidget {
           backgroundColor: Theme.of(context).primaryColor,
           onPressed: () => _showAddThankYou(context),
           tooltip: 'Add Thank You',
-          child: Icon(Icons.add),
+          child: Icon(Icons.add, size: 32),
           elevation: 4,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
