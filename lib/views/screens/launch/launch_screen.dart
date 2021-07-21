@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:thankyoulist/views/screens/login/login_screen.dart';
-import 'package:thankyoulist/views/screens/main/main_screen.dart';
+import 'package:thankyoulist/views/screens/main_bottom_app_bar/main_bottom_app_bar_screen.dart';
 
 class LaunchScreen extends StatelessWidget {
   @override
@@ -16,13 +16,7 @@ class LaunchScreen extends StatelessWidget {
           if (user == null) {
             return LoginScreen();
           }
-          return MainScreen(
-            items: [
-              BottomAppBarItem(icon: Icons.list, title: 'List'),
-              BottomAppBarItem(icon: Icons.calendar_today, title: 'calendar'),
-            ],
-            centerItemTitle: 'Add Thank You',
-          );
+          return MainBottomAppBarScreen();
         } else {
           return Scaffold(
             body: Center(
