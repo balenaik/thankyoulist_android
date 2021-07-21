@@ -47,10 +47,13 @@ class MainBottomAppBarContent extends StatelessWidget {
           elevation: 16,
           notchMargin: 8,
           shape: CircularNotchedRectangle(),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: _createBottomAppBarItems(),
+          child: Material(
+              type: MaterialType.transparency,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: _createBottomAppBarItems(),
+              )
           ),
           color: Colors.white,
         ),
@@ -91,22 +94,21 @@ class ItemBottomAppBarWidget extends StatelessWidget implements BottomAppBarWidg
     return Expanded(
       child: SizedBox(
         height: _bottomAppBarHeight,
-        child: Material(
-          type: MaterialType.transparency,
-          child: InkWell(
-            onTap: () => viewModel.updateIndex(index),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(item.icon, color: color, size: _bottomAppBarIconSize),
-                Text(
-                  item.title,
-                  style: TextStyle(color: color),
-                )
-              ],
-            ),
+        child: InkResponse(
+          onTap: () => viewModel.updateIndex(index),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(item.icon, color: color, size: _bottomAppBarIconSize),
+              Text(
+                item.title,
+                style: TextStyle(color: color),
+              )
+            ],
           ),
+          radius: 70,
+          containedInkWell: false,
         ),
       ),
     );
