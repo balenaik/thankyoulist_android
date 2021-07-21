@@ -40,7 +40,7 @@ class MainBottomAppBarContent extends StatelessWidget {
           onPressed: () => _showAddThankYou(context),
           tooltip: 'Add Thank You',
           child: Icon(Icons.add, size: 32),
-          elevation: 4,
+          elevation: 2,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(
