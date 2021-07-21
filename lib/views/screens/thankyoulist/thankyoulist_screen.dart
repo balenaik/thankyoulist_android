@@ -10,6 +10,7 @@ import 'package:thankyoulist/viewmodels/thankyoulist_view_model.dart';
 import 'package:thankyoulist/views/common/thankyou_item.dart';
 import 'package:thankyoulist/views/screens/edit_thankyou/edit_thankyou_screen.dart';
 import 'package:thankyoulist/views/screens/my_page/my_page_screen.dart';
+import 'package:thankyoulist/views/themes/light_theme.dart';
 
 class ThankYouListScreen extends StatelessWidget {
   @override
@@ -33,11 +34,20 @@ class ThankYouListWithAppBar extends StatelessWidget {
       slivers: [
         SliverAppBar(
           flexibleSpace: FlexibleSpaceBar(
-            title: Text('Thank You List'),
+            title: Text(
+              'Thank You List',
+              style: TextStyle(
+                  color: primaryColor[900],
+                  fontWeight: FontWeight.bold
+              )
+            ),
+            centerTitle: true,
           ),
+          shape: Border(bottom: BorderSide(color: Colors.black12)),
+          elevation: 0,
           actions: [
             IconButton(
-              icon: Assets.icons.accountCircle20.image(),
+              icon: Assets.icons.accountCircle20.image(color: Theme.of(context).primaryColor),
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => MyPageScreen(),
@@ -47,7 +57,7 @@ class ThankYouListWithAppBar extends StatelessWidget {
               },
             )
           ],
-          backgroundColor: Theme.of(context).appBarTheme.color,
+          backgroundColor: Colors.white,
           floating: true,
         ),
         ThankYouListView()
