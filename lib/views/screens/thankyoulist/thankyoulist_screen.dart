@@ -7,6 +7,7 @@ import 'package:thankyoulist/models/thankyou_list_view_ui_model.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
 import 'package:thankyoulist/viewmodels/thankyoulist_view_model.dart';
+import 'package:thankyoulist/views/common/remove_glowingover_scrollindicator_behavior.dart';
 import 'package:thankyoulist/views/common/thankyou_item.dart';
 import 'package:thankyoulist/views/screens/edit_thankyou/edit_thankyou_screen.dart';
 import 'package:thankyoulist/views/screens/my_page/my_page_screen.dart';
@@ -30,38 +31,41 @@ class ThankYouListScreen extends StatelessWidget {
 class ThankYouListWithAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          flexibleSpace: FlexibleSpaceBar(
-            title: Text(
-              'Thank You List',
-              style: TextStyle(
-                  color: primaryColor[900],
-                  fontWeight: FontWeight.bold
-              )
+    return ScrollConfiguration(
+        behavior: RemoveGlowingOverScrollIndicatorBehavior(),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text(
+                    'Thank You List',
+                    style: TextStyle(
+                        color: primaryColor[900],
+                        fontWeight: FontWeight.bold
+                    )
+                ),
+                centerTitle: true,
+              ),
+              shape: Border(bottom: BorderSide(color: Colors.black12)),
+              elevation: 0,
+              actions: [
+                IconButton(
+                  icon: Assets.icons.accountCircle20.image(color: Theme.of(context).primaryColor),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => MyPageScreen(),
+                          fullscreenDialog: true
+                      ),
+                    );
+                  },
+                )
+              ],
+              backgroundColor: Colors.white,
+              floating: true,
             ),
-            centerTitle: true,
-          ),
-          shape: Border(bottom: BorderSide(color: Colors.black12)),
-          elevation: 0,
-          actions: [
-            IconButton(
-              icon: Assets.icons.accountCircle20.image(color: Theme.of(context).primaryColor),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => MyPageScreen(),
-                      fullscreenDialog: true
-                  ),
-                );
-              },
-            )
+            ThankYouListView()
           ],
-          backgroundColor: Colors.white,
-          floating: true,
-        ),
-        ThankYouListView()
-      ],
+        )
     );
   }
 }
