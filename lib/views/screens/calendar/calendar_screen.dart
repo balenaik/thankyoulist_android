@@ -164,20 +164,23 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
         lastDay: DateTime(2050),
         eventLoader: viewModel.getThankYouEvents,
         headerStyle: HeaderStyle(
-          headerMargin: EdgeInsets.only(top: 4.0, bottom: 4.0),
+          headerMargin: EdgeInsets.only(top: 8.0, bottom: 12.0),
           titleCentered: true,
           formatButtonVisible: false,
           formatButtonShowsNext: false,
           titleTextStyle: TextStyle(
-              color: Colors.brown,
+              color: Colors.black87,
               fontWeight: FontWeight.bold,
-              fontSize: 20.0,),
+              fontSize: 20.0
+          ),
           leftChevronVisible: false,
           rightChevronVisible: false,
         ),
         daysOfWeekStyle: DaysOfWeekStyle(
-            weekdayStyle: _dayTextStyle(color: Colors.black38, height: 1.0),
-            weekendStyle: _dayTextStyle(color: Colors.black38, height: 1.0)),
+            weekdayStyle: _daysOfWeekTextStyle,
+            weekendStyle: _daysOfWeekTextStyle
+        ),
+        daysOfWeekHeight: 36.0,
         calendarStyle: CalendarStyle(
           defaultTextStyle: _dayTextStyle(color: Colors.black87),
           weekendTextStyle: _dayTextStyle(color: Colors.black87),
@@ -242,8 +245,14 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
     );
   }
 
-  TextStyle _dayTextStyle({required Color color, double? height}) {
-    return TextStyle(color: color, fontSize: 17.0, fontFamily: FontFamily.nunito, height: height);
+  TextStyle _daysOfWeekTextStyle = TextStyle(
+      color: Colors.black87,
+      fontSize: 16.0,
+      fontWeight: FontWeight.w600
+  );
+
+  TextStyle _dayTextStyle({required Color color}) {
+    return TextStyle(color: color, fontSize: 17.0);
   }
 
   Widget _marker() {
