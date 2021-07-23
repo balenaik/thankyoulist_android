@@ -182,43 +182,13 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
             weekendStyle: _daysOfWeekTextStyle
         ),
         daysOfWeekHeight: 36.0,
-        calendarStyle: CalendarStyle(
-          defaultTextStyle: _dayTextStyle(color: Colors.black87),
-          weekendTextStyle: _dayTextStyle(color: Colors.black87),
-          outsideTextStyle: _dayTextStyle(color: Colors.black38),
-          markersMaxCount: 1,
-        ),
         onDaySelected: (date, events) {
           viewModel.updateSelectedDate(date);
         },
         calendarBuilders: CalendarBuilders(
-          selectedBuilder: (context, date, _) {
-            final isToday = date.day == DateTime.now().day;
-            return AnimatedContainer(
-              duration: const Duration(milliseconds: 250),
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.yellowAccent),
-              margin: const EdgeInsets.all(12.0),
-              alignment: Alignment.center,
-              child: Text(
-                '${date.day}',
-                style: _dayTextStyle(
-                    color: isToday
-                        ? Colors.pinkAccent
-                        : Colors.black87),
-              ),
-            );
-          },
-          todayBuilder: (context, date, _) {
-            return Container(
-              alignment: Alignment.center,
-              child: Text(
-                '${date.day}',
-                style: _dayTextStyle(color: Colors.pinkAccent),
-              ),
-            );
-          },
+          defaultBuilder: _dayBuilder(selectedDate: viewModel.selectedDate, color: AppColors.textColor),
+          todayBuilder: _todayBuilder(selectedDate: viewModel.selectedDate),
+          outsideBuilder: _dayBuilder(selectedDate: viewModel.selectedDate, color: Colors.black26),
           markerBuilder: (context, date, events) {
             final eventsCount = events.length;
             List<Widget> markers = [];
@@ -254,6 +224,51 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
 
   TextStyle _dayTextStyle({required Color color}) {
     return TextStyle(color: color, fontSize: 17.0, fontWeight: FontWeight.w600);
+  }
+
+  FocusedDayBuilder _dayBuilder({required DateTime selectedDate, required Color color}) {
+    return (BuildContext context, DateTime date, DateTime focusedDay) {
+      if (selectedDate == date) {
+        return _selectedDayCell(date: date, color: color);
+      }
+      return _normalDayCell(date: date, color: color);
+    };
+  }
+
+  FocusedDayBuilder _todayBuilder({required DateTime selectedDate}) {
+    return (BuildContext context, DateTime date, DateTime focusedDay) {
+      final color = primaryColor[900] ?? Theme.of(context).primaryColor;
+      if (selectedDate == date) {
+        return _selectedDayCell(date: date, color: color);
+      }
+      return _normalDayCell(date: date, color: color);
+    };
+  }
+
+  Widget _normalDayCell({required DateTime date, required Color color}) {
+    return Container(
+      alignment: Alignment.center,
+      child: Text(
+        '${date.day}',
+        style: _dayTextStyle(color: color),
+      )
+    );
+  }
+
+  Widget _selectedDayCell({required DateTime date, required Color color}) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 250),
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.yellowAccent
+      ),
+      margin: const EdgeInsets.all(12.0),
+      alignment: Alignment.center,
+      child: Text(
+        '${date.day}',
+        style: _dayTextStyle(color: color),
+      )
+    );
   }
 
   Widget _marker() {
