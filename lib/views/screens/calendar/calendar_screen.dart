@@ -253,7 +253,7 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
   );
 
   TextStyle _dayTextStyle({required Color color}) {
-    return TextStyle(color: color, fontSize: 17.0);
+    return TextStyle(color: color, fontSize: 17.0, fontWeight: FontWeight.w600);
   }
 
   Widget _marker() {
