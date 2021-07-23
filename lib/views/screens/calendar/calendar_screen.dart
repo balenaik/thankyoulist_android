@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:thankyoulist/app_colors.dart';
 import 'package:thankyoulist/gen/assets.gen.dart';
 import 'package:thankyoulist/gen/fonts.gen.dart';
 
@@ -169,7 +170,7 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
           formatButtonVisible: false,
           formatButtonShowsNext: false,
           titleTextStyle: TextStyle(
-              color: Colors.black87,
+              color: AppColors.textColor,
               fontWeight: FontWeight.bold,
               fontSize: 20.0
           ),
@@ -246,7 +247,7 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
   }
 
   TextStyle _daysOfWeekTextStyle = TextStyle(
-      color: Colors.black87,
+      color: AppColors.textColor,
       fontSize: 16.0,
       fontWeight: FontWeight.w600
   );
