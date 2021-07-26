@@ -229,7 +229,7 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
   FocusedDayBuilder _dayBuilder({required DateTime selectedDate, required Color color}) {
     return (BuildContext context, DateTime date, DateTime focusedDay) {
       if (selectedDate == date) {
-        return _selectedDayCell(date: date, color: color);
+        return _selectedDayCell(context: context, date: date, color: color);
       }
       return _normalDayCell(date: date, color: color);
     };
@@ -239,7 +239,7 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
     return (BuildContext context, DateTime date, DateTime focusedDay) {
       final color = primaryColor[900] ?? Theme.of(context).primaryColor;
       if (selectedDate == date) {
-        return _selectedDayCell(date: date, color: color);
+        return _selectedDayCell(context: context, date: date, color: color);
       }
       return _normalDayCell(date: date, color: color);
     };
@@ -255,14 +255,14 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
     );
   }
 
-  Widget _selectedDayCell({required DateTime date, required Color color}) {
+  Widget _selectedDayCell({required BuildContext context, required DateTime date, required Color color}) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.yellowAccent
+          color: primaryColor[200]?.withOpacity(0.6) ?? Theme.of(context).primaryColorLight
       ),
-      margin: const EdgeInsets.all(12.0),
+      margin: const EdgeInsets.all(8.0),
       alignment: Alignment.center,
       child: Text(
         '${date.day}',
