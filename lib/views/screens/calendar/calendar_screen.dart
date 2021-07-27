@@ -192,31 +192,7 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
           defaultBuilder: _dayBuilder(selectedDate: viewModel.selectedDate, color: AppColors.textColor),
           todayBuilder: _dayBuilder(selectedDate: viewModel.selectedDate, color: primaryColor[900] ?? Theme.of(context).primaryColor),
           outsideBuilder: _dayBuilder(selectedDate: viewModel.selectedDate, color: Colors.black26),
-          markerBuilder: (context, date, events) {
-            List<Widget> markers = [];
-            events.asMap().forEach((index, event) {
-              if (index > _markerMaxCount - 1) {
-                return;
-              }
-              if (index == _markerMaxCount - 1) {
-                markers.removeLast();
-                markers.add(_moreMarker(context));
-                return;
-              }
-              if (index != 0) {
-                markers.add(_markerSpacer());
-              }
-              markers.add(_circleMarker(context));
-            });
-            return SizedBox(
-                height: 12,
-                child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: markers
-                )
-            );
-          },
+          markerBuilder: _markerBuilder()
         ),
       )
     );
@@ -265,6 +241,34 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
         style: _dayTextStyle(color: color),
       )
     );
+  }
+
+  MarkerBuilder _markerBuilder() {
+    return (BuildContext context, DateTime day, List events) {
+      List<Widget> markers = [];
+      events.asMap().forEach((index, event) {
+        if (index > _markerMaxCount - 1) {
+          return;
+        }
+        if (index == _markerMaxCount - 1) {
+          markers.removeLast();
+          markers.add(_moreMarker(context));
+          return;
+        }
+        if (index != 0) {
+          markers.add(_markerSpacer());
+        }
+        markers.add(_circleMarker(context));
+      });
+      return SizedBox(
+          height: 12,
+          child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: markers
+          )
+      );
+    };
   }
 
   Widget _circleMarker(BuildContext context) {
