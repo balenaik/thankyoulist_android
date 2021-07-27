@@ -18,7 +18,10 @@ import 'package:thankyoulist/views/screens/edit_thankyou/edit_thankyou_screen.da
 import 'package:thankyoulist/views/screens/my_page/my_page_screen.dart';
 import 'package:thankyoulist/views/themes/light_theme.dart';
 
-final double _calendarPanelListViewBottomInset = 150.0;
+const double _calendarPanelListViewBottomInset = 150.0;
+const int _markerMaxCount = 4;
+const double _markerSize = 8.0;
+const double _circleMarkerSize = 6.0;
 
 class CalendarScreen extends StatelessWidget {
   @override
@@ -190,23 +193,26 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
           todayBuilder: _todayBuilder(selectedDate: viewModel.selectedDate),
           outsideBuilder: _dayBuilder(selectedDate: viewModel.selectedDate, color: Colors.black26),
           markerBuilder: (context, date, events) {
-            final eventsCount = events.length;
             List<Widget> markers = [];
-            if (eventsCount > 0) {
-              markers.add(_marker());
-            }
-            if (eventsCount > 1) {
-              markers.add(_marker());
-            }
-            if (eventsCount == 3) {
-              markers.add(_marker());
-            } else if (eventsCount > 3) {
-              markers.add(_moreMarker());
-            }
-            return Container(
+            events.asMap().forEach((index, event) {
+              if (index > _markerMaxCount - 1) {
+                return;
+              }
+              if (index == _markerMaxCount - 1) {
+                markers.removeLast();
+                markers.add(_moreMarker(context));
+                return;
+              }
+              if (index != 0) {
+                markers.add(_markerSpacer());
+              }
+              markers.add(_circleMarker(context));
+            });
+            return SizedBox(
+                height: 12,
                 child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: markers
                 )
             );
@@ -271,21 +277,34 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
     );
   }
 
-  Widget _marker() {
+  Widget _circleMarker(BuildContext context) {
     return SizedBox(
-      width: 5.0,
-      height: 5.0,
-      child: CircleAvatar(
-        backgroundColor: Colors.red,
+      width: _markerSize,
+      height: _markerSize,
+      child: Icon(
+          Icons.circle,
+          color: _markerColor(context),
+          size: _circleMarkerSize
       ),
     );
   }
 
-  Widget _moreMarker() {
-    return Icon(
-      Icons.add,
-      color: Colors.red,
-      size: 10.0,
+  Widget _moreMarker(BuildContext context) {
+    return SizedBox(
+        width: _markerSize,
+        height: _markerSize,
+        child: Assets.icons.plus30.image(color: _markerColor(context))
     );
+  }
+
+  Widget _markerSpacer() {
+    return SizedBox(
+      width: 1.0,
+      child: Container()
+    );
+  }
+
+  Color _markerColor(BuildContext context) {
+    return primaryColor[900] ?? Theme.of(context).primaryColor;
   }
 }
