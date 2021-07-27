@@ -10,6 +10,7 @@ class $AssetsIconsGen {
 
   AssetGenImage get accountCircle20 =>
       const AssetGenImage('assets/icons/account_circle_20.png');
+  AssetGenImage get plus30 => const AssetGenImage('assets/icons/plus_30.png');
 }
 
 class Assets {
