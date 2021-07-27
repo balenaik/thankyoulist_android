@@ -190,7 +190,7 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
         },
         calendarBuilders: CalendarBuilders(
           defaultBuilder: _dayBuilder(selectedDate: viewModel.selectedDate, color: AppColors.textColor),
-          todayBuilder: _todayBuilder(selectedDate: viewModel.selectedDate),
+          todayBuilder: _dayBuilder(selectedDate: viewModel.selectedDate, color: primaryColor[900] ?? Theme.of(context).primaryColor),
           outsideBuilder: _dayBuilder(selectedDate: viewModel.selectedDate, color: Colors.black26),
           markerBuilder: (context, date, events) {
             List<Widget> markers = [];
@@ -234,16 +234,6 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
 
   FocusedDayBuilder _dayBuilder({required DateTime selectedDate, required Color color}) {
     return (BuildContext context, DateTime date, DateTime focusedDay) {
-      if (selectedDate == date) {
-        return _selectedDayCell(context: context, date: date, color: color);
-      }
-      return _normalDayCell(date: date, color: color);
-    };
-  }
-
-  FocusedDayBuilder _todayBuilder({required DateTime selectedDate}) {
-    return (BuildContext context, DateTime date, DateTime focusedDay) {
-      final color = primaryColor[900] ?? Theme.of(context).primaryColor;
       if (selectedDate == date) {
         return _selectedDayCell(context: context, date: date, color: color);
       }
