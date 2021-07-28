@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:thankyoulist/models/thankyou_model.dart';
+import 'package:thankyoulist/repositories/app_data_repository.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/repositories/model_change_type.dart';
 import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
@@ -18,8 +19,9 @@ class ThankYouCalendarViewModel with ChangeNotifier {
 
   final ThankYouListRepository thankYouListRepository;
   final AuthRepository authRepository;
+  final AppDataRepository appDataRepository;
 
-  ThankYouCalendarViewModel(this.thankYouListRepository, this.authRepository){
+  ThankYouCalendarViewModel(this.thankYouListRepository, this.authRepository, this.appDataRepository){
     _selectedDate = _utcDateTime(DateTime.now());
     _focusedDate = _utcDateTime(DateTime.now());
     _addThankYousListener();
@@ -32,6 +34,7 @@ class ThankYouCalendarViewModel with ChangeNotifier {
   void updateSelectedAndFocusedDate({required DateTime selectedDate, required DateTime focusedDate}) {
     _selectedDate = selectedDate;
     _focusedDate = focusedDate;
+    appDataRepository.writeCalendarSelectedDate(selectedDate);
     notifyListeners();
   }
 

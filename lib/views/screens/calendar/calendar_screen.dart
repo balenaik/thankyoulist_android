@@ -8,6 +8,7 @@ import 'package:thankyoulist/gen/assets.gen.dart';
 import 'package:thankyoulist/gen/fonts.gen.dart';
 
 import 'package:thankyoulist/models/thankyou_model.dart';
+import 'package:thankyoulist/repositories/app_data_repository.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
 import 'package:thankyoulist/viewmodels/thankyou_calendar_view_model.dart';
@@ -30,6 +31,7 @@ class CalendarScreen extends StatelessWidget {
         value: ThankYouCalendarViewModel(
           Provider.of<ThankYouListRepositoryImpl>(context, listen: false),
           Provider.of<AuthRepositoryImpl>(context, listen: false),
+          Provider.of<AppDataRepositoryImpl>(context, listen: false)
         ),
         child: Scaffold(
             appBar: AppBar(

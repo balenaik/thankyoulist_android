@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thankyoulist/models/thankyou_create_model.dart';
+import 'package:thankyoulist/repositories/app_data_repository.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/repositories/thankyou_repiository.dart';
 import 'package:thankyoulist/status.dart';
@@ -23,10 +24,11 @@ class AddThankYouViewModel with ChangeNotifier {
 
   final ThankYouRepository thankYouRepository;
   final AuthRepository authRepository;
+  final AppDataRepository appDataRepository;
 
-  AddThankYouViewModel(this.thankYouRepository, this.authRepository) {
+  AddThankYouViewModel(this.thankYouRepository, this.authRepository, this.appDataRepository) {
     _inputValue = "";
-    _selectedDate = _utcDateTime(DateTime.now());
+    _selectedDate = appDataRepository.loadCalendarSelectedDate() ?? _utcDateTime(DateTime.now());
   }
 
   void updateInputValue(String value) {

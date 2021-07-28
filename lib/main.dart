@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:thankyoulist/app_data_store.dart';
+import 'package:thankyoulist/repositories/app_data_repository.dart';
 import 'package:thankyoulist/repositories/thankyou_repiository.dart';
 
 import 'package:thankyoulist/views/themes/light_theme.dart';
@@ -21,6 +23,7 @@ void main() async {
 class ThankYouListApp extends StatelessWidget {
   final _firestore = FirebaseFirestore.instance;
   final _firebaseAuth = FirebaseAuth.instance;
+  final _appDataStore = AppDataStore();
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -33,6 +36,9 @@ class ThankYouListApp extends StatelessWidget {
           ),
           Provider(
             create: (context) => ThankYouRepositoryImpl(firestore: _firestore),
+          ),
+          Provider(
+            create: (context) => AppDataRepositoryImpl(appDataStore: _appDataStore)
           )
         ],
         child: GestureDetector(
