@@ -163,7 +163,7 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 8.0, right: 8.0),
       child: TableCalendar(
-        focusedDay: DateTime.now(),
+        focusedDay: viewModel.focusedDate,
         firstDay: DateTime(2015),
         lastDay: DateTime(2050),
         eventLoader: viewModel.getThankYouEvents,
@@ -185,8 +185,8 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
             weekendStyle: _daysOfWeekTextStyle
         ),
         daysOfWeekHeight: 36.0,
-        onDaySelected: (date, events) {
-          viewModel.updateSelectedDate(date);
+        onDaySelected: (selectedDate, focusedDate) {
+          viewModel.updateSelectedAndFocusedDate(selectedDate: selectedDate, focusedDate: focusedDate);
         },
         calendarBuilders: CalendarBuilders(
           defaultBuilder: _dayBuilder(selectedDate: viewModel.selectedDate, color: AppColors.textColor),

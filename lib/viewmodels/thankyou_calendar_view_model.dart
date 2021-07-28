@@ -10,15 +10,18 @@ class ThankYouCalendarViewModel with ChangeNotifier {
   /// [DateTime(UTC): ThankYouModel] map
   Map<DateTime, List<ThankYouModel>> _thankYouEvents = {};
   late DateTime _selectedDate;
+  late DateTime _focusedDate;
 
   Map<DateTime, List<ThankYouModel>> get thankYouEvents => _thankYouEvents;
   DateTime get selectedDate => _selectedDate;
+  DateTime get focusedDate => _focusedDate;
 
   final ThankYouListRepository thankYouListRepository;
   final AuthRepository authRepository;
 
   ThankYouCalendarViewModel(this.thankYouListRepository, this.authRepository){
     _selectedDate = _utcDateTime(DateTime.now());
+    _focusedDate = _utcDateTime(DateTime.now());
     _addThankYousListener();
   }
 
@@ -26,8 +29,9 @@ class ThankYouCalendarViewModel with ChangeNotifier {
     return _thankYouEvents[day] ?? [];
   }
 
-  void updateSelectedDate(DateTime selectedDate) {
+  void updateSelectedAndFocusedDate({required DateTime selectedDate, required DateTime focusedDate}) {
     _selectedDate = selectedDate;
+    _focusedDate = focusedDate;
     notifyListeners();
   }
 
