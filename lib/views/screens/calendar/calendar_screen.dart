@@ -170,41 +170,47 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThankYouCalendarViewModel viewModel = Provider.of<ThankYouCalendarViewModel>(context, listen: true);
-    return Padding(
-      padding: EdgeInsets.only(left: 8.0, right: 8.0),
-      child: TableCalendar(
-        focusedDay: viewModel.focusedDate,
-        firstDay: DateTime(2015),
-        lastDay: DateTime(2050),
-        eventLoader: viewModel.getThankYouEvents,
-        headerStyle: HeaderStyle(
-          headerMargin: EdgeInsets.only(top: 8.0, bottom: 12.0),
-          titleCentered: true,
-          formatButtonVisible: false,
-          formatButtonShowsNext: false,
-          titleTextStyle: TextStyle(
-              color: AppColors.textColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0
+    return Column(
+        children: [
+          Padding(
+              padding: EdgeInsets.only(left: 8.0, right: 8.0),
+              child: TableCalendar(
+                focusedDay: viewModel.focusedDate,
+                firstDay: DateTime(2015),
+                lastDay: DateTime(2050),
+                eventLoader: viewModel.getThankYouEvents,
+                sixWeekMonthsEnforced: true,
+                headerStyle: HeaderStyle(
+                  headerMargin: EdgeInsets.only(top: 8.0, bottom: 12.0),
+                  titleCentered: true,
+                  formatButtonVisible: false,
+                  formatButtonShowsNext: false,
+                  titleTextStyle: TextStyle(
+                      color: AppColors.textColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0
+                  ),
+                  leftChevronVisible: false,
+                  rightChevronVisible: false,
+                ),
+                daysOfWeekStyle: DaysOfWeekStyle(
+                    weekdayStyle: _daysOfWeekTextStyle,
+                    weekendStyle: _daysOfWeekTextStyle
+                ),
+                daysOfWeekHeight: 36.0,
+                onDaySelected: (selectedDate, focusedDate) {
+                  viewModel.updateSelectedAndFocusedDate(selectedDate: selectedDate, focusedDate: focusedDate);
+                },
+                calendarBuilders: CalendarBuilders(
+                    defaultBuilder: _dayBuilder(selectedDate: viewModel.selectedDate, color: AppColors.textColor),
+                    todayBuilder: _dayBuilder(selectedDate: viewModel.selectedDate, color: primaryColor[900] ?? Theme.of(context).primaryColor),
+                    outsideBuilder: _dayBuilder(selectedDate: viewModel.selectedDate, color: Colors.black26),
+                    markerBuilder: _markerBuilder()
+                ),
+              )
           ),
-          leftChevronVisible: false,
-          rightChevronVisible: false,
-        ),
-        daysOfWeekStyle: DaysOfWeekStyle(
-            weekdayStyle: _daysOfWeekTextStyle,
-            weekendStyle: _daysOfWeekTextStyle
-        ),
-        daysOfWeekHeight: 36.0,
-        onDaySelected: (selectedDate, focusedDate) {
-          viewModel.updateSelectedAndFocusedDate(selectedDate: selectedDate, focusedDate: focusedDate);
-        },
-        calendarBuilders: CalendarBuilders(
-          defaultBuilder: _dayBuilder(selectedDate: viewModel.selectedDate, color: AppColors.textColor),
-          todayBuilder: _dayBuilder(selectedDate: viewModel.selectedDate, color: primaryColor[900] ?? Theme.of(context).primaryColor),
-          outsideBuilder: _dayBuilder(selectedDate: viewModel.selectedDate, color: Colors.black26),
-          markerBuilder: _markerBuilder()
-        ),
-      )
+          Expanded(child: Container())
+        ]
     );
   }
 
