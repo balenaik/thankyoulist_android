@@ -12,6 +12,7 @@ import 'package:thankyoulist/repositories/app_data_repository.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
 import 'package:thankyoulist/viewmodels/thankyou_calendar_view_model.dart';
+import 'package:thankyoulist/views/common/child_size_notifier.dart';
 import 'package:thankyoulist/views/common/thankyou_item.dart';
 import 'package:thankyoulist/extensions/list_extension.dart';
 import 'package:thankyoulist/views/common/remove_glowingover_scrollindicator_behavior.dart';
@@ -68,22 +69,33 @@ class CalendarScreen extends StatelessWidget {
 class CalendarSlidingUpPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ThankYouCalendarViewModel viewModel = Provider.of<ThankYouCalendarViewModel>(context, listen: true);
-    List<ThankYouModel>? selectedThankYous = viewModel.thankYouEvents[viewModel.selectedDate];
-    return SlidingUpPanel(
-      borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(24.0),
-          topRight: Radius.circular(24.0)
-      ),
-      boxShadow: <BoxShadow>[], // Delete shadow
-      maxHeight: MediaQuery.of(context).size.height,
-      minHeight: MediaQuery.of(context).size.height * 0.3,
-      color: Colors.white,
-      panelBuilder: (scrollController) {
-        return SlidingUpListView(scrollController);
-      },
-      body: CalendarScreenBaseCalendar(),
-    );
+    GlobalKey _calendarKey = GlobalKey();
+    return LayoutBuilder(builder: (context, constraints) {
+      return ChildSizeNotifier(
+        sizingChildKey: _calendarKey,
+        child: CalendarScreenBaseCalendar(_calendarKey),
+        builder: (context, calendarSize, child) {
+          double minHeight = (constraints.maxHeight - calendarSize.height) - 12;
+          if (minHeight < 0) {
+            minHeight = 0;
+          }
+          return SlidingUpPanel(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24.0),
+                  topRight: Radius.circular(24.0)
+              ),
+              boxShadow: <BoxShadow>[], // Delete shadow
+              maxHeight: constraints.maxHeight,
+              minHeight: minHeight,
+              color: Colors.white,
+              panelBuilder: (scrollController) {
+                return SlidingUpListView(scrollController);
+              },
+              body: child
+          );
+         },
+      );
+    });
   }
 }
 
@@ -167,6 +179,9 @@ class SlidingUpListView extends StatelessWidget {
 }
 
 class CalendarScreenBaseCalendar extends StatelessWidget {
+  GlobalKey _calendarKey;
+  CalendarScreenBaseCalendar(this._calendarKey);
+
   @override
   Widget build(BuildContext context) {
     ThankYouCalendarViewModel viewModel = Provider.of<ThankYouCalendarViewModel>(context, listen: true);
@@ -175,6 +190,7 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
           Padding(
               padding: EdgeInsets.only(left: 8.0, right: 8.0),
               child: TableCalendar(
+                key: _calendarKey,
                 focusedDay: viewModel.focusedDate,
                 firstDay: DateTime(2015),
                 lastDay: DateTime(2050),
