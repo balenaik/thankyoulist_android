@@ -163,9 +163,8 @@ class SlidingUpListView extends StatelessWidget {
               child: Text(
                 DateFormat.yMMMMd('en_US').format(date),
                 style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: FontFamily.nunito,
-                    fontWeight: FontWeight.w400
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600
                 ),
               ),
             ),

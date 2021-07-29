@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:thankyoulist/app_colors.dart';
 
 import 'package:thankyoulist/models/thankyou_model.dart';
 
@@ -11,7 +12,7 @@ class ThankYouItem extends StatelessWidget {
 
   final ThankYouModel thankYou;
   final VoidCallback onTap;
-  final Color textColor = Colors.black87;
+  final Color textColor = AppColors.textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +94,7 @@ class ThankYouItem extends StatelessWidget {
     return TextStyle(
         color: textColor,
         fontSize: textSize,
-        fontFamily: 'ProductSans',
-        fontWeight: FontWeight.w400
+        fontWeight: FontWeight.w600
     );
   }
 }
