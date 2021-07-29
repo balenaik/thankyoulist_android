@@ -19,7 +19,6 @@ import 'package:thankyoulist/views/screens/edit_thankyou/edit_thankyou_screen.da
 import 'package:thankyoulist/views/screens/my_page/my_page_screen.dart';
 import 'package:thankyoulist/views/themes/light_theme.dart';
 
-const double _calendarPanelListViewBottomInset = 150.0;
 const int _markerMaxCount = 4;
 const double _markerSize = 8.0;
 const double _circleMarkerSize = 6.0;
@@ -81,45 +80,55 @@ class CalendarSlidingUpPanel extends StatelessWidget {
       minHeight: MediaQuery.of(context).size.height * 0.3,
       color: Colors.white,
       panelBuilder: (scrollController) {
-        return Column(
-          children: <Widget>[
-            _panelDateView(viewModel.selectedDate),
-            Expanded(
-                child: ScrollConfiguration(
-                    behavior: RemoveGlowingOverScrollIndicatorBehavior(),
-                    child: ListView.builder(
-                        controller: scrollController,
-                        scrollDirection: Axis.vertical,
-                        // Returns count +1 because of a bug which the bottom of ListView is a little higher
-                        itemCount: (selectedThankYous?.length ?? 0) + 1,
-                        itemBuilder: (BuildContext context, int i) {
-                          final thankYou = selectedThankYous?.get(i);
-                          if (thankYou != null) {
-                            return ThankYouItem(
-                              thankYou: thankYou,
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) => EditThankYouScreen(thankYou.id),
-                                      fullscreenDialog: true
-                                  ),
-                                );
-                              },
-                            );
-                          } else {
-                            // Adjust for a bug which the bottom of ListView is a little higher
-                            return SizedBox(height: _calendarPanelListViewBottomInset);
-                          }
-                        })
-                )
-            ),
-          ],
-        );
+        return SlidingUpListView(scrollController);
       },
       body: CalendarScreenBaseCalendar(),
     );
   }
+}
 
-  Widget _panelDateView(DateTime date) {
+class SlidingUpListView extends StatelessWidget {
+  final ScrollController scrollController;
+  SlidingUpListView(this.scrollController);
+
+  @override
+  Widget build(BuildContext context) {
+    ThankYouCalendarViewModel viewModel = Provider.of<ThankYouCalendarViewModel>(context, listen: true);
+    List<ThankYouModel>? selectedThankYous = viewModel.thankYouEvents[viewModel.selectedDate];
+    return Column(
+      children: <Widget>[
+        _dateView(viewModel.selectedDate),
+        Expanded(
+            child: ScrollConfiguration(
+                behavior: RemoveGlowingOverScrollIndicatorBehavior(),
+                child: ListView.builder(
+                    controller: scrollController,
+                    scrollDirection: Axis.vertical,
+                    itemCount: selectedThankYous?.length ?? 0,
+                    itemBuilder: (BuildContext context, int i) {
+                      final thankYou = selectedThankYous?.get(i);
+                      if (thankYou != null) {
+                        return ThankYouItem(
+                          thankYou: thankYou,
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => EditThankYouScreen(thankYou.id),
+                                  fullscreenDialog: true
+                              ),
+                            );
+                          },
+                        );
+                      } else {
+                        return Container();
+                      }
+                    })
+            )
+        ),
+      ],
+    );
+  }
+
+  Widget _dateView(DateTime date) {
     return Column(
         children: [
           Container(
@@ -146,7 +155,6 @@ class CalendarSlidingUpPanel extends StatelessWidget {
                     fontFamily: FontFamily.nunito,
                     fontWeight: FontWeight.w400
                 ),
-
               ),
             ),
           ),
