@@ -115,7 +115,8 @@ class ThankYouListView extends StatelessWidget {
       ),
       child: Text(formatted,
         style: TextStyle(
-          fontSize: 16
+          fontSize: 18,
+          fontWeight: FontWeight.w600
         ))
     );
   }

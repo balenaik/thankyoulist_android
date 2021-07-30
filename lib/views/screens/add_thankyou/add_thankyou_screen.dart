@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:thankyoulist/repositories/app_data_repository.dart';
 import 'package:thankyoulist/repositories/thankyou_repiository.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/viewmodels/add_thankyou_view_model.dart';
@@ -14,6 +15,7 @@ class AddThankYouScreen extends StatelessWidget {
         value: AddThankYouViewModel(
           Provider.of<ThankYouRepositoryImpl>(context, listen: false),
           Provider.of<AuthRepositoryImpl>(context, listen: false),
+          Provider.of<AppDataRepositoryImpl>(context, listen: false)
         ),
         child: AddThankYouContent()
     );
