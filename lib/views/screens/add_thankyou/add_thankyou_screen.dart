@@ -8,7 +8,6 @@ import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/viewmodels/add_thankyou_view_model.dart';
 import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
-import 'package:thankyoulist/views/themes/light_theme.dart';
 
 final OutlineInputBorder _outlineBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(16.0),
@@ -38,7 +37,7 @@ class AddThankYouContent extends StatelessWidget {
           title: Text(
             'Add Thank You',
             style: TextStyle(
-                color: primaryColor[900],
+                color: AppColors.textColor,
                 fontWeight: FontWeight.bold
             ),
           ),
@@ -46,7 +45,6 @@ class AddThankYouContent extends StatelessWidget {
           shape: Border(bottom: BorderSide(color: AppColors.appBarBottomBorderColor)),
           elevation: 0,
           backgroundColor: Colors.white,
-          iconTheme: IconThemeData(color: primaryColor[900]),
           actions: <Widget>[
             FlatButton(
               child: Text("Add", style: TextStyle(fontSize: 17)),
@@ -54,6 +52,7 @@ class AddThankYouContent extends StatelessWidget {
               onPressed: () => viewModel.createThankYou(),
             ),
           ],
+          iconTheme: IconThemeData(color: AppColors.textColor),
         ),
         backgroundColor: Colors.grey[200],
         body: Stack(

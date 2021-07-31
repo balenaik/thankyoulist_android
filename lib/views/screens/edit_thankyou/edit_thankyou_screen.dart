@@ -7,7 +7,6 @@ import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/viewmodels/edit_thankyou_view_model.dart';
 import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
-import 'package:thankyoulist/views/themes/light_theme.dart';
 
 final OutlineInputBorder _outlineBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(16.0),
@@ -41,7 +40,7 @@ class EditThankYouContent extends StatelessWidget {
           title: Text(
             'Edit Thank You',
             style: TextStyle(
-                color: primaryColor[900],
+                color: AppColors.textColor,
                 fontWeight: FontWeight.bold
             ),
           ),
@@ -49,7 +48,7 @@ class EditThankYouContent extends StatelessWidget {
           shape: Border(bottom: BorderSide(color: AppColors.appBarBottomBorderColor)),
           elevation: 0,
           backgroundColor: Colors.white,
-          iconTheme: IconThemeData(color: primaryColor[900]),
+          iconTheme: IconThemeData(color: AppColors.textColor),
           actions: <Widget>[
             FlatButton(
               child: Text("Edit", style: TextStyle(fontSize: 17)),

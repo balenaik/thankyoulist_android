@@ -37,7 +37,7 @@ class CalendarScreen extends StatelessWidget {
               title: Text(
                 'Thank You Calendar',
                 style: TextStyle(
-                    color: primaryColor[900],
+                    color: AppColors.textColor,
                     fontWeight: FontWeight.bold
                 ),
               ),
@@ -47,7 +47,7 @@ class CalendarScreen extends StatelessWidget {
               backgroundColor: Colors.white,
               actions: [
                 IconButton(
-                  icon: Assets.icons.accountCircle20.image(color: Theme.of(context).primaryColor),
+                  icon: Assets.icons.accountCircle20.image(color: AppColors.textColor),
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => MyPageScreen(),

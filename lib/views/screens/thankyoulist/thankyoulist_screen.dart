@@ -12,7 +12,6 @@ import 'package:thankyoulist/views/common/remove_glowingover_scrollindicator_beh
 import 'package:thankyoulist/views/common/thankyou_item.dart';
 import 'package:thankyoulist/views/screens/edit_thankyou/edit_thankyou_screen.dart';
 import 'package:thankyoulist/views/screens/my_page/my_page_screen.dart';
-import 'package:thankyoulist/views/themes/light_theme.dart';
 
 class ThankYouListScreen extends StatelessWidget {
   @override
@@ -41,7 +40,7 @@ class ThankYouListWithAppBar extends StatelessWidget {
                 title: Text(
                     'Thank You List',
                     style: TextStyle(
-                        color: primaryColor[900],
+                        color: AppColors.textColor,
                         fontWeight: FontWeight.bold
                     )
                 ),
@@ -51,7 +50,7 @@ class ThankYouListWithAppBar extends StatelessWidget {
               elevation: 0,
               actions: [
                 IconButton(
-                  icon: Assets.icons.accountCircle20.image(color: Theme.of(context).primaryColor),
+                  icon: Assets.icons.accountCircle20.image(color: AppColors.textColor),
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => MyPageScreen(),
