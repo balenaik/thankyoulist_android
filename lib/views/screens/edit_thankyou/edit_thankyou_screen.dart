@@ -121,7 +121,7 @@ class EditThankYouDatePicker extends StatelessWidget {
               margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
               child: FlatButton(
                 child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                  margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
                   child: Row(
                       children: <Widget>[
                         Expanded(
