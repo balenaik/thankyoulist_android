@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:thankyoulist/app_colors.dart';
 import 'package:thankyoulist/gen/assets.gen.dart';
 import 'package:thankyoulist/extensions/list_extension.dart';
 import 'package:thankyoulist/models/thankyou_list_view_ui_model.dart';
@@ -46,7 +47,7 @@ class ThankYouListWithAppBar extends StatelessWidget {
                 ),
                 centerTitle: true,
               ),
-              shape: Border(bottom: BorderSide(color: Colors.black12)),
+              shape: Border(bottom: BorderSide(color: AppColors.appBarBottomBorderColor)),
               elevation: 0,
               actions: [
                 IconButton(

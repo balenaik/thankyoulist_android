@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:thankyoulist/app_colors.dart';
 import 'package:thankyoulist/repositories/thankyou_repiository.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/viewmodels/edit_thankyou_view_model.dart';
 import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
+import 'package:thankyoulist/views/themes/light_theme.dart';
 
 class EditThankYouScreen extends StatelessWidget {
   final String editingThankYouId;
@@ -31,7 +33,18 @@ class EditThankYouContent extends StatelessWidget {
     EditThankYouViewModel viewModel = Provider.of<EditThankYouViewModel>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
-          title: Text('Edit Thank You'),
+          title: Text(
+            'Edit Thank You',
+            style: TextStyle(
+                color: primaryColor[900],
+                fontWeight: FontWeight.bold
+            ),
+          ),
+          centerTitle: true,
+          shape: Border(bottom: BorderSide(color: AppColors.appBarBottomBorderColor)),
+          elevation: 0,
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: primaryColor[900]),
           actions: <Widget>[
             FlatButton(
               child: Text("Edit", style: TextStyle(fontSize: 17)),

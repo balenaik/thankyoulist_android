@@ -5,7 +5,6 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:thankyoulist/app_colors.dart';
 import 'package:thankyoulist/gen/assets.gen.dart';
-import 'package:thankyoulist/gen/fonts.gen.dart';
 
 import 'package:thankyoulist/models/thankyou_model.dart';
 import 'package:thankyoulist/repositories/app_data_repository.dart';
@@ -43,7 +42,7 @@ class CalendarScreen extends StatelessWidget {
                 ),
               ),
               centerTitle: true,
-              shape: Border(bottom: BorderSide(color: Colors.black12)),
+              shape: Border(bottom: BorderSide(color: AppColors.appBarBottomBorderColor)),
               elevation: 0,
               backgroundColor: Colors.white,
               actions: [

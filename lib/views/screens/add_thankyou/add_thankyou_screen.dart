@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:thankyoulist/app_colors.dart';
 import 'package:thankyoulist/repositories/app_data_repository.dart';
 import 'package:thankyoulist/repositories/thankyou_repiository.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/viewmodels/add_thankyou_view_model.dart';
 import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
+import 'package:thankyoulist/views/themes/light_theme.dart';
 
 class AddThankYouScreen extends StatelessWidget {
   @override
@@ -28,7 +30,18 @@ class AddThankYouContent extends StatelessWidget {
     AddThankYouViewModel viewModel = Provider.of<AddThankYouViewModel>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
-          title: Text('Add Thank You'),
+          title: Text(
+            'Add Thank You',
+            style: TextStyle(
+                color: primaryColor[900],
+                fontWeight: FontWeight.bold
+            ),
+          ),
+          centerTitle: true,
+          shape: Border(bottom: BorderSide(color: AppColors.appBarBottomBorderColor)),
+          elevation: 0,
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: primaryColor[900]),
           actions: <Widget>[
             FlatButton(
               child: Text("Add", style: TextStyle(fontSize: 17)),
