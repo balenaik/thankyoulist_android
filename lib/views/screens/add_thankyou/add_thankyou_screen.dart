@@ -10,6 +10,11 @@ import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
 import 'package:thankyoulist/views/themes/light_theme.dart';
 
+final OutlineInputBorder _outlineBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(16.0),
+    borderSide: BorderSide(style: BorderStyle.none)
+);
+
 class AddThankYouScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -83,20 +88,13 @@ class AddThankYouTextField extends StatelessWidget {
           maxLines: null,
           decoration: InputDecoration(
               hintText: 'What are you thankful for?',
-              enabledBorder: _outlineBorder(Theme.of(context).unselectedWidgetColor),
-              focusedBorder: _outlineBorder(Theme.of(context).primaryColor),
+              enabledBorder: _outlineBorder,
+              focusedBorder: _outlineBorder,
               filled: true,
               fillColor: Colors.white
           ),
           onChanged: (String value) => viewModel.updateInputValue(value),
         )
-    );
-  }
-
-  OutlineInputBorder _outlineBorder(Color color) {
-    return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        borderSide: BorderSide(color: color, width: 2.0)
     );
   }
 }
@@ -140,7 +138,7 @@ class AddThankYouDatePicker extends StatelessWidget {
                 color: Colors.white,
                 highlightColor: Colors.transparent,
                 splashColor: Theme.of(context).primaryColorLight,
-                shape: _outlineBorder(Theme.of(context).unselectedWidgetColor),
+                shape: _outlineBorder,
                 onPressed: () async {
                   FocusManager.instance.primaryFocus?.unfocus();
                   // TODO: OK and cancel colors are too light for the current primary swatch colors
@@ -155,13 +153,6 @@ class AddThankYouDatePicker extends StatelessWidget {
                   }},
               ));
         });
-  }
-
-  OutlineInputBorder _outlineBorder(Color color) {
-    return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        borderSide: BorderSide(color: color, width: 2.0)
-    );
   }
 }
 

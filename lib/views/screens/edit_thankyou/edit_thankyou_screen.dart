@@ -9,6 +9,11 @@ import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
 import 'package:thankyoulist/views/themes/light_theme.dart';
 
+final OutlineInputBorder _outlineBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(16.0),
+    borderSide: BorderSide(style: BorderStyle.none)
+);
+
 class EditThankYouScreen extends StatelessWidget {
   final String editingThankYouId;
 
@@ -90,8 +95,8 @@ class EditThankYouTextField extends StatelessWidget {
                 maxLines: null,
                 decoration: InputDecoration(
                     hintText: 'What are you thankful for?',
-                    enabledBorder: _outlineBorder(Theme.of(context).unselectedWidgetColor),
-                    focusedBorder: _outlineBorder(Theme.of(context).primaryColor),
+                    enabledBorder: _outlineBorder,
+                    focusedBorder: _outlineBorder,
                     filled: true,
                     fillColor: Colors.white
                 ),
@@ -100,13 +105,6 @@ class EditThankYouTextField extends StatelessWidget {
               )
           );
         });
-  }
-
-  OutlineInputBorder _outlineBorder(Color color) {
-    return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        borderSide: BorderSide(color: color, width: 2.0)
-    );
   }
 }
 
@@ -150,7 +148,7 @@ class EditThankYouDatePicker extends StatelessWidget {
                 color: Colors.white,
                 highlightColor: Colors.transparent,
                 splashColor: Theme.of(context).primaryColorLight,
-                shape: _outlineBorder(Theme.of(context).unselectedWidgetColor),
+                shape: _outlineBorder,
                 onPressed: () async {
                   FocusManager.instance.primaryFocus?.unfocus();
                   if (selectedDate == null) {
@@ -168,13 +166,6 @@ class EditThankYouDatePicker extends StatelessWidget {
                   }},
               ));
         });
-  }
-
-  OutlineInputBorder _outlineBorder(Color color) {
-    return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        borderSide: BorderSide(color: color, width: 2.0)
-    );
   }
 }
 
@@ -198,7 +189,7 @@ class EditThankYouDeleteButton extends StatelessWidget {
           color: Colors.white,
           highlightColor: Colors.transparent,
           splashColor: Theme.of(context).primaryColorLight,
-          shape: _outlineBorder(Theme.of(context).unselectedWidgetColor),
+          shape: _outlineBorder,
           onPressed: () async {
             _showDeleteDialog(context);
           },
@@ -230,13 +221,6 @@ class EditThankYouDeleteButton extends StatelessWidget {
                 )
               );
         }
-    );
-  }
-
-  OutlineInputBorder _outlineBorder(Color color) {
-    return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        borderSide: BorderSide(color: color, width: 2.0)
     );
   }
 }
