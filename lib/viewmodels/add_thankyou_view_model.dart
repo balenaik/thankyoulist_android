@@ -44,15 +44,15 @@ class AddThankYouViewModel with ChangeNotifier {
     _status = AddThankYouStatus.addThankYouAdding;
     notifyListeners();
     final userId = await authRepository.getUserId();
-    final thankYouCreate = ThankYouCreateModel.from(
-      value: _inputValue,
-      date: _selectedDate,
-      userId: userId
-    );
     try {
+      final thankYouCreate = ThankYouCreateModel.from(
+        value: _inputValue,
+        date: _selectedDate,
+        userId: userId
+      );
       await thankYouRepository.createThankYou(userId, thankYouCreate);
       _status = AddThankYouStatus.addThankYouSuccess;
-    } on Exception {
+    } catch (_) {
       _status = AddThankYouStatus.addThankYouFailed;
     }
     notifyListeners();

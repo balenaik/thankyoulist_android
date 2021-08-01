@@ -57,16 +57,16 @@ class EditThankYouViewModel with ChangeNotifier {
     _status = EditThankYouStatus.editThankYouEditing;
     notifyListeners();
     final userId = await authRepository.getUserId();
-    final thankYouUpdate = ThankYouUpdateModel.from(
-        id: editingId,
-        value: inputValue,
-        date: selectedDate,
-        userId: userId
-    );
     try {
+      final thankYouUpdate = ThankYouUpdateModel.from(
+          id: editingId,
+          value: inputValue,
+          date: selectedDate,
+          userId: userId
+      );
       await thankYouRepository.updateThankYou(userId, thankYouUpdate);
       _status = EditThankYouStatus.editThankYouSuccess;
-    } on Exception {
+    } catch (_) {
       _status = EditThankYouStatus.editThankYouFailed;
     }
     notifyListeners();
@@ -79,7 +79,7 @@ class EditThankYouViewModel with ChangeNotifier {
     try {
       await thankYouRepository.deleteThankYou(userId, editingThankYouId);
       _status = EditThankYouStatus.deleteThankYouSuccess;
-    } on Exception {
+    } catch (_) {
       _status = EditThankYouStatus.deleteThankYouFailed;
     }
     notifyListeners();
