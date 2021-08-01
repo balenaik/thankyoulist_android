@@ -67,6 +67,8 @@ class EditThankYouViewModel with ChangeNotifier {
       await thankYouRepository.updateThankYou(userId, thankYouUpdate);
       _status = EditThankYouStatus.editThankYouSuccess;
     } catch (_) {
+      // Need to wait a bit otherwise status won't be notified to the widget
+      await Future.delayed(Duration(milliseconds: 100));
       _status = EditThankYouStatus.editThankYouFailed;
     }
     notifyListeners();
@@ -80,6 +82,8 @@ class EditThankYouViewModel with ChangeNotifier {
       await thankYouRepository.deleteThankYou(userId, editingThankYouId);
       _status = EditThankYouStatus.deleteThankYouSuccess;
     } catch (_) {
+      // Need to wait a bit otherwise status won't be notified to the widget
+      await Future.delayed(Duration(milliseconds: 100));
       _status = EditThankYouStatus.deleteThankYouFailed;
     }
     notifyListeners();

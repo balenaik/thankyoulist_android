@@ -53,6 +53,9 @@ class AddThankYouViewModel with ChangeNotifier {
       await thankYouRepository.createThankYou(userId, thankYouCreate);
       _status = AddThankYouStatus.addThankYouSuccess;
     } catch (_) {
+      // Need to wait a bit otherwise status won't be notified to the widget
+      // (I guess it's due the timing of changing status is too fast)
+      await Future.delayed(Duration(milliseconds: 100));
       _status = AddThankYouStatus.addThankYouFailed;
     }
     notifyListeners();
