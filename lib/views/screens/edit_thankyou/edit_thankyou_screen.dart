@@ -197,29 +197,14 @@ class EditThankYouDeleteButton extends StatelessWidget {
 
   void _showDeleteDialog(BuildContext context) {
     EditThankYouViewModel viewModel = Provider.of<EditThankYouViewModel>(context, listen: false);
-    showDialog(
+    showDialog<DefaultDialog>(
         context: context,
-        builder: (context) {
-          return AlertDialog(
-                title: Text('Delete Thank You'),
-                content: Container(
-                  child: Text('Are you sure you want to delete this thank you?'),
-                ),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text("Cancel"),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  FlatButton(
-                    child: Text("OK"),
-                    onPressed: () => viewModel.deleteThankYou(),
-                  ),
-                ],
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0))
-                )
-              );
-        }
+        builder: (context) => DefaultDialog(
+          'Delete Thank You',
+          'Are you sure you want to delete this thank you?',
+          onPositiveButtonPressed: () => viewModel.deleteThankYou(),
+          onNegativeButtonPressed: () {},
+        )
     );
   }
 }
@@ -270,10 +255,6 @@ class EditThankYouStatusHandler extends StatelessWidget {
             });
             break;
           case EditThankYouStatus.deleteThankYouFailed:
-            WidgetsBinding.instance?.addPostFrameCallback((_) {
-              // Close the delete confirm dialog first
-              Navigator.of(context).pop();
-            });
             _showErrorDialog(context, 'Error', 'Could not delete Thank You');
             break;
         }
