@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:thankyoulist/app_colors.dart';
+import 'package:thankyoulist/views/themes/light_theme.dart';
 
 class DefaultDialog extends StatelessWidget {
   final String title;
@@ -20,20 +22,37 @@ class DefaultDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(title),
+      title: Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.bold)
+      ),
       content: Text(message),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16.0))
+      ),
       actions: <Widget>[
         if (onPositiveButtonPressed != null)
-          FlatButton(
-            child: Text(positiveButtonTitle),
+          TextButton(
+            child: Text(
+              positiveButtonTitle,
+              style: TextStyle(
+                  color: primaryColor[900],
+                  fontWeight: FontWeight.bold
+              ),
+            ),
             onPressed: () {
               Navigator.pop(context);
               onPositiveButtonPressed!();
             },
           ),
         if (onNegativeButtonPressed != null)
-          FlatButton(
-            child: Text(negativeButtonTitle),
+          TextButton(
+            child: Text(
+                negativeButtonTitle,
+                style: TextStyle(
+                    color: AppColors.textColor,
+                )
+            ),
             onPressed: () {
               Navigator.pop(context);
               onNegativeButtonPressed!();
