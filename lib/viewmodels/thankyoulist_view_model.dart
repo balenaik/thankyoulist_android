@@ -27,14 +27,14 @@ class ThankYouListViewModel with ChangeNotifier {
       event.forEach((change) {
         switch (change.type) {
           case ModelChangeType.added:
-            _addThankYou(change);
+            _addThankYouToMap(change);
             break;
           case ModelChangeType.modified:
-            _deleteThankYou(change);
-            _addThankYou(change);
+            _deleteThankYouFromMap(change);
+            _addThankYouToMap(change);
             break;
           case ModelChangeType.removed:
-            _deleteThankYou(change);
+            _deleteThankYouFromMap(change);
             break;
         }
       });
@@ -58,7 +58,7 @@ class ThankYouListViewModel with ChangeNotifier {
     return result.reversed.toList();
   }
 
-  void _addThankYou(ThankYouListChange change) {
+  void _addThankYouToMap(ThankYouListChange change) {
     DateTime dateTime = _utcDateTime(change.thankYou.date);
     SectionMonthYearModel monthYear = SectionMonthYearModel(month: dateTime.month, year: dateTime.year);
     _thankYouListMap[dateTime] ??= [];
@@ -67,7 +67,7 @@ class ThankYouListViewModel with ChangeNotifier {
     _datesByMonthsMap[monthYear]?.add(dateTime);
   }
 
-  void _deleteThankYou(ThankYouListChange change) {
+  void _deleteThankYouFromMap(ThankYouListChange change) {
     ThankYouModel? oldThankYou;
     // Extract old thankyou by changed id
     for (DateTime key in _thankYouListMap.keys) {
