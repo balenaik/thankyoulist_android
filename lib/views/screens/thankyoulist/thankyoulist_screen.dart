@@ -88,7 +88,7 @@ class ThankYouListView extends StatelessWidget {
           if (thankYou != null) {
             return ThankYouItem(
               thankYou: thankYou,
-              onTap: () {
+              onEditButtonPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                       builder: (context) => EditThankYouScreen(thankYou.id),
@@ -96,6 +96,9 @@ class ThankYouListView extends StatelessWidget {
                   ),
                 );
                 },
+              onDeleteButtonPressed: () {
+                print('delete tapped');
+              },
             );
           }
           },

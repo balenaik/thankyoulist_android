@@ -121,12 +121,16 @@ class SlidingUpListView extends StatelessWidget {
                       if (thankYou != null) {
                         return ThankYouItem(
                           thankYou: thankYou,
-                          onTap: () {
+                          onEditButtonPressed: () {
                             Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => EditThankYouScreen(thankYou.id),
+                              MaterialPageRoute(
+                                  builder: (context) => EditThankYouScreen(thankYou.id),
                                   fullscreenDialog: true
                               ),
                             );
+                          },
+                          onDeleteButtonPressed: () {
+                            print('delete tapped');
                           },
                         );
                       } else {
