@@ -9,8 +9,12 @@ import 'package:thankyoulist/viewmodels/add_thankyou_view_model.dart';
 import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
 
+const double _rowMinHeight = 48;
+const EdgeInsets _rowMargin = EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0);
+const double _rowComponentBorderRadius = 16;
+
 final OutlineInputBorder _outlineBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(16.0),
+    borderRadius: BorderRadius.circular(_rowComponentBorderRadius),
     borderSide: BorderSide(style: BorderStyle.none)
 );
 
@@ -59,6 +63,7 @@ class AddThankYouContent extends StatelessWidget {
           children: <Widget>[
             ListView(
                 children: <Widget>[
+                  SizedBox(height: 12),
                   AddThankYouTextField(),
                   AddThankYouDatePicker()
                 ]
@@ -75,12 +80,7 @@ class AddThankYouTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     AddThankYouViewModel viewModel = Provider.of<AddThankYouViewModel>(context, listen: false);
     return Container(
-        margin: EdgeInsets.only(
-            left: 24.0,
-            right: 24.0,
-            top: 24.0,
-            bottom: 12.0
-        ),
+        margin: _rowMargin,
         child: TextField(
           style: TextStyle(fontSize: 17),
           minLines: 4,
@@ -107,8 +107,8 @@ class AddThankYouDatePicker extends StatelessWidget {
         selector: (context, viewModel) => viewModel.selectedDate,
         builder: (context, selectedDate, child) {
           return Container(
-              height: 50,
-              margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+              height: _rowMinHeight,
+              margin: _rowMargin,
               child: FlatButton(
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
