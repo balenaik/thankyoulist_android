@@ -38,7 +38,6 @@ class EditThankYouScreen extends StatelessWidget {
 class EditThankYouContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    EditThankYouViewModel viewModel = Provider.of<EditThankYouViewModel>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -53,13 +52,6 @@ class EditThankYouContent extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: AppColors.textColor),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("Edit", style: TextStyle(fontSize: 17)),
-              shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
-              onPressed: () => viewModel.editThankYou(),
-            ),
-          ],
         ),
         backgroundColor: Colors.grey[200],
         body: Stack(
@@ -69,7 +61,7 @@ class EditThankYouContent extends StatelessWidget {
                   SizedBox(height: 12),
                   EditThankYouTextField(),
                   EditThankYouDatePicker(),
-                  EditThankYouDeleteButton()
+                  EditThankYouDoneButton()
                 ]
             ),
             EditThankYouStatusHandler()
@@ -169,42 +161,30 @@ class EditThankYouDatePicker extends StatelessWidget {
   }
 }
 
-class EditThankYouDeleteButton extends StatelessWidget {
+class EditThankYouDoneButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 50,
-        margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-        child: FlatButton(
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
-            child: Text(
-                'Delete',
-                style: TextStyle(
-                    fontSize: 17,
-                    color: Colors.red
-                )
-            )
-          ),
-          color: Colors.white,
-          highlightColor: Colors.transparent,
-          splashColor: Theme.of(context).primaryColorLight,
-          shape: _outlineBorder,
-          onPressed: () async {
-            _showDeleteDialog(context);
-          },
-        ));
-  }
-
-  void _showDeleteDialog(BuildContext context) {
     EditThankYouViewModel viewModel = Provider.of<EditThankYouViewModel>(context, listen: false);
-    showDialog<DefaultDialog>(
-        context: context,
-        builder: (context) => DefaultDialog(
-          'Delete Thank You',
-          'Are you sure you want to delete this thank you?',
-          onPositiveButtonPressed: () => viewModel.deleteThankYou(),
-          onNegativeButtonPressed: () {},
+    return Container(
+        height: _rowMinHeight,
+        margin: _rowMargin,
+        child: TextButton(
+            child: Container(
+                child: Text(
+                    'Done',
+                    style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
+                    )
+                )
+            ),
+            style: TextButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColor,
+                primary: Theme.of(context).accentColor,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_rowComponentBorderRadius))
+            ),
+            onPressed: () => viewModel.editThankYou()
         )
     );
   }

@@ -35,7 +35,6 @@ class AddThankYouScreen extends StatelessWidget {
 class AddThankYouContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    AddThankYouViewModel viewModel = Provider.of<AddThankYouViewModel>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -49,13 +48,6 @@ class AddThankYouContent extends StatelessWidget {
           shape: Border(bottom: BorderSide(color: AppColors.appBarBottomBorderColor)),
           elevation: 0,
           backgroundColor: Colors.white,
-          actions: <Widget>[
-            FlatButton(
-              child: Text("Add", style: TextStyle(fontSize: 17)),
-              shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
-              onPressed: () => viewModel.createThankYou(),
-            ),
-          ],
           iconTheme: IconThemeData(color: AppColors.textColor),
         ),
         backgroundColor: Colors.grey[200],
@@ -65,7 +57,8 @@ class AddThankYouContent extends StatelessWidget {
                 children: <Widget>[
                   SizedBox(height: 12),
                   AddThankYouTextField(),
-                  AddThankYouDatePicker()
+                  AddThankYouDatePicker(),
+                  AddThankYouDoneButton()
                 ]
             ),
             AddThankYouStatusHandler()
@@ -153,6 +146,35 @@ class AddThankYouDatePicker extends StatelessWidget {
                   }},
               ));
         });
+  }
+}
+
+class AddThankYouDoneButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    AddThankYouViewModel viewModel = Provider.of<AddThankYouViewModel>(context, listen: false);
+    return Container(
+        height: _rowMinHeight,
+        margin: _rowMargin,
+        child: TextButton(
+            child: Container(
+                child: Text(
+                    'Done',
+                    style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
+                    )
+                )
+            ),
+            style: TextButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColor,
+                primary: Theme.of(context).accentColor,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_rowComponentBorderRadius))
+            ),
+            onPressed: () => viewModel.createThankYou()
+        )
+    );
   }
 }
 
