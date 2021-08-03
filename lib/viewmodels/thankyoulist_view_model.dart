@@ -5,19 +5,47 @@ import 'package:thankyoulist/models/thankyou_list_view_ui_model.dart';
 import 'package:thankyoulist/models/thankyou_model.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/repositories/model_change_type.dart';
+import 'package:thankyoulist/repositories/thankyou_repiository.dart';
 import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
+import 'package:thankyoulist/status.dart';
+
+class ThankYouListStatus extends Status {
+  ThankYouListStatus(String value) : super(value);
+
+  static const deleteThankYouDeleting = Status('DELETE_THANKYOU_DELETING');
+  static const deleteThankYouSuccess = Status('DELETE_THANKYOU_SUCCESS');
+  static const deleteThankYouFailed = Status('DELETE_THANKYOU_FAILED');
+}
 
 class ThankYouListViewModel with ChangeNotifier {
   SplayTreeMap<DateTime, List<ThankYouModel>> _thankYouListMap = SplayTreeMap<DateTime, List<ThankYouModel>>();
   SplayTreeMap<SectionMonthYearModel, Set<DateTime>> _datesByMonthsMap = SplayTreeMap<SectionMonthYearModel, Set<DateTime>>();
+  Status _status = Status.none;
 
   List<ThankYouListViewUiModel> get thankYouListWithDate => _getThankYouListWithDate();
+  Status get status => _status;
 
   final ThankYouListRepository thankYouListRepository;
+  final ThankYouRepository thankYouRepository;
   final AuthRepository authRepository;
 
-  ThankYouListViewModel(this.thankYouListRepository, this.authRepository){
+  ThankYouListViewModel(this.thankYouListRepository, this.thankYouRepository, this.authRepository){
     _addThankYouListListener();
+  }
+
+  Future<void> deleteThankYou(String thankYouId) async {
+    _status = ThankYouListStatus.deleteThankYouDeleting;
+    notifyListeners();
+    final userId = await authRepository.getUserId();
+    try {
+      await thankYouRepository.deleteThankYou(userId, thankYouId);
+      _status = ThankYouListStatus.deleteThankYouSuccess;
+    } catch (_) {
+      // Need to wait a bit otherwise status won't be notified to the widget
+      await Future.delayed(Duration(milliseconds: 100));
+      _status = ThankYouListStatus.deleteThankYouFailed;
+    }
+    notifyListeners();
   }
 
   void _addThankYouListListener() async {

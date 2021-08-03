@@ -6,8 +6,10 @@ import 'package:thankyoulist/gen/assets.gen.dart';
 import 'package:thankyoulist/extensions/list_extension.dart';
 import 'package:thankyoulist/models/thankyou_list_view_ui_model.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
+import 'package:thankyoulist/repositories/thankyou_repiository.dart';
 import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
 import 'package:thankyoulist/viewmodels/thankyoulist_view_model.dart';
+import 'package:thankyoulist/views/common/default_dialog.dart';
 import 'package:thankyoulist/views/common/remove_glowingover_scrollindicator_behavior.dart';
 import 'package:thankyoulist/views/common/thankyou_item.dart';
 import 'package:thankyoulist/views/screens/edit_thankyou/edit_thankyou_screen.dart';
@@ -19,6 +21,7 @@ class ThankYouListScreen extends StatelessWidget {
     return ChangeNotifierProvider<ThankYouListViewModel>.value(
         value: ThankYouListViewModel(
           Provider.of<ThankYouListRepositoryImpl>(context, listen: false),
+          Provider.of<ThankYouRepositoryImpl>(context, listen: false),
           Provider.of<AuthRepositoryImpl>(context, listen: false),
         ),
         child: Scaffold(
@@ -96,9 +99,7 @@ class ThankYouListView extends StatelessWidget {
                   ),
                 );
                 },
-              onDeleteButtonPressed: () {
-                print('delete tapped');
-              },
+              onDeleteButtonPressed: () => _showDeleteDialog(context, thankYou.id),
             );
           }
           },
@@ -123,5 +124,17 @@ class ThankYouListView extends StatelessWidget {
         ))
     );
   }
-}
 
+  void _showDeleteDialog(BuildContext context, String thankYouId) {
+    ThankYouListViewModel viewModel = Provider.of<ThankYouListViewModel>(context, listen: false);
+    showDialog<DefaultDialog>(
+        context: context,
+        builder: (context) => DefaultDialog(
+          'Delete Thank You',
+          'Are you sure you want to delete this thank you?',
+          onPositiveButtonPressed: () => viewModel.deleteThankYou(thankYouId),
+          onNegativeButtonPressed: () {},
+        )
+    );
+  }
+}

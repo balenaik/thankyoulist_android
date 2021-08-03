@@ -4,7 +4,17 @@ import 'package:thankyoulist/models/thankyou_model.dart';
 import 'package:thankyoulist/repositories/app_data_repository.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/repositories/model_change_type.dart';
+import 'package:thankyoulist/repositories/thankyou_repiository.dart';
 import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
+import 'package:thankyoulist/status.dart';
+
+class ThankYouCalendarStatus extends Status {
+  ThankYouCalendarStatus(String value) : super(value);
+
+  static const deleteThankYouDeleting = Status('DELETE_THANKYOU_DELETING');
+  static const deleteThankYouSuccess = Status('DELETE_THANKYOU_SUCCESS');
+  static const deleteThankYouFailed = Status('DELETE_THANKYOU_FAILED');
+}
 
 class ThankYouCalendarViewModel with ChangeNotifier {
   // TODO: Is String date better than UTC DateTime as mapping key?
@@ -12,16 +22,23 @@ class ThankYouCalendarViewModel with ChangeNotifier {
   Map<DateTime, List<ThankYouModel>> _thankYouEvents = {};
   late DateTime _selectedDate;
   late DateTime _focusedDate;
+  Status _status = Status.none;
 
   Map<DateTime, List<ThankYouModel>> get thankYouEvents => _thankYouEvents;
   DateTime get selectedDate => _selectedDate;
   DateTime get focusedDate => _focusedDate;
+  Status get status => _status;
 
   final ThankYouListRepository thankYouListRepository;
+  final ThankYouRepository thankYouRepository;
   final AuthRepository authRepository;
   final AppDataRepository appDataRepository;
 
-  ThankYouCalendarViewModel(this.thankYouListRepository, this.authRepository, this.appDataRepository){
+  ThankYouCalendarViewModel(
+      this.thankYouListRepository,
+      this.thankYouRepository,
+      this.authRepository,
+      this.appDataRepository){
     _selectedDate = _utcDateTime(DateTime.now());
     _focusedDate = _utcDateTime(DateTime.now());
     _addThankYousListener();
@@ -35,6 +52,21 @@ class ThankYouCalendarViewModel with ChangeNotifier {
     _selectedDate = selectedDate;
     _focusedDate = focusedDate;
     appDataRepository.writeCalendarSelectedDate(selectedDate);
+    notifyListeners();
+  }
+
+  Future<void> deleteThankYou(String thankYouId) async {
+    _status = ThankYouCalendarStatus.deleteThankYouDeleting;
+    notifyListeners();
+    final userId = await authRepository.getUserId();
+    try {
+      await thankYouRepository.deleteThankYou(userId, thankYouId);
+      _status = ThankYouCalendarStatus.deleteThankYouSuccess;
+    } catch (_) {
+      // Need to wait a bit otherwise status won't be notified to the widget
+      await Future.delayed(Duration(milliseconds: 100));
+      _status = ThankYouCalendarStatus.deleteThankYouFailed;
+    }
     notifyListeners();
   }
 
