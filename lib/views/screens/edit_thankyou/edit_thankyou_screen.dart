@@ -92,6 +92,7 @@ class EditThankYouTextField extends StatelessWidget {
                 style: TextStyle(fontSize: 17),
                 minLines: 4,
                 maxLines: null,
+                autofocus: true,
                 decoration: InputDecoration(
                     hintText: 'What are you thankful for?',
                     enabledBorder: _outlineBorder,
