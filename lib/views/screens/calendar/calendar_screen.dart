@@ -11,6 +11,7 @@ import 'package:thankyoulist/repositories/app_data_repository.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/repositories/thankyou_repiository.dart';
 import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
+import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/viewmodels/thankyou_calendar_view_model.dart';
 import 'package:thankyoulist/views/common/child_size_notifier.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
@@ -62,7 +63,12 @@ class CalendarScreen extends StatelessWidget {
               ],
             ),
             backgroundColor: Colors.grey[100],
-            body: CalendarSlidingUpPanel()
+            body:Stack(
+              children: [
+                CalendarSlidingUpPanel(),
+                ThankYouCalendarStatusHandler()
+              ],
+            )
         )
     );
   }
@@ -348,5 +354,41 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
 
   Color _markerColor(BuildContext context) {
     return primaryColor[900] ?? Theme.of(context).primaryColor;
+  }
+}
+
+class ThankYouCalendarStatusHandler extends StatelessWidget {
+  Widget? _showErrorDialog(BuildContext context, String title, String message) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      showDialog<DefaultDialog>(
+          context: context,
+          builder: (context) => DefaultDialog(
+            title,
+            message,
+            onPositiveButtonPressed: () {},
+          ));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Selector<ThankYouCalendarViewModel, Status>(
+      selector: (context, viewModel) => viewModel.status,
+      builder: (context, status, child) {
+        switch (status) {
+          case ThankYouCalendarStatus.deleteThankYouDeleting:
+            return Container(
+                decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0.3)),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                )
+            );
+          case ThankYouCalendarStatus.deleteThankYouFailed:
+            _showErrorDialog(context, 'Error', 'Could not delete Thank You');
+            break;
+        }
+        return Container();
+      },
+    );
   }
 }

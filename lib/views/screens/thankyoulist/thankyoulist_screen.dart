@@ -8,6 +8,7 @@ import 'package:thankyoulist/models/thankyou_list_view_ui_model.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/repositories/thankyou_repiository.dart';
 import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
+import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/viewmodels/thankyoulist_view_model.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
 import 'package:thankyoulist/views/common/remove_glowingover_scrollindicator_behavior.dart';
@@ -25,7 +26,12 @@ class ThankYouListScreen extends StatelessWidget {
           Provider.of<AuthRepositoryImpl>(context, listen: false),
         ),
         child: Scaffold(
-            body: ThankYouListWithAppBar()
+            body: Stack(
+              children: [
+                ThankYouListWithAppBar(),
+                ThankYouListStatusHandler()
+              ],
+            )
         )
     );
   }
@@ -135,6 +141,42 @@ class ThankYouListView extends StatelessWidget {
           onPositiveButtonPressed: () => viewModel.deleteThankYou(thankYouId),
           onNegativeButtonPressed: () {},
         )
+    );
+  }
+}
+
+class ThankYouListStatusHandler extends StatelessWidget {
+  Widget? _showErrorDialog(BuildContext context, String title, String message) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      showDialog<DefaultDialog>(
+          context: context,
+          builder: (context) => DefaultDialog(
+            title,
+            message,
+            onPositiveButtonPressed: () {},
+          ));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Selector<ThankYouListViewModel, Status>(
+      selector: (context, viewModel) => viewModel.status,
+      builder: (context, status, child) {
+        switch (status) {
+          case ThankYouListStatus.deleteThankYouDeleting:
+            return Container(
+                decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0.3)),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                )
+            );
+          case ThankYouListStatus.deleteThankYouFailed:
+            _showErrorDialog(context, 'Error', 'Could not delete Thank You');
+            break;
+        }
+        return Container();
+      },
     );
   }
 }
