@@ -13,11 +13,6 @@ const double _rowMinHeight = 48;
 const EdgeInsets _rowMargin = EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0);
 const double _rowComponentBorderRadius = 16;
 
-final OutlineInputBorder _outlineBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(_rowComponentBorderRadius),
-    borderSide: BorderSide(style: BorderStyle.none)
-);
-
 class EditThankYouScreen extends StatelessWidget {
   final String editingThankYouId;
 
@@ -99,6 +94,11 @@ class EditThankYouTextField extends StatelessWidget {
           );
         });
   }
+
+  final OutlineInputBorder _outlineBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(_rowComponentBorderRadius),
+      borderSide: BorderSide(style: BorderStyle.none)
+  );
 }
 
 class EditThankYouDatePicker extends StatelessWidget {
@@ -112,9 +112,9 @@ class EditThankYouDatePicker extends StatelessWidget {
           return Container(
               height: _rowMinHeight,
               margin: _rowMargin,
-              child: FlatButton(
+              child: TextButton(
                 child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                  margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
                   child: Row(
                       children: <Widget>[
                         Expanded(
@@ -122,7 +122,8 @@ class EditThankYouDatePicker extends StatelessWidget {
                                 'Date',
                                 style: TextStyle(
                                     fontSize: 17,
-                                    fontWeight: FontWeight.bold
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.textColor
                                 )
                             )
                         ),
@@ -138,10 +139,10 @@ class EditThankYouDatePicker extends StatelessWidget {
                         )
                       ]),
                 ),
-                color: Colors.white,
-                highlightColor: Colors.transparent,
-                splashColor: Theme.of(context).primaryColorLight,
-                shape: _outlineBorder,
+                style: TextButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_rowComponentBorderRadius))
+                ),
                 onPressed: () async {
                   FocusManager.instance.primaryFocus?.unfocus();
                   if (selectedDate == null) {
