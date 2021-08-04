@@ -8,6 +8,7 @@ import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/viewmodels/add_thankyou_view_model.dart';
 import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
+import 'package:thankyoulist/views/themes/light_theme.dart';
 
 const double _rowMinHeight = 48;
 const EdgeInsets _rowMargin = EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0);
@@ -134,12 +135,24 @@ class AddThankYouDatePicker extends StatelessWidget {
                 shape: _outlineBorder,
                 onPressed: () async {
                   FocusManager.instance.primaryFocus?.unfocus();
-                  // TODO: OK and cancel colors are too light for the current primary swatch colors
                   final DateTime? pickedDate = await showDatePicker(
                       context: context,
                       initialDate: selectedDate,
                       firstDate: DateTime(2010),
-                      lastDate: DateTime(2030)
+                      lastDate: DateTime(2030),
+                      builder: (BuildContext context, Widget? child) {
+                        return Theme(
+                            data: Theme.of(context).copyWith(
+                              textButtonTheme: TextButtonThemeData(
+                                style: TextButton.styleFrom(
+                                    primary: primaryColor[900],
+                                    textStyle: TextStyle(fontWeight: FontWeight.w600)
+                                )
+                              ),
+                            ),
+                            child: child ?? Container()
+                        );
+                      }
                   );
                   if (pickedDate != null) {
                     viewModel.updateSelectedDate(pickedDate);
