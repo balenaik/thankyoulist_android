@@ -178,27 +178,32 @@ class EditThankYouDatePicker extends StatelessWidget {
 class EditThankYouDoneButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    EditThankYouViewModel viewModel = Provider.of<EditThankYouViewModel>(context, listen: true);
-    double _backgroundOpacity = viewModel.isDoneButtonEnabled ? 1.0 : 0.38;
-    return Container(
-        height: _rowMinHeight,
-        margin: _rowMargin,
-        child: TextButton(
-            child: Text(
-                'Done',
-                style: TextStyle(
-                    fontSize: 17,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold
-                )
-            ),
-            style: TextButton.styleFrom(
-                backgroundColor: Theme.of(context).primaryColor.withOpacity(_backgroundOpacity),
-                primary: Theme.of(context).accentColor,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_rowComponentBorderRadius))
-            ),
-            onPressed: viewModel.isDoneButtonEnabled ? () => viewModel.editThankYou() : null
-        )
+    EditThankYouViewModel viewModel = Provider.of<EditThankYouViewModel>(context, listen: false);
+    return Selector<EditThankYouViewModel, bool>(
+        selector: (context, viewModel) => viewModel.isDoneButtonEnabled,
+        builder: (context, isDoneButtonEnabled, child) {
+          final backgroundOpacity = isDoneButtonEnabled ? 1.0 : 0.38;
+          return Container(
+              height: _rowMinHeight,
+              margin: _rowMargin,
+              child: TextButton(
+                  child: Text(
+                      'Done',
+                      style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold
+                      )
+                  ),
+                  style: TextButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor.withOpacity(backgroundOpacity),
+                      primary: Theme.of(context).accentColor,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_rowComponentBorderRadius))
+                  ),
+                  onPressed: isDoneButtonEnabled ? () => viewModel.editThankYou() : null
+              )
+          );
+        }
     );
   }
 }
