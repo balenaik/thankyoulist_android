@@ -12,9 +12,6 @@ class EditThankYouStatus extends Status {
   static const editThankYouEditing = Status('EDIT_THANKYOU_EDITING');
   static const editThankYouSuccess = Status('EDIT_THANKYOU_SUCCESS');
   static const editThankYouFailed = Status('EDIT_THANKYOU_FAILED');
-  static const deleteThankYouDeleting = Status('DELETE_THANKYOU_DELETING');
-  static const deleteThankYouSuccess = Status('DELETE_THANKYOU_SUCCESS');
-  static const deleteThankYouFailed = Status('DELETE_THANKYOU_FAILED');
 }
 
 class EditThankYouViewModel with ChangeNotifier {
@@ -70,21 +67,6 @@ class EditThankYouViewModel with ChangeNotifier {
       // Need to wait a bit otherwise status won't be notified to the widget
       await Future.delayed(Duration(milliseconds: 100));
       _status = EditThankYouStatus.editThankYouFailed;
-    }
-    notifyListeners();
-  }
-
-  Future<void> deleteThankYou() async {
-    _status = EditThankYouStatus.deleteThankYouDeleting;
-    notifyListeners();
-    final userId = await authRepository.getUserId();
-    try {
-      await thankYouRepository.deleteThankYou(userId, editingThankYouId);
-      _status = EditThankYouStatus.deleteThankYouSuccess;
-    } catch (_) {
-      // Need to wait a bit otherwise status won't be notified to the widget
-      await Future.delayed(Duration(milliseconds: 100));
-      _status = EditThankYouStatus.deleteThankYouFailed;
     }
     notifyListeners();
   }

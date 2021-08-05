@@ -229,7 +229,6 @@ class EditThankYouStatusHandler extends StatelessWidget {
             });
             break;
           case EditThankYouStatus.editThankYouEditing:
-          case EditThankYouStatus.deleteThankYouDeleting:
             return Container(
                 decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0.3)),
                 child: Center(
@@ -243,14 +242,6 @@ class EditThankYouStatusHandler extends StatelessWidget {
             break;
           case EditThankYouStatus.editThankYouFailed:
             _showErrorDialog(context, 'Error', 'Could not edit Thank You');
-            break;
-          case EditThankYouStatus.deleteThankYouSuccess:
-            WidgetsBinding.instance?.addPostFrameCallback((_) {
-              Navigator.of(context).popUntil((route) => route.isFirst);
-            });
-            break;
-          case EditThankYouStatus.deleteThankYouFailed:
-            _showErrorDialog(context, 'Error', 'Could not delete Thank You');
             break;
         }
         return Container();
