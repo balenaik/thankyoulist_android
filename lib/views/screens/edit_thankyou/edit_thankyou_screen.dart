@@ -178,7 +178,8 @@ class EditThankYouDatePicker extends StatelessWidget {
 class EditThankYouDoneButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    EditThankYouViewModel viewModel = Provider.of<EditThankYouViewModel>(context, listen: false);
+    EditThankYouViewModel viewModel = Provider.of<EditThankYouViewModel>(context, listen: true);
+    double _backgroundOpacity = viewModel.isDoneButtonEnabled ? 1.0 : 0.38;
     return Container(
         height: _rowMinHeight,
         margin: _rowMargin,
@@ -192,11 +193,11 @@ class EditThankYouDoneButton extends StatelessWidget {
                 )
             ),
             style: TextButton.styleFrom(
-                backgroundColor: Theme.of(context).primaryColor,
+                backgroundColor: Theme.of(context).primaryColor.withOpacity(_backgroundOpacity),
                 primary: Theme.of(context).accentColor,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_rowComponentBorderRadius))
             ),
-            onPressed: () => viewModel.editThankYou()
+            onPressed: viewModel.isDoneButtonEnabled ? () => viewModel.editThankYou() : null
         )
     );
   }

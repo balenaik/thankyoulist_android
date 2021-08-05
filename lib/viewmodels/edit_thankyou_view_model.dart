@@ -23,7 +23,7 @@ class EditThankYouViewModel with ChangeNotifier {
   String get initialValue => _editingThankYou?.value ?? "";
   DateTime get selectedDate => _selectedDate;
   Status get status => _status;
-  ThankYouModel? get editingThankYou => _editingThankYou;
+  bool get isDoneButtonEnabled => _inputValue.isNotEmpty;
 
   final ThankYouRepository thankYouRepository;
   final AuthRepository authRepository;
@@ -38,6 +38,7 @@ class EditThankYouViewModel with ChangeNotifier {
 
   void updateInputValue(String value) {
     _inputValue = value;
+    notifyListeners();
   }
 
   void updateSelectedDate(DateTime selectedDate) {
