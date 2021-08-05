@@ -71,9 +71,9 @@ class EditThankYouTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     EditThankYouViewModel viewModel = Provider.of<EditThankYouViewModel>(context, listen: false);
-    return Selector<EditThankYouViewModel, String?>(
-        selector: (context, viewModel) => viewModel.inputValue,
-        builder: (context, inputValue, child) {
+    return Selector<EditThankYouViewModel, String>(
+        selector: (context, viewModel) => viewModel.initialValue,
+        builder: (context, initialValue, child) {
           return Container(
               margin: _rowMargin,
               child: TextField(
@@ -89,7 +89,7 @@ class EditThankYouTextField extends StatelessWidget {
                     fillColor: Colors.white
                 ),
                 onChanged: (String value) => viewModel.updateInputValue(value),
-                controller: TextEditingController(text: inputValue),
+                controller: TextEditingController(text: initialValue),
               )
           );
         });

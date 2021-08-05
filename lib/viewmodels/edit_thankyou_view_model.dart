@@ -20,7 +20,7 @@ class EditThankYouViewModel with ChangeNotifier {
   Status _status = Status.none;
   ThankYouModel? _editingThankYou;
 
-  String get inputValue => _inputValue;
+  String get initialValue => _editingThankYou?.value ?? "";
   DateTime get selectedDate => _selectedDate;
   Status get status => _status;
   ThankYouModel? get editingThankYou => _editingThankYou;

@@ -18,7 +18,6 @@ class AddThankYouViewModel with ChangeNotifier {
   late DateTime _selectedDate;
   Status _status = Status.none;
 
-  String get inputValue => _inputValue;
   DateTime get selectedDate => _selectedDate;
   Status get status => _status;
 
