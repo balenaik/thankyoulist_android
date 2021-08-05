@@ -15,13 +15,13 @@ class EditThankYouStatus extends Status {
 }
 
 class EditThankYouViewModel with ChangeNotifier {
-  String? _inputValue;
-  DateTime? _selectedDate;
+  late String _inputValue;
+  late DateTime _selectedDate;
   Status _status = Status.none;
   ThankYouModel? _editingThankYou;
 
-  String? get inputValue => _inputValue;
-  DateTime? get selectedDate => _selectedDate;
+  String get inputValue => _inputValue;
+  DateTime get selectedDate => _selectedDate;
   Status get status => _status;
   ThankYouModel? get editingThankYou => _editingThankYou;
 
@@ -31,6 +31,8 @@ class EditThankYouViewModel with ChangeNotifier {
   final String editingThankYouId;
 
   EditThankYouViewModel(this.thankYouRepository, this.authRepository, this.editingThankYouId) {
+    _inputValue = "";
+    _selectedDate = _utcDateTime(DateTime.now());
     _loadEditingThankYou();
   }
 
@@ -45,9 +47,7 @@ class EditThankYouViewModel with ChangeNotifier {
 
   Future<void> editThankYou() async {
     final editingId = _editingThankYou?.id;
-    final inputValue = _inputValue;
-    final selectedDate = _selectedDate;
-    if (editingId == null || inputValue == null || selectedDate == null) {
+    if (editingId == null) {
       return;
     }
 
@@ -57,8 +57,8 @@ class EditThankYouViewModel with ChangeNotifier {
     try {
       final thankYouUpdate = ThankYouUpdateModel.from(
           id: editingId,
-          value: inputValue,
-          date: selectedDate,
+          value: _inputValue,
+          date: _selectedDate,
           userId: userId
       );
       await thankYouRepository.updateThankYou(userId, thankYouUpdate);
