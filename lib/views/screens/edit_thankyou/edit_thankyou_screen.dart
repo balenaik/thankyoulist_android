@@ -183,14 +183,12 @@ class EditThankYouDoneButton extends StatelessWidget {
         height: _rowMinHeight,
         margin: _rowMargin,
         child: TextButton(
-            child: Container(
-                child: Text(
-                    'Done',
-                    style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold
-                    )
+            child: Text(
+                'Done',
+                style: TextStyle(
+                    fontSize: 17,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold
                 )
             ),
             style: TextButton.styleFrom(
