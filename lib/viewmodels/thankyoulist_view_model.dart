@@ -58,11 +58,11 @@ class ThankYouListViewModel with ChangeNotifier {
             _addThankYouToMap(change);
             break;
           case ModelChangeType.modified:
-            _deleteThankYouFromMap(change);
+            _removeThankYouFromMap(change);
             _addThankYouToMap(change);
             break;
           case ModelChangeType.removed:
-            _deleteThankYouFromMap(change);
+            _removeThankYouFromMap(change);
             break;
         }
       });
@@ -95,7 +95,7 @@ class ThankYouListViewModel with ChangeNotifier {
     _datesByMonthsMap[monthYear]?.add(dateTime);
   }
 
-  void _deleteThankYouFromMap(ThankYouListChange change) {
+  void _removeThankYouFromMap(ThankYouListChange change) {
     ThankYouModel? oldThankYou;
     // Extract old thankyou by changed id
     for (DateTime key in _thankYouListMap.keys) {
