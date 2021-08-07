@@ -107,6 +107,8 @@ class EditThankYouTextField extends StatelessWidget {
     return Selector<EditThankYouViewModel, String>(
         selector: (context, viewModel) => viewModel.initialValue,
         builder: (context, initialValue, child) {
+          TextEditingController controller = TextEditingController(text: initialValue);
+          controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
           return Container(
               margin: _rowMargin,
               child: TextField(
@@ -122,7 +124,7 @@ class EditThankYouTextField extends StatelessWidget {
                     fillColor: Colors.white
                 ),
                 onChanged: (String value) => viewModel.updateInputValue(value),
-                controller: TextEditingController(text: initialValue),
+                controller: controller,
               )
           );
         });
