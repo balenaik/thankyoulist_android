@@ -18,9 +18,10 @@ class AddThankYouViewModel with ChangeNotifier {
   late DateTime _selectedDate;
   Status _status = Status.none;
 
-  String get inputValue => _inputValue;
   DateTime get selectedDate => _selectedDate;
   Status get status => _status;
+  bool get isDoneButtonEnabled => _inputValue.isNotEmpty;
+  bool get showsDiscardAlertDialog => _inputValue.isNotEmpty;
 
   final ThankYouRepository thankYouRepository;
   final AuthRepository authRepository;
@@ -33,6 +34,7 @@ class AddThankYouViewModel with ChangeNotifier {
 
   void updateInputValue(String value) {
     _inputValue = value;
+    notifyListeners();
   }
 
   void updateSelectedDate(DateTime selectedDate) {
@@ -44,15 +46,18 @@ class AddThankYouViewModel with ChangeNotifier {
     _status = AddThankYouStatus.addThankYouAdding;
     notifyListeners();
     final userId = await authRepository.getUserId();
-    final thankYouCreate = ThankYouCreateModel.from(
-      value: _inputValue,
-      date: _selectedDate,
-      userId: userId
-    );
     try {
+      final thankYouCreate = ThankYouCreateModel.from(
+        value: _inputValue,
+        date: _selectedDate,
+        userId: userId
+      );
       await thankYouRepository.createThankYou(userId, thankYouCreate);
       _status = AddThankYouStatus.addThankYouSuccess;
-    } on Exception {
+    } catch (_) {
+      // Need to wait a bit otherwise status won't be notified to the widget
+      // (I guess it's due the timing of changing status is too fast)
+      await Future.delayed(Duration(milliseconds: 100));
       _status = AddThankYouStatus.addThankYouFailed;
     }
     notifyListeners();

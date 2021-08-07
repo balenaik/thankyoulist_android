@@ -5,14 +5,16 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:thankyoulist/app_colors.dart';
 import 'package:thankyoulist/gen/assets.gen.dart';
-import 'package:thankyoulist/gen/fonts.gen.dart';
 
 import 'package:thankyoulist/models/thankyou_model.dart';
 import 'package:thankyoulist/repositories/app_data_repository.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
+import 'package:thankyoulist/repositories/thankyou_repiository.dart';
 import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
+import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/viewmodels/thankyou_calendar_view_model.dart';
 import 'package:thankyoulist/views/common/child_size_notifier.dart';
+import 'package:thankyoulist/views/common/default_dialog.dart';
 import 'package:thankyoulist/views/common/thankyou_item.dart';
 import 'package:thankyoulist/extensions/list_extension.dart';
 import 'package:thankyoulist/views/common/remove_glowingover_scrollindicator_behavior.dart';
@@ -30,6 +32,7 @@ class CalendarScreen extends StatelessWidget {
     return ChangeNotifierProvider<ThankYouCalendarViewModel>.value(
         value: ThankYouCalendarViewModel(
           Provider.of<ThankYouListRepositoryImpl>(context, listen: false),
+          Provider.of<ThankYouRepositoryImpl>(context, listen: false),
           Provider.of<AuthRepositoryImpl>(context, listen: false),
           Provider.of<AppDataRepositoryImpl>(context, listen: false)
         ),
@@ -38,17 +41,17 @@ class CalendarScreen extends StatelessWidget {
               title: Text(
                 'Thank You Calendar',
                 style: TextStyle(
-                    color: primaryColor[900],
+                    color: AppColors.textColor,
                     fontWeight: FontWeight.bold
                 ),
               ),
               centerTitle: true,
-              shape: Border(bottom: BorderSide(color: Colors.black12)),
+              shape: Border(bottom: BorderSide(color: AppColors.appBarBottomBorderColor)),
               elevation: 0,
               backgroundColor: Colors.white,
               actions: [
                 IconButton(
-                  icon: Assets.icons.accountCircle20.image(color: Theme.of(context).primaryColor),
+                  icon: Assets.icons.accountCircle20.image(color: AppColors.textColor),
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => MyPageScreen(),
@@ -60,7 +63,12 @@ class CalendarScreen extends StatelessWidget {
               ],
             ),
             backgroundColor: Colors.grey[100],
-            body: CalendarSlidingUpPanel()
+            body: Stack(
+              children: [
+                CalendarSlidingUpPanel(),
+                ThankYouCalendarStatusHandler()
+              ],
+            )
         )
     );
   }
@@ -122,13 +130,15 @@ class SlidingUpListView extends StatelessWidget {
                       if (thankYou != null) {
                         return ThankYouItem(
                           thankYou: thankYou,
-                          onTap: () {
+                          onEditButtonPressed: () {
                             Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => EditThankYouScreen(thankYou.id),
+                              MaterialPageRoute(
+                                  builder: (context) => EditThankYouScreen(thankYou.id),
                                   fullscreenDialog: true
                               ),
                             );
                           },
+                          onDeleteButtonPressed: () => _showDeleteDialog(context, thankYou.id),
                         );
                       } else {
                         return Container();
@@ -173,6 +183,19 @@ class SlidingUpListView extends StatelessWidget {
               height: 3.0
           )
         ]
+    );
+  }
+
+  void _showDeleteDialog(BuildContext context, String thankYouId) {
+    ThankYouCalendarViewModel viewModel = Provider.of<ThankYouCalendarViewModel>(context, listen: false);
+    showDialog<DefaultDialog>(
+        context: context,
+        builder: (context) => DefaultDialog(
+          'Delete Thank You',
+          'Are you sure you want to delete this thank you?',
+          onPositiveButtonPressed: () => viewModel.deleteThankYou(thankYouId),
+          onNegativeButtonPressed: () {},
+        )
     );
   }
 }
@@ -331,5 +354,41 @@ class CalendarScreenBaseCalendar extends StatelessWidget {
 
   Color _markerColor(BuildContext context) {
     return primaryColor[900] ?? Theme.of(context).primaryColor;
+  }
+}
+
+class ThankYouCalendarStatusHandler extends StatelessWidget {
+  Widget? _showErrorDialog(BuildContext context, String title, String message) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      showDialog<DefaultDialog>(
+          context: context,
+          builder: (context) => DefaultDialog(
+            title,
+            message,
+            onPositiveButtonPressed: () {},
+          ));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Selector<ThankYouCalendarViewModel, Status>(
+      selector: (context, viewModel) => viewModel.status,
+      builder: (context, status, child) {
+        switch (status) {
+          case ThankYouCalendarStatus.deleteThankYouDeleting:
+            return Container(
+                decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0.3)),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                )
+            );
+          case ThankYouCalendarStatus.deleteThankYouFailed:
+            _showErrorDialog(context, 'Error', 'Could not delete Thank You');
+            break;
+        }
+        return Container();
+      },
+    );
   }
 }

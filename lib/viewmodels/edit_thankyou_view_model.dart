@@ -12,21 +12,19 @@ class EditThankYouStatus extends Status {
   static const editThankYouEditing = Status('EDIT_THANKYOU_EDITING');
   static const editThankYouSuccess = Status('EDIT_THANKYOU_SUCCESS');
   static const editThankYouFailed = Status('EDIT_THANKYOU_FAILED');
-  static const deleteThankYouDeleting = Status('DELETE_THANKYOU_DELETING');
-  static const deleteThankYouSuccess = Status('DELETE_THANKYOU_SUCCESS');
-  static const deleteThankYouFailed = Status('DELETE_THANKYOU_FAILED');
 }
 
 class EditThankYouViewModel with ChangeNotifier {
-  String? _inputValue;
-  DateTime? _selectedDate;
+  late String _inputValue;
+  late DateTime _selectedDate;
   Status _status = Status.none;
   ThankYouModel? _editingThankYou;
 
-  String? get inputValue => _inputValue;
-  DateTime? get selectedDate => _selectedDate;
+  String get initialValue => _editingThankYou?.value ?? "";
+  DateTime get selectedDate => _selectedDate;
   Status get status => _status;
-  ThankYouModel? get editingThankYou => _editingThankYou;
+  bool get isDoneButtonEnabled => _inputValue.isNotEmpty;
+  bool get showsDiscardAlertDialog => _inputValue != _editingThankYou?.value;
 
   final ThankYouRepository thankYouRepository;
   final AuthRepository authRepository;
@@ -34,11 +32,14 @@ class EditThankYouViewModel with ChangeNotifier {
   final String editingThankYouId;
 
   EditThankYouViewModel(this.thankYouRepository, this.authRepository, this.editingThankYouId) {
+    _inputValue = "";
+    _selectedDate = _utcDateTime(DateTime.now());
     _loadEditingThankYou();
   }
 
   void updateInputValue(String value) {
     _inputValue = value;
+    notifyListeners();
   }
 
   void updateSelectedDate(DateTime selectedDate) {
@@ -48,39 +49,26 @@ class EditThankYouViewModel with ChangeNotifier {
 
   Future<void> editThankYou() async {
     final editingId = _editingThankYou?.id;
-    final inputValue = _inputValue;
-    final selectedDate = _selectedDate;
-    if (editingId == null || inputValue == null || selectedDate == null) {
+    if (editingId == null) {
       return;
     }
 
     _status = EditThankYouStatus.editThankYouEditing;
     notifyListeners();
     final userId = await authRepository.getUserId();
-    final thankYouUpdate = ThankYouUpdateModel.from(
-        id: editingId,
-        value: inputValue,
-        date: selectedDate,
-        userId: userId
-    );
     try {
+      final thankYouUpdate = ThankYouUpdateModel.from(
+          id: editingId,
+          value: _inputValue,
+          date: _selectedDate,
+          userId: userId
+      );
       await thankYouRepository.updateThankYou(userId, thankYouUpdate);
       _status = EditThankYouStatus.editThankYouSuccess;
-    } on Exception {
+    } catch (_) {
+      // Need to wait a bit otherwise status won't be notified to the widget
+      await Future.delayed(Duration(milliseconds: 100));
       _status = EditThankYouStatus.editThankYouFailed;
-    }
-    notifyListeners();
-  }
-
-  Future<void> deleteThankYou() async {
-    _status = EditThankYouStatus.deleteThankYouDeleting;
-    notifyListeners();
-    final userId = await authRepository.getUserId();
-    try {
-      await thankYouRepository.deleteThankYou(userId, editingThankYouId);
-      _status = EditThankYouStatus.deleteThankYouSuccess;
-    } on Exception {
-      _status = EditThankYouStatus.deleteThankYouFailed;
     }
     notifyListeners();
   }

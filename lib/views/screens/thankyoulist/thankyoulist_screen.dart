@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:thankyoulist/app_colors.dart';
 import 'package:thankyoulist/gen/assets.gen.dart';
 import 'package:thankyoulist/extensions/list_extension.dart';
 import 'package:thankyoulist/models/thankyou_list_view_ui_model.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
+import 'package:thankyoulist/repositories/thankyou_repiository.dart';
 import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
+import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/viewmodels/thankyoulist_view_model.dart';
+import 'package:thankyoulist/views/common/default_dialog.dart';
 import 'package:thankyoulist/views/common/remove_glowingover_scrollindicator_behavior.dart';
 import 'package:thankyoulist/views/common/thankyou_item.dart';
 import 'package:thankyoulist/views/screens/edit_thankyou/edit_thankyou_screen.dart';
 import 'package:thankyoulist/views/screens/my_page/my_page_screen.dart';
-import 'package:thankyoulist/views/themes/light_theme.dart';
 
 class ThankYouListScreen extends StatelessWidget {
   @override
@@ -19,10 +22,16 @@ class ThankYouListScreen extends StatelessWidget {
     return ChangeNotifierProvider<ThankYouListViewModel>.value(
         value: ThankYouListViewModel(
           Provider.of<ThankYouListRepositoryImpl>(context, listen: false),
+          Provider.of<ThankYouRepositoryImpl>(context, listen: false),
           Provider.of<AuthRepositoryImpl>(context, listen: false),
         ),
         child: Scaffold(
-            body: ThankYouListWithAppBar()
+            body: Stack(
+              children: [
+                ThankYouListWithAppBar(),
+                ThankYouListStatusHandler()
+              ],
+            )
         )
     );
   }
@@ -40,17 +49,17 @@ class ThankYouListWithAppBar extends StatelessWidget {
                 title: Text(
                     'Thank You List',
                     style: TextStyle(
-                        color: primaryColor[900],
+                        color: AppColors.textColor,
                         fontWeight: FontWeight.bold
                     )
                 ),
                 centerTitle: true,
               ),
-              shape: Border(bottom: BorderSide(color: Colors.black12)),
+              shape: Border(bottom: BorderSide(color: AppColors.appBarBottomBorderColor)),
               elevation: 0,
               actions: [
                 IconButton(
-                  icon: Assets.icons.accountCircle20.image(color: Theme.of(context).primaryColor),
+                  icon: Assets.icons.accountCircle20.image(color: AppColors.textColor),
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => MyPageScreen(),
@@ -88,7 +97,7 @@ class ThankYouListView extends StatelessWidget {
           if (thankYou != null) {
             return ThankYouItem(
               thankYou: thankYou,
-              onTap: () {
+              onEditButtonPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                       builder: (context) => EditThankYouScreen(thankYou.id),
@@ -96,6 +105,7 @@ class ThankYouListView extends StatelessWidget {
                   ),
                 );
                 },
+              onDeleteButtonPressed: () => _showDeleteDialog(context, thankYou.id),
             );
           }
           },
@@ -120,5 +130,53 @@ class ThankYouListView extends StatelessWidget {
         ))
     );
   }
+
+  void _showDeleteDialog(BuildContext context, String thankYouId) {
+    ThankYouListViewModel viewModel = Provider.of<ThankYouListViewModel>(context, listen: false);
+    showDialog<DefaultDialog>(
+        context: context,
+        builder: (context) => DefaultDialog(
+          'Delete Thank You',
+          'Are you sure you want to delete this thank you?',
+          onPositiveButtonPressed: () => viewModel.deleteThankYou(thankYouId),
+          onNegativeButtonPressed: () {},
+        )
+    );
+  }
 }
 
+class ThankYouListStatusHandler extends StatelessWidget {
+  Widget? _showErrorDialog(BuildContext context, String title, String message) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      showDialog<DefaultDialog>(
+          context: context,
+          builder: (context) => DefaultDialog(
+            title,
+            message,
+            onPositiveButtonPressed: () {},
+          ));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Selector<ThankYouListViewModel, Status>(
+      selector: (context, viewModel) => viewModel.status,
+      builder: (context, status, child) {
+        switch (status) {
+          case ThankYouListStatus.deleteThankYouDeleting:
+            return Container(
+                decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0.3)),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                )
+            );
+          case ThankYouListStatus.deleteThankYouFailed:
+            _showErrorDialog(context, 'Error', 'Could not delete Thank You');
+            break;
+        }
+        return Container();
+      },
+    );
+  }
+}
