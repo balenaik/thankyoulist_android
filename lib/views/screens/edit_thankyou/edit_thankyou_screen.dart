@@ -48,6 +48,7 @@ class EditThankYouContent extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: AppColors.textColor),
+          leading: EditThankYouCloseButton()
         ),
         backgroundColor: Colors.grey[200],
         body: Stack(
@@ -64,6 +65,38 @@ class EditThankYouContent extends StatelessWidget {
           ],
         )
     );
+  }
+}
+
+class EditThankYouCloseButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Selector<EditThankYouViewModel, bool>(
+        selector: (context, viewModel) => viewModel.showsDiscardAlertDialog,
+        builder: (context, showsDiscardAlertDialog, child) {
+          return CloseButton(
+            onPressed: showsDiscardAlertDialog ? () =>
+                _showDiscardAlertDialog(context) : null,
+          );
+        });
+  }
+
+  Widget? _showDiscardAlertDialog(BuildContext context) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      showDialog<DefaultDialog>(
+          context: context,
+          builder: (context) =>
+              DefaultDialog(
+                'Discard Changes?',
+                'Are you sure you want to discard changes?',
+                positiveButtonTitle: 'Discard',
+                negativeButtonTitle: 'Keep Editing',
+                onPositiveButtonPressed: () {
+                  Navigator.maybePop(context);
+                },
+                onNegativeButtonPressed: () {},
+              ));
+    });
   }
 }
 

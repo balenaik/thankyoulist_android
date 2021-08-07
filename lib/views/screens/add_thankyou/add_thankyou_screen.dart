@@ -31,6 +31,7 @@ class AddThankYouScreen extends StatelessWidget {
 class AddThankYouContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AddThankYouViewModel viewModel = Provider.of<AddThankYouViewModel>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -45,6 +46,7 @@ class AddThankYouContent extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: AppColors.textColor),
+          leading: AddThankYouCloseButton()
         ),
         backgroundColor: Colors.grey[200],
         body: Stack(
@@ -62,6 +64,36 @@ class AddThankYouContent extends StatelessWidget {
         )
     );
   }
+}
+
+class AddThankYouCloseButton extends StatelessWidget {
+ @override
+ Widget build(BuildContext context) {
+   return Selector<AddThankYouViewModel, bool>(
+       selector: (context, viewModel) => viewModel.showsDiscardAlertDialog,
+       builder: (context, showsDiscardAlertDialog, child) {
+         return CloseButton(
+           onPressed: showsDiscardAlertDialog ? () => _showDiscardAlertDialog(context) : null,
+         );
+       });
+ }
+
+ Widget? _showDiscardAlertDialog(BuildContext context) {
+   WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+     showDialog<DefaultDialog>(
+         context: context,
+         builder: (context) => DefaultDialog(
+           'Discard Thank You?',
+           'Are you sure you want to discard your thank you?',
+           positiveButtonTitle: 'Discard',
+           negativeButtonTitle: 'Keep Editing',
+           onPositiveButtonPressed: () {
+             Navigator.maybePop(context);
+           },
+           onNegativeButtonPressed: () {},
+         ));
+   });
+ }
 }
 
 class AddThankYouTextField extends StatelessWidget {

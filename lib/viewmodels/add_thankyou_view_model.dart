@@ -21,6 +21,7 @@ class AddThankYouViewModel with ChangeNotifier {
   DateTime get selectedDate => _selectedDate;
   Status get status => _status;
   bool get isDoneButtonEnabled => _inputValue.isNotEmpty;
+  bool get showsDiscardAlertDialog => _inputValue.isNotEmpty;
 
   final ThankYouRepository thankYouRepository;
   final AuthRepository authRepository;
