@@ -6,6 +6,7 @@ import 'package:thankyoulist/repositories/thankyou_repiository.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/viewmodels/edit_thankyou_view_model.dart';
 import 'package:thankyoulist/status.dart';
+import 'package:thankyoulist/views/common/default_app_bar.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
 import 'package:thankyoulist/views/themes/light_theme.dart';
 
@@ -35,20 +36,9 @@ class EditThankYouContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Edit Thank You',
-            style: TextStyle(
-                color: AppColors.textColor,
-                fontWeight: FontWeight.bold
-            ),
-          ),
-          centerTitle: true,
-          shape: Border(bottom: BorderSide(color: AppColors.appBarBottomBorderColor)),
-          elevation: 0,
-          backgroundColor: Colors.white,
-          iconTheme: IconThemeData(color: AppColors.textColor),
-          leading: EditThankYouCloseButton()
+        appBar: DefaultAppBar(
+          title: 'Edit Thank You',
+          leading: EditThankYouCloseButton(),
         ),
         backgroundColor: Colors.grey[200],
         body: Stack(

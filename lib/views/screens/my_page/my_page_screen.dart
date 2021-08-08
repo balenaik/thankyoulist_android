@@ -4,6 +4,7 @@ import 'package:thankyoulist/gen/assets.gen.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/viewmodels/my_page_view_model.dart';
+import 'package:thankyoulist/views/common/default_app_bar.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
 
 class MyPageScreen extends StatelessWidget {
@@ -22,9 +23,7 @@ class MyPageScreenContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Account')
-        ),
+        appBar: DefaultAppBar(title: 'Account'),
         backgroundColor: Colors.grey[200],
         body: Stack(
           children: <Widget>[
