@@ -184,6 +184,7 @@ class SlidingUpListView extends StatelessWidget {
         builder: (context) => DefaultDialog(
           'Delete Thank You',
           'Are you sure you want to delete this thank you?',
+          positiveButtonTitle: 'Delete',
           onPositiveButtonPressed: () => viewModel.deleteThankYou(thankYouId),
           onNegativeButtonPressed: () {},
         )
