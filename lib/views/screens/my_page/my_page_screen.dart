@@ -4,6 +4,7 @@ import 'package:thankyoulist/gen/assets.gen.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/viewmodels/my_page_view_model.dart';
+import 'package:thankyoulist/views/common/default_app_bar.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
 
 class MyPageScreen extends StatelessWidget {
@@ -22,9 +23,7 @@ class MyPageScreenContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Account')
-        ),
+        appBar: DefaultAppBar(title: 'Account'),
         backgroundColor: Colors.grey[200],
         body: Stack(
           children: <Widget>[
@@ -99,60 +98,37 @@ class LogoutButton extends StatelessWidget {
     return Container(
         height: 50,
         margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-        child: FlatButton(
-          child: Container(
-              margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
-              child: Text(
-                  'Log out',
-                  style: TextStyle(
-                      fontSize: 17,
-                      color: Colors.red
-                  )
-              )
-          ),
-          color: Colors.white,
-          highlightColor: Colors.transparent,
-          splashColor: Theme.of(context).primaryColorLight,
-          shape: _outlineBorder(Theme.of(context).unselectedWidgetColor),
-          onPressed: () async {
-            _showLogoutDialog(context);
-          },
+        child: TextButton(
+            child: Text(
+                'Log out',
+                style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.redAccent[200],
+                )
+            ),
+            style: TextButton.styleFrom(
+                backgroundColor: Colors.white,
+                primary: Theme.of(context).accentColor,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))
+            ),
+            onPressed: () => _showLogoutDialog(context)
         )
     );
   }
 
   void _showLogoutDialog(BuildContext context) {
     MyPageViewModel viewModel = Provider.of<MyPageViewModel>(context, listen: false);
-    showDialog(
+    showDialog<DefaultDialog>(
         context: context,
         builder: (context) {
-          return AlertDialog(
-              title: Text('Log out'),
-              content: Container(
-                child: Text('Are you sure you want to logout?'),
-              ),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text("Cancel"),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                FlatButton(
-                  child: Text("Log out"),
-                  onPressed: () => viewModel.logout(),
-                ),
-              ],
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20.0))
-              )
+          return DefaultDialog(
+            'Log out',
+            'Are you sure you want to logout?',
+            positiveButtonTitle: 'Log out',
+            onPositiveButtonPressed: () => viewModel.logout(),
+            onNegativeButtonPressed: () {},
           );
         }
-    );
-  }
-
-  OutlineInputBorder _outlineBorder(Color color) {
-    return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        borderSide: BorderSide(color: color, width: 2.0)
     );
   }
 }

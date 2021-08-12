@@ -14,6 +14,7 @@ import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
 import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/viewmodels/thankyou_calendar_view_model.dart';
 import 'package:thankyoulist/views/common/child_size_notifier.dart';
+import 'package:thankyoulist/views/common/default_app_bar.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
 import 'package:thankyoulist/views/common/thankyou_item.dart';
 import 'package:thankyoulist/extensions/list_extension.dart';
@@ -37,18 +38,8 @@ class CalendarScreen extends StatelessWidget {
           Provider.of<AppDataRepositoryImpl>(context, listen: false)
         ),
         child: Scaffold(
-            appBar: AppBar(
-              title: Text(
-                'Thank You Calendar',
-                style: TextStyle(
-                    color: AppColors.textColor,
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-              centerTitle: true,
-              shape: Border(bottom: BorderSide(color: AppColors.appBarBottomBorderColor)),
-              elevation: 0,
-              backgroundColor: Colors.white,
+            appBar: DefaultAppBar(
+              title: 'Thank You Calendar',
               actions: [
                 IconButton(
                   icon: Assets.icons.accountCircle20.image(color: AppColors.textColor),
@@ -193,6 +184,7 @@ class SlidingUpListView extends StatelessWidget {
         builder: (context) => DefaultDialog(
           'Delete Thank You',
           'Are you sure you want to delete this thank you?',
+          positiveButtonTitle: 'Delete',
           onPositiveButtonPressed: () => viewModel.deleteThankYou(thankYouId),
           onNegativeButtonPressed: () {},
         )
