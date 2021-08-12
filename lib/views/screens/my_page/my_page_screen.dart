@@ -98,24 +98,20 @@ class LogoutButton extends StatelessWidget {
     return Container(
         height: 50,
         margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-        child: FlatButton(
-          child: Container(
-              margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
-              child: Text(
-                  'Log out',
-                  style: TextStyle(
-                      fontSize: 17,
-                      color: Colors.red
-                  )
-              )
-          ),
-          color: Colors.white,
-          highlightColor: Colors.transparent,
-          splashColor: Theme.of(context).primaryColorLight,
-          shape: _outlineBorder(Theme.of(context).unselectedWidgetColor),
-          onPressed: () async {
-            _showLogoutDialog(context);
-          },
+        child: TextButton(
+            child: Text(
+                'Log out',
+                style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.red,
+                )
+            ),
+            style: TextButton.styleFrom(
+                backgroundColor: Colors.white,
+                primary: Theme.of(context).accentColor,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))
+            ),
+            onPressed: () => _showLogoutDialog(context)
         )
     );
   }
@@ -145,13 +141,6 @@ class LogoutButton extends StatelessWidget {
               )
           );
         }
-    );
-  }
-
-  OutlineInputBorder _outlineBorder(Color color) {
-    return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        borderSide: BorderSide(color: color, width: 2.0)
     );
   }
 }
