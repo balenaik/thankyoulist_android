@@ -31,6 +31,19 @@ class DefaultDialog extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(16.0))
       ),
       actions: <Widget>[
+        if (onNegativeButtonPressed != null)
+          TextButton(
+            child: Text(
+                negativeButtonTitle,
+                style: TextStyle(
+                  color: AppColors.textColor,
+                )
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+              onNegativeButtonPressed!();
+            },
+          ),
         if (onPositiveButtonPressed != null)
           TextButton(
             child: Text(
@@ -45,19 +58,6 @@ class DefaultDialog extends StatelessWidget {
               onPositiveButtonPressed!();
             },
           ),
-        if (onNegativeButtonPressed != null)
-          TextButton(
-            child: Text(
-                negativeButtonTitle,
-                style: TextStyle(
-                    color: AppColors.textColor,
-                )
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-              onNegativeButtonPressed!();
-            },
-          )
       ],
     );
   }
