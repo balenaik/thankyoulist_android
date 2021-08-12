@@ -118,27 +118,15 @@ class LogoutButton extends StatelessWidget {
 
   void _showLogoutDialog(BuildContext context) {
     MyPageViewModel viewModel = Provider.of<MyPageViewModel>(context, listen: false);
-    showDialog(
+    showDialog<DefaultDialog>(
         context: context,
         builder: (context) {
-          return AlertDialog(
-              title: Text('Log out'),
-              content: Container(
-                child: Text('Are you sure you want to logout?'),
-              ),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text("Cancel"),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                FlatButton(
-                  child: Text("Log out"),
-                  onPressed: () => viewModel.logout(),
-                ),
-              ],
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20.0))
-              )
+          return DefaultDialog(
+            'Log out',
+            'Are you sure you want to logout?',
+            positiveButtonTitle: 'Log out',
+            onPositiveButtonPressed: () => viewModel.logout(),
+            onNegativeButtonPressed: () {},
           );
         }
     );
