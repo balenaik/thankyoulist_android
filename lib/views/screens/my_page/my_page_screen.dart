@@ -103,7 +103,7 @@ class LogoutButton extends StatelessWidget {
                 'Log out',
                 style: TextStyle(
                   fontSize: 17,
-                  color: Colors.red,
+                  color: Colors.redAccent[200],
                 )
             ),
             style: TextButton.styleFrom(
