@@ -8,6 +8,7 @@ final lightTheme = ThemeData(
   accentColor: Color(0xFF81726A),
   unselectedWidgetColor: Colors.grey[300],
   primarySwatch: primaryColor,
+  scaffoldBackgroundColor: Colors.grey[100],
   fontFamily: FontFamily.nunito,
 );
 

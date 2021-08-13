@@ -40,7 +40,7 @@ class EditThankYouContent extends StatelessWidget {
           title: 'Edit Thank You',
           leading: EditThankYouCloseButton(),
         ),
-        backgroundColor: Colors.grey[200],
+        backgroundColor: AppColors.settingScreenBackgroundColor,
         body: Stack(
           children: <Widget>[
             ListView(

@@ -37,7 +37,7 @@ class AddThankYouContent extends StatelessWidget {
           title: 'Add Thank You',
           leading: AddThankYouCloseButton(),
         ),
-        backgroundColor: Colors.grey[200],
+        backgroundColor: AppColors.settingScreenBackgroundColor,
         body: Stack(
           children: <Widget>[
             ListView(

@@ -53,7 +53,6 @@ class CalendarScreen extends StatelessWidget {
                 )
               ],
             ),
-            backgroundColor: Colors.grey[100],
             body: Stack(
               children: [
                 CalendarSlidingUpPanel(),
