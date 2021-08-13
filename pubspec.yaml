@@ -33,6 +33,7 @@ dependencies:
   intl: ^0.17.0
   table_calendar: ^3.0.0
   sliding_up_panel: ^2.0.0+1
+  flutter_native_splash: ^1.2.1
 
 dev_dependencies:
   flutter_test:
