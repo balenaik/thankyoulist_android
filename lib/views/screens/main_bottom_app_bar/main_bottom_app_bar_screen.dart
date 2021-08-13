@@ -22,8 +22,8 @@ class MainBottomAppBarScreen extends StatelessWidget {
 
 class MainBottomAppBarContent extends StatelessWidget {
   List<BottomAppBarItem> barItems = [
-    BottomAppBarItem(icon: Icons.list, title: 'List', widget: ThankYouListScreen()),
-    BottomAppBarItem(icon: Icons.calendar_today, title: 'calendar', widget: CalendarScreen()),
+    BottomAppBarItem(icon: Icons.format_list_bulleted, title: 'List', widget: ThankYouListScreen()),
+    BottomAppBarItem(icon: Icons.calendar_today, title: 'Calendar', widget: CalendarScreen()),
   ];
 
   @override
