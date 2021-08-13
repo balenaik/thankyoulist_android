@@ -83,6 +83,9 @@ class ThankYouListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThankYouListViewModel viewModel = Provider.of<ThankYouListViewModel>(context, listen: true);
+    if (viewModel.thankYouListWithDate.isEmpty) {
+      return ThankYouListEmptyView();
+    }
     return SliverList(
         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
           final uiModel = viewModel.thankYouListWithDate.get(index);
@@ -142,6 +145,44 @@ class ThankYouListView extends StatelessWidget {
           onPositiveButtonPressed: () => viewModel.deleteThankYou(thankYouId),
           onNegativeButtonPressed: () {},
         )
+    );
+  }
+}
+
+class ThankYouListEmptyView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SliverFillRemaining(
+      hasScrollBody: false,
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+                width: 160,
+                height: 160,
+                child: Assets.images.listEmpty.image()
+            ),
+            SizedBox(height: 28),
+            Text(
+              'Welcome Aboard',
+              style: TextStyle(
+                  fontSize: 20,
+                  color: AppColors.textColor,
+                  fontWeight: FontWeight.bold
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'This is your Thank You List.\nLet\'s start adding grateful thoughts!',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 16,
+                  color: AppColors.textColor
+              ),
+            ),
+          ]
+      ),
     );
   }
 }

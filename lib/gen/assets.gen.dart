@@ -13,6 +13,13 @@ class $AssetsIconsGen {
   AssetGenImage get plus30 => const AssetGenImage('assets/icons/plus_30.png');
 }
 
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
+
+  AssetGenImage get listEmpty =>
+      const AssetGenImage('assets/images/list_empty.png');
+}
+
 class Assets {
   Assets._();
 
@@ -23,6 +30,7 @@ class Assets {
       AssetGenImage('assets/ic_login_screen.png');
   static const String icThankyoulist = 'assets/ic_thankyoulist.key';
   static const $AssetsIconsGen icons = $AssetsIconsGen();
+  static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 
 class AssetGenImage extends AssetImage {
