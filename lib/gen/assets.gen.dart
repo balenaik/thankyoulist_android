@@ -18,6 +18,10 @@ class $AssetsImagesGen {
 
   AssetGenImage get listEmpty =>
       const AssetGenImage('assets/images/list_empty.png');
+  AssetGenImage get loginImage =>
+      const AssetGenImage('assets/images/login_image.png');
+  AssetGenImage get splashImage =>
+      const AssetGenImage('assets/images/splash_image.png');
 }
 
 class Assets {
@@ -26,8 +30,6 @@ class Assets {
   static const AssetGenImage icFacebook =
       AssetGenImage('assets/ic_facebook.png');
   static const AssetGenImage icGoogle = AssetGenImage('assets/ic_google.png');
-  static const AssetGenImage icLoginScreen =
-      AssetGenImage('assets/ic_login_screen.png');
   static const String icThankyoulist = 'assets/ic_thankyoulist.key';
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();

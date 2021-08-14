@@ -27,16 +27,16 @@ class LoginContent extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           Container(
-              color: AppColors.backgroundYellow,
               child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Center(child: Image(image: Assets.icLoginScreen, height: 160.0)),
-                    _titleText(context),
+                    Image(image: Assets.images.loginImage),
                     SizedBox(height: 12),
+                    _titleText(context),
+                    SizedBox(height: 8),
                     _descriptionText(context),
-                    SizedBox(height: 24),
+                    SizedBox(height: 20),
                     _buttonRow(_signInButton(
                         iconImage: Assets.icFacebook,
                         title: 'Continue with Facebook',

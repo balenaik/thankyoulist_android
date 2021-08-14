@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thankyoulist/app_colors.dart';
 import 'package:thankyoulist/gen/assets.gen.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/status.dart';
@@ -24,7 +25,7 @@ class MyPageScreenContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: DefaultAppBar(title: 'Account'),
-        backgroundColor: Colors.grey[200],
+        backgroundColor: AppColors.settingScreenBackgroundColor,
         body: Stack(
           children: <Widget>[
             ListView(
