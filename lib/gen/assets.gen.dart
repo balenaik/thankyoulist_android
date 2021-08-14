@@ -30,8 +30,6 @@ class Assets {
   static const AssetGenImage icFacebook =
       AssetGenImage('assets/ic_facebook.png');
   static const AssetGenImage icGoogle = AssetGenImage('assets/ic_google.png');
-  static const AssetGenImage icLoginScreen =
-      AssetGenImage('assets/ic_login_screen.png');
   static const String icThankyoulist = 'assets/ic_thankyoulist.key';
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
