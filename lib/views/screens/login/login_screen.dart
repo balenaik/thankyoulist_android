@@ -27,7 +27,6 @@ class LoginContent extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           Container(
-              color: AppColors.backgroundYellow,
               child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
