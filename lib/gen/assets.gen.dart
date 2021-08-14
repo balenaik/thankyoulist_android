@@ -18,6 +18,10 @@ class $AssetsImagesGen {
 
   AssetGenImage get listEmpty =>
       const AssetGenImage('assets/images/list_empty.png');
+  AssetGenImage get loginImage =>
+      const AssetGenImage('assets/images/login_image.png');
+  AssetGenImage get splashImage =>
+      const AssetGenImage('assets/images/splash_image.png');
 }
 
 class Assets {
