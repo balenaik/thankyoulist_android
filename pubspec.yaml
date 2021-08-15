@@ -34,6 +34,7 @@ dependencies:
   table_calendar: ^3.0.0
   sliding_up_panel: ^2.0.0+1
   flutter_native_splash: ^1.2.1
+  flutter_launcher_icons: ^0.9.1
 
 dev_dependencies:
   flutter_test:
@@ -78,3 +79,12 @@ flutter:
 flutter_native_splash:
   color: "#f5f5f5"
   image: "assets/images/splash_image.png"
+
+
+# App Icon
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/appicon/appicon.png"
+  adaptive_icon_background: "assets/appicon/appicon_background.png"
+  adaptive_icon_foreground: "assets/appicon/appicon_foreground.png"
