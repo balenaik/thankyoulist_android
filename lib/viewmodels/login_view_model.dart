@@ -8,6 +8,7 @@ import 'package:thankyoulist/status.dart';
 class ThankYouLoginStatus extends Status {
   ThankYouLoginStatus(String value) : super(value);
 
+  static const loggingIn = Status('LOGGING_IN');
   static const loginSuccess = Status('LOGIN_SUCCESS');
   static const loginFailed = Status('LOGIN_FAILED');
 }
@@ -28,6 +29,8 @@ class LoginViewModel with ChangeNotifier {
   }
 
   void _signInWithFacebook() async {
+    _status = ThankYouLoginStatus.loggingIn;
+    notifyListeners();
     final LoginResult result = await FacebookAuth.instance.login();
 
     switch (result.status) {
@@ -60,6 +63,8 @@ class LoginViewModel with ChangeNotifier {
   }
 
   void _signInWithGoogle() async {
+    _status = ThankYouLoginStatus.loggingIn;
+    notifyListeners();
     final _googleSignIn = GoogleSignIn();
     GoogleSignInAccount? googleCurrentUser = _googleSignIn.currentUser;
     try {
