@@ -17,7 +17,7 @@ class FirebaseInitializer {
     }
   }
 
-  static void setupUserId(String userId) {
-    FirebaseCrashlytics.instance.setUserIdentifier(userId);
+  static void setupUserId(String? userId) {
+    FirebaseCrashlytics.instance.setUserIdentifier(userId ?? "");
   }
 }
