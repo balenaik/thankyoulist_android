@@ -16,4 +16,8 @@ class FirebaseInitializer {
       FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     }
   }
+
+  static void setupUserId(String userId) {
+    FirebaseCrashlytics.instance.setUserIdentifier(userId);
+  }
 }

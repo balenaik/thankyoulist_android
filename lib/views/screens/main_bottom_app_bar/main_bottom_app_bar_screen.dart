@@ -1,5 +1,7 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/viewmodels/main_bottom_app_bar_view_model.dart';
 import 'package:thankyoulist/views/screens/thankyoulist/thankyoulist_screen.dart';
 import 'package:thankyoulist/views/screens/calendar/calendar_screen.dart';
@@ -14,7 +16,9 @@ class MainBottomAppBarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MainBottomAppBarViewModel>.value(
-        value: MainBottomAppBarViewModel(),
+        value: MainBottomAppBarViewModel(
+          Provider.of<AuthRepositoryImpl>(context, listen: false),
+        ),
         child: MainBottomAppBarContent()
     );
   }
