@@ -38,3 +38,5 @@ lib/generated_plugin_registrant.dart
 
 # Secret Files
 google-services.json
+*.jks
+keystore.properties
