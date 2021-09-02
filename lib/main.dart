@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:thankyoulist/app_data_store.dart';
 import 'package:thankyoulist/repositories/app_data_repository.dart';
 import 'package:thankyoulist/repositories/thankyou_repiository.dart';
+import 'package:thankyoulist/supports/firebase_initializer.dart';
 
 import 'package:thankyoulist/views/themes/light_theme.dart';
 import 'package:thankyoulist/views/screens/launch/launch_screen.dart';
@@ -14,7 +14,7 @@ import 'package:thankyoulist/repositories/thankyoulist_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await FirebaseInitializer.initializeFirebase();
   runApp(
     ThankYouListApp()
   );

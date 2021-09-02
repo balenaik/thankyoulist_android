@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -37,16 +38,16 @@ class LoginViewModel with ChangeNotifier {
       case LoginStatus.success:
         final token = result.accessToken?.token;
         if (token == null) {
-          print("Login error - Token was null");
-          _handleLoginFailed();
+          final reason = 'Login error - Token was null';
+          _handleLoginFailed(null, null, reason);
           return;
         }
         OAuthCredential credential = FacebookAuthProvider.credential(token);
         try {
           await _auth.signInWithCredential(credential);
-        } catch (exception) {
-          print("Login error - Firebase login error: $exception");
-          _handleLoginFailed();
+        } catch (exception, stackTrace) {
+          final reason = 'Login error - Firebase login error: $exception';
+          _handleLoginFailed(exception, stackTrace, reason);
           return;
         }
         _status = ThankYouLoginStatus.loginSuccess;
@@ -56,8 +57,8 @@ class LoginViewModel with ChangeNotifier {
       case LoginStatus.operationInProgress:
       case LoginStatus.failed:
       case LoginStatus.cancelled:
-        print("Login error - ${result.status}");
-        _handleLoginFailed();
+        final reason = 'Login error - ${result.status}';
+        _handleLoginFailed(null, null, reason);
         return;
     }
   }
@@ -71,8 +72,8 @@ class LoginViewModel with ChangeNotifier {
       if (googleCurrentUser == null) googleCurrentUser = await _googleSignIn.signInSilently();
       if (googleCurrentUser == null) googleCurrentUser = await _googleSignIn.signIn();
       if (googleCurrentUser == null) {
-        print("Login error - Could not sign in with Google");
-        _handleLoginFailed();
+        final reason = 'Login error - Could not sign in with Google';
+        _handleLoginFailed(null, null, reason);
         return;
       }
       GoogleSignInAuthentication googleAuth = await googleCurrentUser.authentication;
@@ -84,15 +85,17 @@ class LoginViewModel with ChangeNotifier {
       _status = ThankYouLoginStatus.loginSuccess;
       notifyListeners();
       return;
-    } catch (exception) {
-      print("Login error - Firebase login error: $exception");
-      _handleLoginFailed();
+    } catch (exception, stackTrace) {
+      final reason = 'Login error - Firebase login error: $exception';
+      _handleLoginFailed(exception, stackTrace, reason);
       return;
     }
   }
 
-  void _handleLoginFailed() {
+  void _handleLoginFailed(Object? exception, StackTrace? stackTrace, String? reason) async {
+    print(reason);
     _status = ThankYouLoginStatus.loginFailed;
     notifyListeners();
+    await FirebaseCrashlytics.instance.recordError(exception, stackTrace, reason: reason);
   }
 }

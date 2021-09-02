@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thankyoulist/models/user_model.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/status.dart';
+import 'package:thankyoulist/supports/firebase_initializer.dart';
 
 class MyPageStatus extends Status {
   MyPageStatus(String value) : super(value);
@@ -29,6 +30,7 @@ class MyPageViewModel with ChangeNotifier {
     notifyListeners();
     try {
       await authRepository.logout();
+      FirebaseInitializer.setupUserId(null);
       _status = MyPageStatus.logOutSuccess;
     } catch(error) {
       _status = MyPageStatus.logOutFailed;
