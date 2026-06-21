@@ -32,6 +32,7 @@ if (keystorePropertiesFile.exists()) {
 android {
     compileSdkVersion 30
     ndkVersion "23.0.7599858"
+    namespace "com.balenaik.thankyoulist"
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
