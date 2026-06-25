@@ -38,6 +38,10 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     lint {
         disable 'InvalidPackage'
     }
