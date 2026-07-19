@@ -5,7 +5,7 @@ final lightTheme = ThemeData(
   primaryColor: primaryColor,
   primaryColorLight: Color(0xFFFFE7E7),
   primaryColorDark: Color(0xFFC88585),
-  accentColor: Color(0xFF81726A),
+  colorScheme: ColorScheme.fromSwatch(primarySwatch: primaryColor).copyWith(secondary: Color(0xFF81726A)),
   unselectedWidgetColor: Colors.grey[300],
   primarySwatch: primaryColor,
   scaffoldBackgroundColor: Colors.grey[100],

@@ -206,7 +206,7 @@ class AddThankYouDoneButton extends StatelessWidget {
                 ),
                 style: TextButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColor.withOpacity(backgroundOpacity),
-                    foregroundColor: Theme.of(context).accentColor,
+                    foregroundColor: Theme.of(context).colorScheme.secondary,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_rowComponentBorderRadius))
                 ),
                 onPressed: isDoneButtonEnabled ? () => viewModel.createThankYou() : null
