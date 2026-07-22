@@ -118,7 +118,7 @@ class LoginContent extends StatelessWidget {
     return Text(
       'Take a simple diary \n& be happier',
         style: TextStyle(
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
             fontSize: 18,
         ),
         textAlign: TextAlign.center

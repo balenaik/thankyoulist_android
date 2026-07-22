@@ -109,7 +109,7 @@ class LogoutButton extends StatelessWidget {
             ),
             style: TextButton.styleFrom(
                 backgroundColor: Colors.white,
-                primary: Theme.of(context).accentColor,
+                foregroundColor: Theme.of(context).colorScheme.secondary,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))
             ),
             onPressed: () => _showLogoutDialog(context)

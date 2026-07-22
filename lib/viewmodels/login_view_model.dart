@@ -36,7 +36,7 @@ class LoginViewModel with ChangeNotifier {
 
     switch (result.status) {
       case LoginStatus.success:
-        final token = result.accessToken?.token;
+        final token = result.accessToken?.tokenString;
         if (token == null) {
           final reason = 'Login error - Token was null';
           _handleLoginFailed(null, null, reason);

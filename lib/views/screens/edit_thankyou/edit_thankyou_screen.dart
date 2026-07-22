@@ -183,7 +183,7 @@ class EditThankYouDatePicker extends StatelessWidget {
                             data: Theme.of(context).copyWith(
                               textButtonTheme: TextButtonThemeData(
                                   style: TextButton.styleFrom(
-                                      primary: primaryColor[900],
+                                      foregroundColor: primaryColor[900],
                                       textStyle: TextStyle(fontWeight: FontWeight.w600)
                                   )
                               ),
@@ -222,7 +222,7 @@ class EditThankYouDoneButton extends StatelessWidget {
                   ),
                   style: TextButton.styleFrom(
                       backgroundColor: Theme.of(context).primaryColor.withOpacity(backgroundOpacity),
-                      primary: Theme.of(context).accentColor,
+                      foregroundColor: Theme.of(context).colorScheme.secondary,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_rowComponentBorderRadius))
                   ),
                   onPressed: isDoneButtonEnabled ? () => viewModel.editThankYou() : null
