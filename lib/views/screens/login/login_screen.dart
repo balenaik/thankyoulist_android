@@ -38,11 +38,6 @@ class LoginContent extends StatelessWidget {
                     _descriptionText(context),
                     SizedBox(height: 20),
                     _buttonRow(_signInButton(
-                        iconImage: Assets.icFacebook,
-                        title: 'Continue with Facebook',
-                        tapAction: () => viewModel.facebookSignInButtonDidTap())),
-                    SizedBox(height: 12),
-                    _buttonRow(_signInButton(
                         iconImage: Assets.icGoogle,
                         title: 'Continue with Google',
                         tapAction: () => viewModel.googleSignInButtonDidTap()))
