@@ -14,7 +14,6 @@ class UserModel {
   });
 
   factory UserModel.from({required User firebaseUser}) {
-    // Use providerData.last to get photoURL with Google Auth and email with facebook Auth
     return UserModel(
         id: firebaseUser.uid,
         displayName: firebaseUser.displayName ?? "",
