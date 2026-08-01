@@ -140,19 +140,19 @@ class ThankYouLoginStatusHandler extends StatelessWidget {
       selector: (context, viewModel) => viewModel.status,
       builder: (context, status, child) {
         switch (status) {
-          case ThankYouLoginStatus.loggingIn:
+          case LoginStatus.loggingIn:
             return Container(
                 decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0.3)),
                 child: Center(
                   child: CircularProgressIndicator(),
                 )
             );
-          case ThankYouLoginStatus.loginSuccess:
+          case LoginStatus.loginSuccess:
             Navigator.push(context, MaterialPageRoute(builder: (context) =>
                 MainBottomAppBarScreen(),
             ));
             break;
-          case ThankYouLoginStatus.loginFailed:
+          case LoginStatus.loginFailed:
             _showErrorDialog(context, 'Error', 'Could not log in');
             break;
         }

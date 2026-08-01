@@ -4,9 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:thankyoulist/status.dart';
 
-// Note: Name with prefix "ThankYou" because it conflicted with flutter_facebook_auth status without it
-class ThankYouLoginStatus extends Status {
-  ThankYouLoginStatus(String value) : super(value);
+class LoginStatus extends Status {
+  LoginStatus(String value) : super(value);
 
   static const loggingIn = Status('LOGGING_IN');
   static const loginSuccess = Status('LOGIN_SUCCESS');
@@ -25,7 +24,7 @@ class LoginViewModel with ChangeNotifier {
   }
 
   void _signInWithGoogle() async {
-    _status = ThankYouLoginStatus.loggingIn;
+    _status = LoginStatus.loggingIn;
     notifyListeners();
     final _googleSignIn = GoogleSignIn();
     GoogleSignInAccount? googleCurrentUser = _googleSignIn.currentUser;
@@ -43,7 +42,7 @@ class LoginViewModel with ChangeNotifier {
         idToken: googleAuth.idToken,
       );
       await _auth.signInWithCredential(credential);
-      _status = ThankYouLoginStatus.loginSuccess;
+      _status = LoginStatus.loginSuccess;
       notifyListeners();
       return;
     } catch (exception, stackTrace) {
@@ -55,7 +54,7 @@ class LoginViewModel with ChangeNotifier {
 
   void _handleLoginFailed(Object? exception, StackTrace? stackTrace, String? reason) async {
     print(reason);
-    _status = ThankYouLoginStatus.loginFailed;
+    _status = LoginStatus.loginFailed;
     notifyListeners();
     await FirebaseCrashlytics.instance.recordError(exception, stackTrace, reason: reason);
   }
