@@ -44,7 +44,7 @@ class LoginContent extends StatelessWidget {
                   ],
               )
             ),
-          ThankYouLoginStatusHandler()
+          LoginStatusHandler()
         ]
       )
     );
@@ -121,7 +121,7 @@ class LoginContent extends StatelessWidget {
   }
 }
 
-class ThankYouLoginStatusHandler extends StatelessWidget {
+class LoginStatusHandler extends StatelessWidget {
   Widget? _showErrorDialog(BuildContext context, String title, String message) {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       showDialog<DefaultDialog>(
