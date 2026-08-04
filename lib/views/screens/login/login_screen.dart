@@ -38,18 +38,13 @@ class LoginContent extends StatelessWidget {
                     _descriptionText(context),
                     SizedBox(height: 20),
                     _buttonRow(_signInButton(
-                        iconImage: Assets.icFacebook,
-                        title: 'Continue with Facebook',
-                        tapAction: () => viewModel.facebookSignInButtonDidTap())),
-                    SizedBox(height: 12),
-                    _buttonRow(_signInButton(
                         iconImage: Assets.icGoogle,
                         title: 'Continue with Google',
                         tapAction: () => viewModel.googleSignInButtonDidTap()))
                   ],
               )
             ),
-          ThankYouLoginStatusHandler()
+          LoginStatusHandler()
         ]
       )
     );
@@ -126,7 +121,7 @@ class LoginContent extends StatelessWidget {
   }
 }
 
-class ThankYouLoginStatusHandler extends StatelessWidget {
+class LoginStatusHandler extends StatelessWidget {
   Widget? _showErrorDialog(BuildContext context, String title, String message) {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       showDialog<DefaultDialog>(
@@ -145,19 +140,19 @@ class ThankYouLoginStatusHandler extends StatelessWidget {
       selector: (context, viewModel) => viewModel.status,
       builder: (context, status, child) {
         switch (status) {
-          case ThankYouLoginStatus.loggingIn:
+          case LoginStatus.loggingIn:
             return Container(
                 decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0.3)),
                 child: Center(
                   child: CircularProgressIndicator(),
                 )
             );
-          case ThankYouLoginStatus.loginSuccess:
+          case LoginStatus.loginSuccess:
             Navigator.push(context, MaterialPageRoute(builder: (context) =>
                 MainBottomAppBarScreen(),
             ));
             break;
-          case ThankYouLoginStatus.loginFailed:
+          case LoginStatus.loginFailed:
             _showErrorDialog(context, 'Error', 'Could not log in');
             break;
         }
