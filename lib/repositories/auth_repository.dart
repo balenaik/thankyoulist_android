@@ -10,6 +10,7 @@ abstract class AuthRepository {
   Future<String> getUserId();
   Future<UserModel> getUser();
   Future<void> logout();
+  Future<void> deleteAccount();
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -40,5 +41,23 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> logout() async {
     await GoogleSignIn().signOut();
     await FirebaseAuth.instance.signOut();
+  }
+
+  @override
+  Future<void> deleteAccount() async {
+    final user = firebaseAuth.currentUser;
+    if (user == null) throw UserNotFoundException();
+
+    final googleUser = await GoogleSignIn().signInSilently();
+    if (googleUser == null) throw AuthException();
+
+    final googleAuth = await googleUser.authentication;
+    final credential = GoogleAuthProvider.credential(
+      idToken: googleAuth.idToken,
+      accessToken: googleAuth.accessToken,
+    );
+
+    await user.reauthenticateWithCredential(credential);
+    await user.delete();
   }
 }
