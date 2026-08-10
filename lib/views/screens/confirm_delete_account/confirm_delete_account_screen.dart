@@ -21,6 +21,13 @@ class _ConfirmDeleteAccountContent extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
+          CustomScrollView(
+            slivers: [
+              SliverAppBar.large(
+                title: Text('Confirm your email', style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+            ],
+          ),
         ],
       ),
     );

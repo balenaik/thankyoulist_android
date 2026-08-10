@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thankyoulist/app_colors.dart';
 import 'package:thankyoulist/gen/fonts.gen.dart';
 
 final lightTheme = ThemeData(
@@ -9,6 +10,10 @@ final lightTheme = ThemeData(
   unselectedWidgetColor: Colors.grey[300],
   primarySwatch: primaryColor,
   scaffoldBackgroundColor: Colors.grey[100],
+  appBarTheme: AppBarTheme(
+    backgroundColor: Colors.grey[100],
+    foregroundColor: AppColors.textColor,
+  ),
   fontFamily: FontFamily.nunito,
 );
 
