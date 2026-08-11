@@ -26,6 +26,16 @@ class _ConfirmDeleteAccountContent extends StatelessWidget {
               SliverAppBar.large(
                 title: Text('Confirm your email', style: TextStyle(fontWeight: FontWeight.bold)),
               ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ],
