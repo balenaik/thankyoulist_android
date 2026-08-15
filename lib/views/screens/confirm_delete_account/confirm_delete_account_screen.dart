@@ -29,9 +29,10 @@ class _ConfirmDeleteAccountContent extends StatelessWidget {
               ),
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
+                    spacing: 16.0,
                     children: [
                       _Description(),
                     ],
@@ -49,14 +50,11 @@ class _ConfirmDeleteAccountContent extends StatelessWidget {
 class _Description extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Text(
-        'Complete deletion of your account and your data by entering the email address associated with your account.',
-        style: TextStyle(
-          fontSize: 16,
-          color: AppColors.textColor,
-        ),
+    return Text(
+      'Complete deletion of your account and your data by entering the email address associated with your account.',
+      style: TextStyle(
+        fontSize: 16,
+        color: AppColors.textColor,
       ),
     );
   }
