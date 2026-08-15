@@ -35,6 +35,7 @@ class _ConfirmDeleteAccountContent extends StatelessWidget {
                     spacing: 16.0,
                     children: [
                       _Description(),
+                      _EmailField(),
                     ],
                   ),
                 ),
@@ -56,6 +57,14 @@ class _Description extends StatelessWidget {
         fontSize: 16,
         color: AppColors.textColor,
       ),
+    );
+  }
+}
+
+class _EmailField extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
     );
   }
 }
