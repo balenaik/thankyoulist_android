@@ -64,7 +64,17 @@ class _Description extends StatelessWidget {
 class _EmailField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final viewModel =
+        Provider.of<ConfirmDeleteAccountViewModel>(context, listen: true);
+
     return TextField(
+        decoration: InputDecoration(
+          hintText: viewModel.authUser?.email ?? '',
+          hintStyle: TextStyle(
+            fontSize: 16, 
+            color: Colors.grey.shade400
+          ),
+        ),
     );
   }
 }
