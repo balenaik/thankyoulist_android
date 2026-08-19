@@ -67,13 +67,25 @@ class _EmailField extends StatelessWidget {
     final viewModel =
         Provider.of<ConfirmDeleteAccountViewModel>(context, listen: true);
 
+    final border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide.none,
+    );
     return TextField(
         decoration: InputDecoration(
           hintText: viewModel.authUser?.email ?? '',
           hintStyle: TextStyle(
-            fontSize: 16, 
+            fontSize: 16,
             color: Colors.grey.shade400
           ),
+          filled: true,
+          fillColor: Colors.white,
+          border: border,
+          enabledBorder: border,
+          focusedBorder: border,
+        ),
+        style: const TextStyle(fontSize: 16),
+        keyboardType: TextInputType.emailAddress,
         ),
     );
   }
