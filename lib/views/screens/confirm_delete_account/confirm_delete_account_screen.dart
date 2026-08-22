@@ -86,6 +86,7 @@ class _EmailField extends StatelessWidget {
         ),
         style: const TextStyle(fontSize: 16),
         keyboardType: TextInputType.emailAddress,
+        onChanged: viewModel.updateEmail,
         ),
     );
   }
