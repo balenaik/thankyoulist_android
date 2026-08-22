@@ -36,6 +36,7 @@ class _ConfirmDeleteAccountContent extends StatelessWidget {
                     children: [
                       _Description(),
                       _EmailField(),
+                      _DeleteAccountButton(),
                     ],
                   ),
                 ),
@@ -87,7 +88,19 @@ class _EmailField extends StatelessWidget {
         style: const TextStyle(fontSize: 16),
         keyboardType: TextInputType.emailAddress,
         onChanged: viewModel.updateEmail,
+    );
+  }
+}
+
+class _DeleteAccountButton extends StatelessWidget {
+  @override
+    return SizedBox(
+      height: 48,
+      child: TextButton(
+        onPressed: null,
+        child: Text(
         ),
+      ),
     );
   }
 }
