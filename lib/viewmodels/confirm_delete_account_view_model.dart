@@ -15,4 +15,9 @@ class ConfirmDeleteAccountViewModel with ChangeNotifier {
   void updateEmail(String value) {
     _emailInput = value;
   }
+
+  bool _isValidEmail(String email) {
+    return RegExp(r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,64}$')
+        .hasMatch(email);
+  }
 }
