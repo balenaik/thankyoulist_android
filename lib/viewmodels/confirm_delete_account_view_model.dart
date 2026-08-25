@@ -6,7 +6,7 @@ class ConfirmDeleteAccountViewModel with ChangeNotifier {
   UserModel? _authUser;
   String _emailInput = '';
 
-  UserModel? get authUser => _authUser;
+  String get registeredEmail => _authUser?.email ?? '';
   bool get isDeleteButtonEnabled => _emailInput.isNotEmpty && _isValidEmail(_emailInput);
 
   final AuthRepository authRepository;

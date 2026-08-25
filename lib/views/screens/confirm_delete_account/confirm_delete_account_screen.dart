@@ -74,7 +74,7 @@ class _EmailField extends StatelessWidget {
     );
     return TextField(
         decoration: InputDecoration(
-          hintText: viewModel.authUser?.email ?? '',
+          hintText: viewModel.registeredEmail,
           hintStyle: TextStyle(
             fontSize: 16,
             color: Colors.grey.shade400
