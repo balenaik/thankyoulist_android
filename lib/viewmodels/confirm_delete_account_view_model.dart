@@ -12,10 +12,15 @@ class ConfirmDeleteAccountViewModel with ChangeNotifier {
   final AuthRepository authRepository;
 
   ConfirmDeleteAccountViewModel(this.authRepository) {
+    _loadAuthInfo();
   }
 
   void updateEmail(String value) {
     _emailInput = value;
+  }
+
+  Future<void> _loadAuthInfo() async {
+    _authUser = await authRepository.getUser();
   }
 
   bool _isValidEmail(String email) {

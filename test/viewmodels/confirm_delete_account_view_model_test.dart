@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:thankyoulist/models/user_model.dart';
 import 'package:thankyoulist/viewmodels/confirm_delete_account_view_model.dart';
 
 import '../mocks/mock_auth_repository.dart';
@@ -33,6 +34,32 @@ void main() {
       viewModel.updateEmail('user@example.com');
 
       expect(viewModel.isDeleteButtonEnabled, isTrue);
+    });
+  });
+
+  group('registeredEmail', () {
+    test('is empty when authRepository.getUser() throws', () async {
+      final freshViewModel = ConfirmDeleteAccountViewModel(MockAuthRepository());
+
+      await Future<void>.delayed(Duration.zero);
+
+      expect(freshViewModel.registeredEmail, '');
+    });
+
+    test('reflects the email returned by authRepository.getUser()', () async {
+      const registeredEmail = 'registered@example.com';
+      final authRepository = MockAuthRepository()
+        ..getUserResult = UserModel(
+          id: 'test-id',
+          displayName: 'Test User',
+          email: registeredEmail,
+          photoUrl: '',
+        );
+      final freshViewModel = ConfirmDeleteAccountViewModel(authRepository);
+
+      await Future<void>.delayed(Duration.zero);
+
+      expect(freshViewModel.registeredEmail, registeredEmail);
     });
   });
 }
