@@ -17,10 +17,12 @@ class ConfirmDeleteAccountViewModel with ChangeNotifier {
 
   void updateEmail(String value) {
     _emailInput = value;
+    notifyListeners();
   }
 
   Future<void> _loadAuthInfo() async {
     _authUser = await authRepository.getUser();
+    notifyListeners();
   }
 
   bool _isValidEmail(String email) {
