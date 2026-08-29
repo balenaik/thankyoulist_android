@@ -20,6 +20,11 @@ class ConfirmDeleteAccountViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> deleteAccount() async {
+    if (!isDeleteButtonEnabled) return;
+    await authRepository.deleteAccount();
+  }
+
   Future<void> _loadAuthInfo() async {
     _authUser = await authRepository.getUser();
     notifyListeners();

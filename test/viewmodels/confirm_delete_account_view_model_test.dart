@@ -62,4 +62,26 @@ void main() {
       expect(freshViewModel.registeredEmail, registeredEmail);
     });
   });
+
+  group('deleteAccount', () {
+    test('does not call authRepository.deleteAccount() when isDeleteButtonEnabled is false', () async {
+      final authRepository = MockAuthRepository();
+      final freshViewModel = ConfirmDeleteAccountViewModel(authRepository);
+      freshViewModel.updateEmail('');
+
+      await freshViewModel.deleteAccount();
+
+      expect(authRepository.deleteAccountCallCount, 0);
+    });
+
+    test('calls authRepository.deleteAccount() when isDeleteButtonEnabled is true', () async {
+      final authRepository = MockAuthRepository();
+      final freshViewModel = ConfirmDeleteAccountViewModel(authRepository);
+      freshViewModel.updateEmail('user@example.com');
+
+      await freshViewModel.deleteAccount();
+
+      expect(authRepository.deleteAccountCallCount, 1);
+    });
+  });
 }

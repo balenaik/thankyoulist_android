@@ -29,9 +29,11 @@ class MockAuthRepository implements AuthRepository {
     if (error != null) throw error;
   }
 
+  int deleteAccountCallCount = 0;
   Object? deleteAccountError;
   @override
   Future<void> deleteAccount() async {
+    deleteAccountCallCount++;
     final error = deleteAccountError;
     if (error != null) throw error;
   }
