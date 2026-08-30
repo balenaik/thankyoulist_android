@@ -74,10 +74,53 @@ void main() {
       expect(authRepository.deleteAccountCallCount, 0);
     });
 
-    test('calls authRepository.deleteAccount() when isDeleteButtonEnabled is true', () async {
-      final authRepository = MockAuthRepository();
+    test('does not call authRepository.deleteAccount() when emailInput does not match registeredEmail', () async {
+      final authRepository = MockAuthRepository()
+        ..getUserResult = UserModel(
+          id: 'test-id',
+          displayName: 'Test User',
+          email: 'registered@example.com',
+          photoUrl: '',
+        );
       final freshViewModel = ConfirmDeleteAccountViewModel(authRepository);
-      freshViewModel.updateEmail('user@example.com');
+      await Future<void>.delayed(Duration.zero);
+      freshViewModel.updateEmail('someone-else@example.com');
+
+      await freshViewModel.deleteAccount();
+
+      expect(authRepository.deleteAccountCallCount, 0);
+    });
+
+    test('calls authRepository.deleteAccount() when emailInput matches registeredEmail', () async {
+      const registeredEmail = 'registered@example.com';
+      final authRepository = MockAuthRepository()
+        ..getUserResult = UserModel(
+          id: 'test-id',
+          displayName: 'Test User',
+          email: registeredEmail,
+          photoUrl: '',
+        );
+      final freshViewModel = ConfirmDeleteAccountViewModel(authRepository);
+      await Future<void>.delayed(Duration.zero);
+      freshViewModel.updateEmail(registeredEmail);
+
+      await freshViewModel.deleteAccount();
+
+      expect(authRepository.deleteAccountCallCount, 1);
+    });
+
+    test('calls authRepository.deleteAccount() when emailInput matches registeredEmail case-insensitively', () async {
+      const registeredEmail = 'registered@example.com';
+      final authRepository = MockAuthRepository()
+        ..getUserResult = UserModel(
+          id: 'test-id',
+          displayName: 'Test User',
+          email: registeredEmail,
+          photoUrl: '',
+        );
+      final freshViewModel = ConfirmDeleteAccountViewModel(authRepository);
+      await Future<void>.delayed(Duration.zero);
+      freshViewModel.updateEmail(registeredEmail.toUpperCase());
 
       await freshViewModel.deleteAccount();
 

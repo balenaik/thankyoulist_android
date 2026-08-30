@@ -8,6 +8,8 @@ class ConfirmDeleteAccountViewModel with ChangeNotifier {
 
   String get registeredEmail => _authUser?.email ?? '';
   bool get isDeleteButtonEnabled => _emailInput.isNotEmpty && _isValidEmail(_emailInput);
+  bool get _emailInputMatchesRegisteredEmail =>
+      _emailInput.toLowerCase() == registeredEmail.toLowerCase();
 
   final AuthRepository authRepository;
 
@@ -22,6 +24,10 @@ class ConfirmDeleteAccountViewModel with ChangeNotifier {
 
   Future<void> deleteAccount() async {
     if (!isDeleteButtonEnabled) return;
+    if (!_emailInputMatchesRegisteredEmail) {
+      return;
+    }
+
     await authRepository.deleteAccount();
   }
 
