@@ -94,10 +94,16 @@ class _EmailField extends StatelessWidget {
 
 class _DeleteAccountButton extends StatelessWidget {
   @override
+  Widget build(BuildContext context) {
+    final viewModel =
+        Provider.of<ConfirmDeleteAccountViewModel>(context, listen: true);
+
     return SizedBox(
       height: 48,
       child: TextButton(
-        onPressed: null,
+        onPressed: viewModel.isDeleteButtonEnabled 
+          ? viewModel.deleteAccount 
+          : null,
         child: Text(
         ),
       ),
