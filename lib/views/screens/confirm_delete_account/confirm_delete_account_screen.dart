@@ -105,6 +105,11 @@ class _DeleteAccountButton extends StatelessWidget {
           ? viewModel.deleteAccount 
           : null,
         child: Text(
+          'Delete Account',
+          style: TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
