@@ -97,13 +97,23 @@ class _DeleteAccountButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel =
         Provider.of<ConfirmDeleteAccountViewModel>(context, listen: true);
+    final redAccent200 = Colors.redAccent[200] ?? Colors.redAccent;
+    const disabledOpacity = 0.38;
 
     return SizedBox(
       height: 48,
       child: TextButton(
-        onPressed: viewModel.isDeleteButtonEnabled 
-          ? viewModel.deleteAccount 
+        onPressed: viewModel.isDeleteButtonEnabled
+          ? viewModel.deleteAccount
           : null,
+        style: TextButton.styleFrom(
+          backgroundColor: redAccent200,
+          disabledBackgroundColor: redAccent200.withValues(alpha: disabledOpacity),
+          foregroundColor: Colors.white,
+          disabledForegroundColor: Colors.white.withValues(alpha: disabledOpacity),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        ),
         child: const Text(
           'Delete Account',
           style: TextStyle(
