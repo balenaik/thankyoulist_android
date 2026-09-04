@@ -4,6 +4,8 @@ import 'package:thankyoulist/app_colors.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/viewmodels/confirm_delete_account_view_model.dart';
 
+const _buttonHeight = 48.0;
+
 class ConfirmDeleteAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -101,7 +103,7 @@ class _DeleteAccountButton extends StatelessWidget {
     const disabledOpacity = 0.38;
 
     return SizedBox(
-      height: 48,
+      height: _buttonHeight,
       child: TextButton(
         onPressed: viewModel.isDeleteButtonEnabled
           ? viewModel.deleteAccount
