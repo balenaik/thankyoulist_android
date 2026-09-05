@@ -136,7 +136,14 @@ class _CancelButton extends StatelessWidget {
       height: _buttonHeight,
       child: TextButton(
         onPressed: null,
-        child: const Text(),
+        child: const Text(
+          'Cancel',
+          style: TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+            color: AppColors.textColor,
+          ),
+        ),
       ),
     );
   }
