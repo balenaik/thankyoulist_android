@@ -39,6 +39,7 @@ class _ConfirmDeleteAccountContent extends StatelessWidget {
                       _Description(),
                       _EmailField(),
                       _DeleteAccountButton(),
+                      _CancelButton(),
                     ],
                   ),
                 ),
@@ -123,6 +124,19 @@ class _DeleteAccountButton extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _CancelButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: _buttonHeight,
+      child: TextButton(
+        onPressed: null,
+        child: const Text(),
       ),
     );
   }
