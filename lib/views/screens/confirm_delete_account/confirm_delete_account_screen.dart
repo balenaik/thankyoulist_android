@@ -135,7 +135,7 @@ class _CancelButton extends StatelessWidget {
     return SizedBox(
       height: _buttonHeight,
       child: TextButton(
-        onPressed: null,
+        onPressed: () => Navigator.pop(context),
         child: const Text(
           'Cancel',
           style: TextStyle(
