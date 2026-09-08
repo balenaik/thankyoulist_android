@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:thankyoulist/models/user_model.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
+import 'package:thankyoulist/status.dart';
 
 class ConfirmDeleteAccountViewModel with ChangeNotifier {
   UserModel? _authUser;
+  Status _status = Status.none;
   String _emailInput = '';
 
   String get registeredEmail => _authUser?.email ?? '';
+  Status get status => _status;
   bool get isDeleteButtonEnabled => _emailInput.isNotEmpty && _isValidEmail(_emailInput);
   bool get _emailInputMatchesRegisteredEmail =>
       _emailInput.toLowerCase() == registeredEmail.toLowerCase();
