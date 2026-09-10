@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thankyoulist/app_colors.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
+import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/viewmodels/confirm_delete_account_view_model.dart';
 
 const _buttonHeight = 48.0;
@@ -46,6 +47,7 @@ class _ConfirmDeleteAccountContent extends StatelessWidget {
               ),
             ],
           ),
+          _ConfirmDeleteAccountStatusHandler(),
         ],
       ),
     );
@@ -145,6 +147,17 @@ class _CancelButton extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _ConfirmDeleteAccountStatusHandler extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Selector<ConfirmDeleteAccountViewModel, Status>(
+      selector: (_, viewModel) => viewModel.status,
+      builder: (context, status, _) {
+      },
     );
   }
 }
