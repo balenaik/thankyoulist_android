@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:thankyoulist/models/user_model.dart';
+import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/viewmodels/confirm_delete_account_view_model.dart';
 
 import '../mocks/mock_auth_repository.dart';
@@ -38,15 +39,16 @@ void main() {
   });
 
   group('registeredEmail', () {
-    test('is empty when authRepository.getUser() throws', () async {
+    test('is empty and status is loadAuthInfoFailed when authRepository.getUser() throws', () async {
       final freshViewModel = ConfirmDeleteAccountViewModel(MockAuthRepository());
 
       await Future<void>.delayed(Duration.zero);
 
       expect(freshViewModel.registeredEmail, '');
+      expect(freshViewModel.status, ConfirmDeleteAccountStatus.loadAuthInfoFailed);
     });
 
-    test('reflects the email returned by authRepository.getUser()', () async {
+    test('reflects the email returned by authRepository.getUser() and status stays none', () async {
       const registeredEmail = 'registered@example.com';
       final authRepository = MockAuthRepository()
         ..getUserResult = UserModel(
@@ -60,6 +62,7 @@ void main() {
       await Future<void>.delayed(Duration.zero);
 
       expect(freshViewModel.registeredEmail, registeredEmail);
+      expect(freshViewModel.status, Status.none);
     });
   });
 

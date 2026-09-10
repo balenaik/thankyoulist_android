@@ -3,6 +3,12 @@ import 'package:thankyoulist/models/user_model.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/status.dart';
 
+class ConfirmDeleteAccountStatus extends Status {
+  ConfirmDeleteAccountStatus(String value) : super(value);
+
+  static const loadAuthInfoFailed = Status('LOAD_AUTH_INFO_FAILED');
+}
+
 class ConfirmDeleteAccountViewModel with ChangeNotifier {
   UserModel? _authUser;
   Status _status = Status.none;
@@ -35,7 +41,11 @@ class ConfirmDeleteAccountViewModel with ChangeNotifier {
   }
 
   Future<void> _loadAuthInfo() async {
-    _authUser = await authRepository.getUser();
+    try {
+      _authUser = await authRepository.getUser();
+    } catch (_) {
+      _status = ConfirmDeleteAccountStatus.loadAuthInfoFailed;
+    }
     notifyListeners();
   }
 
