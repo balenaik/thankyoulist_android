@@ -152,11 +152,39 @@ class _CancelButton extends StatelessWidget {
 }
 
 class _ConfirmDeleteAccountStatusHandler extends StatelessWidget {
+  void _showDialog(
+    BuildContext context, {
+    required String title,
+    required String message,
+    required VoidCallback onPositiveButtonPressed,
+  }) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showDialog<DefaultDialog>(
+        context: context,
+        builder: (_) => DefaultDialog(
+          title,
+          message,
+          onPositiveButtonPressed: onPositiveButtonPressed,
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Selector<ConfirmDeleteAccountViewModel, Status>(
       selector: (_, viewModel) => viewModel.status,
       builder: (context, status, _) {
+        switch (status) {
+          case ConfirmDeleteAccountStatus.loadAuthInfoFailed:
+            _showDialog(
+              context,
+              title: 'Unable to Delete Your Account',
+              message: "Please ask the developer from 'Give us Feedback' menu.",
+              onPositiveButtonPressed: () => Navigator.pop(context),
+            );
+        }
+        return const SizedBox.shrink();
       },
     );
   }
