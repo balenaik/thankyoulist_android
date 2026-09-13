@@ -77,7 +77,7 @@ void main() {
       expect(authRepository.deleteAccountCallCount, 0);
     });
 
-    test('does not call authRepository.deleteAccount() when emailInput does not match registeredEmail', () async {
+    test('does not call authRepository.deleteAccount() and sets status to emailMismatch when emailInput does not match registeredEmail', () async {
       final authRepository = MockAuthRepository()
         ..getUserResult = UserModel(
           id: 'test-id',
@@ -92,6 +92,7 @@ void main() {
       await freshViewModel.deleteAccount();
 
       expect(authRepository.deleteAccountCallCount, 0);
+      expect(freshViewModel.status, ConfirmDeleteAccountStatus.emailMismatch);
     });
 
     test('calls authRepository.deleteAccount() when emailInput matches registeredEmail', () async {
@@ -128,6 +129,25 @@ void main() {
       await freshViewModel.deleteAccount();
 
       expect(authRepository.deleteAccountCallCount, 1);
+  });
+
+  group('clearStatus', () {
+    test('resets status to none', () async {
+      final authRepository = MockAuthRepository()
+        ..getUserResult = UserModel(
+          id: 'test-id',
+          displayName: 'Test User',
+          email: 'registered@example.com',
+          photoUrl: '',
+        );
+      final freshViewModel = ConfirmDeleteAccountViewModel(authRepository);
+      await Future<void>.delayed(Duration.zero);
+      freshViewModel.updateEmail('someone-else@example.com');
+      await freshViewModel.deleteAccount();
+
+      freshViewModel.clearStatus();
+
+      expect(freshViewModel.status, Status.none);
     });
   });
 }

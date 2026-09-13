@@ -7,6 +7,7 @@ class ConfirmDeleteAccountStatus extends Status {
   ConfirmDeleteAccountStatus(String value) : super(value);
 
   static const loadAuthInfoFailed = Status('LOAD_AUTH_INFO_FAILED');
+  static const emailMismatch = Status('EMAIL_MISMATCH');
 }
 
 class ConfirmDeleteAccountViewModel with ChangeNotifier {
@@ -34,6 +35,8 @@ class ConfirmDeleteAccountViewModel with ChangeNotifier {
   Future<void> deleteAccount() async {
     if (!isDeleteButtonEnabled) return;
     if (!_emailInputMatchesRegisteredEmail) {
+      _status = ConfirmDeleteAccountStatus.emailMismatch;
+      notifyListeners();
       return;
     }
 

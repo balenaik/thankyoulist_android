@@ -4,6 +4,7 @@ import 'package:thankyoulist/app_colors.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/viewmodels/confirm_delete_account_view_model.dart';
+import 'package:thankyoulist/views/common/default_dialog.dart';
 
 const _buttonHeight = 48.0;
 
@@ -175,6 +176,9 @@ class _ConfirmDeleteAccountStatusHandler extends StatelessWidget {
     return Selector<ConfirmDeleteAccountViewModel, Status>(
       selector: (_, viewModel) => viewModel.status,
       builder: (context, status, _) {
+        final viewModel = Provider.of<ConfirmDeleteAccountViewModel>(context,
+            listen: false);
+
         switch (status) {
           case ConfirmDeleteAccountStatus.loadAuthInfoFailed:
             _showDialog(
@@ -182,6 +186,13 @@ class _ConfirmDeleteAccountStatusHandler extends StatelessWidget {
               title: 'Unable to Delete Your Account',
               message: "Please ask the developer from 'Give us Feedback' menu.",
               onPositiveButtonPressed: () => Navigator.pop(context),
+            );
+          case ConfirmDeleteAccountStatus.emailMismatch:
+            _showDialog(
+              context,
+              title: "Email address doesn't match your account",
+              message: 'Please enter your registered email address: ${viewModel.registeredEmail}',
+              onPositiveButtonPressed: () => viewModel.clearStatus(),
             );
         }
         return const SizedBox.shrink();
