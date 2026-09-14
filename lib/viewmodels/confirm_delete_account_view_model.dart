@@ -8,6 +8,8 @@ class ConfirmDeleteAccountStatus extends Status {
 
   static const loadAuthInfoFailed = Status('LOAD_AUTH_INFO_FAILED');
   static const emailMismatch = Status('EMAIL_MISMATCH');
+  static const deleteSuccess = Status('DELETE_SUCCESS');
+  static const deleteFailed = Status('DELETE_FAILED');
 }
 
 class ConfirmDeleteAccountViewModel with ChangeNotifier {
@@ -40,7 +42,12 @@ class ConfirmDeleteAccountViewModel with ChangeNotifier {
       return;
     }
 
-    await authRepository.deleteAccount();
+    try {
+      await authRepository.deleteAccount();
+    } catch (_) {
+      _status = ConfirmDeleteAccountStatus.deleteFailed;
+    }
+    notifyListeners();
   }
 
   void clearStatus() {

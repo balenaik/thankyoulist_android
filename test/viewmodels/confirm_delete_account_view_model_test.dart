@@ -129,6 +129,26 @@ void main() {
       await freshViewModel.deleteAccount();
 
       expect(authRepository.deleteAccountCallCount, 1);
+    });
+
+    test('sets status to deleteFailed when authRepository.deleteAccount() throws', () async {
+      const registeredEmail = 'registered@example.com';
+      final authRepository = MockAuthRepository()
+        ..getUserResult = UserModel(
+          id: 'test-id',
+          displayName: 'Test User',
+          email: registeredEmail,
+          photoUrl: '',
+        )
+        ..deleteAccountError = Exception('delete failed');
+      final freshViewModel = ConfirmDeleteAccountViewModel(authRepository);
+      await Future<void>.delayed(Duration.zero);
+      freshViewModel.updateEmail(registeredEmail);
+
+      await freshViewModel.deleteAccount();
+
+      expect(freshViewModel.status, ConfirmDeleteAccountStatus.deleteFailed);
+    });
   });
 
   group('clearStatus', () {
