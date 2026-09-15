@@ -95,7 +95,7 @@ void main() {
       expect(freshViewModel.status, ConfirmDeleteAccountStatus.emailMismatch);
     });
 
-    test('calls authRepository.deleteAccount() when emailInput matches registeredEmail', () async {
+    test('calls authRepository.deleteAccount() and sets status to deleteSuccess when emailInput matches registeredEmail', () async {
       const registeredEmail = 'registered@example.com';
       final authRepository = MockAuthRepository()
         ..getUserResult = UserModel(
@@ -111,9 +111,10 @@ void main() {
       await freshViewModel.deleteAccount();
 
       expect(authRepository.deleteAccountCallCount, 1);
+      expect(freshViewModel.status, ConfirmDeleteAccountStatus.deleteSuccess);
     });
 
-    test('calls authRepository.deleteAccount() when emailInput matches registeredEmail case-insensitively', () async {
+    test('calls authRepository.deleteAccount() and sets status to deleteSuccess when emailInput matches registeredEmail case-insensitively', () async {
       const registeredEmail = 'registered@example.com';
       final authRepository = MockAuthRepository()
         ..getUserResult = UserModel(
@@ -129,6 +130,7 @@ void main() {
       await freshViewModel.deleteAccount();
 
       expect(authRepository.deleteAccountCallCount, 1);
+      expect(freshViewModel.status, ConfirmDeleteAccountStatus.deleteSuccess);
     });
 
     test('sets status to deleteFailed when authRepository.deleteAccount() throws', () async {

@@ -155,6 +155,7 @@ class _CancelButton extends StatelessWidget {
 class _ConfirmDeleteAccountStatusHandler extends StatelessWidget {
   void _showDialog(
     BuildContext context, {
+    bool barrierDismissible = true,
     required String title,
     required String message,
     required VoidCallback onPositiveButtonPressed,
@@ -162,6 +163,7 @@ class _ConfirmDeleteAccountStatusHandler extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       showDialog<DefaultDialog>(
         context: context,
+        barrierDismissible: barrierDismissible,
         builder: (_) => DefaultDialog(
           title,
           message,
@@ -193,6 +195,16 @@ class _ConfirmDeleteAccountStatusHandler extends StatelessWidget {
               title: "Email address doesn't match your account",
               message: 'Please enter your registered email address: ${viewModel.registeredEmail}',
               onPositiveButtonPressed: () => viewModel.clearStatus(),
+            );
+          case ConfirmDeleteAccountStatus.deleteSuccess:
+            _showDialog(
+              context,
+              barrierDismissible: false,
+              title: 'Your account has been deleted',
+              message: '',
+              onPositiveButtonPressed: () {
+                Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+              },
             );
           case ConfirmDeleteAccountStatus.deleteFailed:
             _showDialog(
