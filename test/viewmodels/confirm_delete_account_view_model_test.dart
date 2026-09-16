@@ -95,6 +95,26 @@ void main() {
       expect(freshViewModel.status, ConfirmDeleteAccountStatus.emailMismatch);
     });
 
+    test('sets status to deleting before authRepository.deleteAccount() resolves', () async {
+      const registeredEmail = 'registered@example.com';
+      final authRepository = MockAuthRepository()
+        ..getUserResult = UserModel(
+          id: 'test-id',
+          displayName: 'Test User',
+          email: registeredEmail,
+          photoUrl: '',
+        );
+      final freshViewModel = ConfirmDeleteAccountViewModel(authRepository);
+      await Future<void>.delayed(Duration.zero);
+      freshViewModel.updateEmail(registeredEmail);
+
+      final deleteFuture = freshViewModel.deleteAccount();
+
+      expect(freshViewModel.status, ConfirmDeleteAccountStatus.deleting);
+
+      await deleteFuture;
+    });
+
     test('calls authRepository.deleteAccount() and sets status to deleteSuccess when emailInput matches registeredEmail', () async {
       const registeredEmail = 'registered@example.com';
       final authRepository = MockAuthRepository()

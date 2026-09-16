@@ -196,6 +196,11 @@ class _ConfirmDeleteAccountStatusHandler extends StatelessWidget {
               message: 'Please enter your registered email address: ${viewModel.registeredEmail}',
               onPositiveButtonPressed: () => viewModel.clearStatus(),
             );
+          case ConfirmDeleteAccountStatus.deleting:
+            return Container(
+              decoration: const BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0.3)),
+              child: const Center(child: CircularProgressIndicator()),
+            );
           case ConfirmDeleteAccountStatus.deleteSuccess:
             _showDialog(
               context,
