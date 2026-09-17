@@ -2,11 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:thankyoulist/models/user_model.dart';
+import 'package:thankyoulist/supports/firebase_initializer.dart';
 
 class AuthException implements Exception {}
 class UserNotFoundException implements AuthException {}
 
 abstract class AuthRepository {
+  void setUserId(String? userId);
   Future<String> getUserId();
   Future<UserModel> getUser();
   Future<void> logout();
@@ -18,6 +20,11 @@ class AuthRepositoryImpl implements AuthRepository {
       : assert(firebaseAuth != null);
 
   final FirebaseAuth firebaseAuth;
+
+  @override
+  void setUserId(String? userId) {
+    FirebaseInitializer.setupUserId(userId);
+  }
 
   @override
   Future<String> getUserId() async {

@@ -2,6 +2,12 @@ import 'package:thankyoulist/models/user_model.dart';
 import 'package:thankyoulist/repositories/auth_repository.dart';
 
 class MockAuthRepository implements AuthRepository {
+  String? setUserIdValue;
+  @override
+  void setUserId(String? userId) {
+    setUserIdValue = userId;
+  }
+
   String? getUserIdResult;
   Object? getUserIdError;
   @override
