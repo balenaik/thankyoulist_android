@@ -47,6 +47,7 @@ class ConfirmDeleteAccountViewModel with ChangeNotifier {
     notifyListeners();
     try {
       await authRepository.deleteAccount();
+      authRepository.setUserId(null);
       _status = ConfirmDeleteAccountStatus.deleteSuccess;
     } catch (_) {
       _status = ConfirmDeleteAccountStatus.deleteFailed;

@@ -123,7 +123,8 @@ void main() {
           displayName: 'Test User',
           email: registeredEmail,
           photoUrl: '',
-        );
+        )
+        ..setUserIdValue = 'some-previous-user-id';
       final freshViewModel = ConfirmDeleteAccountViewModel(authRepository);
       await Future<void>.delayed(Duration.zero);
       freshViewModel.updateEmail(registeredEmail);
@@ -131,6 +132,7 @@ void main() {
       await freshViewModel.deleteAccount();
 
       expect(authRepository.deleteAccountCallCount, 1);
+      expect(authRepository.setUserIdValue, isNull);
       expect(freshViewModel.status, ConfirmDeleteAccountStatus.deleteSuccess);
     });
 
@@ -153,8 +155,9 @@ void main() {
       expect(freshViewModel.status, ConfirmDeleteAccountStatus.deleteSuccess);
     });
 
-    test('sets status to deleteFailed when authRepository.deleteAccount() throws', () async {
+    test('sets status to deleteFailed and does not call authRepository.setUserId() when authRepository.deleteAccount() throws', () async {
       const registeredEmail = 'registered@example.com';
+      const previousUserId = 'some-previous-user-id';
       final authRepository = MockAuthRepository()
         ..getUserResult = UserModel(
           id: 'test-id',
@@ -162,6 +165,7 @@ void main() {
           email: registeredEmail,
           photoUrl: '',
         )
+        ..setUserIdValue = previousUserId
         ..deleteAccountError = Exception('delete failed');
       final freshViewModel = ConfirmDeleteAccountViewModel(authRepository);
       await Future<void>.delayed(Duration.zero);
@@ -169,6 +173,7 @@ void main() {
 
       await freshViewModel.deleteAccount();
 
+      expect(authRepository.setUserIdValue, previousUserId);
       expect(freshViewModel.status, ConfirmDeleteAccountStatus.deleteFailed);
     });
   });
