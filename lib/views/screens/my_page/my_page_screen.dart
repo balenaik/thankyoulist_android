@@ -164,7 +164,7 @@ class MyPageStatusHandler extends StatelessWidget {
             );
           case MyPageStatus.logOutSuccess:
             WidgetsBinding.instance?.addPostFrameCallback((_) {
-              Navigator.popUntil(context, (Route<dynamic> predicate) => predicate.isFirst);
+              Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
             });
             break;
           case MyPageStatus.logOutFailed:
