@@ -31,7 +31,8 @@ class MyPageScreenContent extends StatelessWidget {
             ListView(
                 children: <Widget>[
                   UserProfileWidget(),
-                  LogoutButton()
+                  LogoutButton(),
+                  DeleteAccountButton(),
                 ]
             ),
             MyPageStatusHandler()
@@ -133,6 +134,18 @@ class LogoutButton extends StatelessWidget {
     );
   }
 }
+
+class DeleteAccountButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: 50,
+        child: TextButton(
+            ),
+            onPressed: null
+        )
+    );
+  }
 
 class MyPageStatusHandler extends StatelessWidget {
   void _showErrorDialog(BuildContext context, String title, String message) {
