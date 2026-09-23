@@ -149,10 +149,24 @@ class DeleteAccountButton extends StatelessWidget {
                   color: Colors.redAccent[200],
                 )
             ),
-            onPressed: null
+            onPressed: () => _showDeleteAccountDialog(context)
         )
     );
   }
+
+  void _showDeleteAccountDialog(BuildContext context) {
+    showDialog<DefaultDialog>(
+        context: context,
+        builder: (context) {
+          return DefaultDialog(
+            'Delete Account',
+            'By deleting the account, all data will be permanently deleted and you will no longer access your Thank You List. Are you sure you want to delete your Thank You List account?',
+            positiveButtonTitle: 'Next',
+          );
+        }
+    );
+  }
+}
 
 class MyPageStatusHandler extends StatelessWidget {
   void _showErrorDialog(BuildContext context, String title, String message) {
