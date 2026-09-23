@@ -140,7 +140,14 @@ class DeleteAccountButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: 50,
+        margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
         child: TextButton(
+            child: Text(
+                'Delete Account',
+                style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.redAccent[200],
+                )
             ),
             onPressed: null
         )
