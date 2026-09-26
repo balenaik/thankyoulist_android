@@ -149,6 +149,11 @@ class DeleteAccountButton extends StatelessWidget {
                   color: Colors.redAccent[200],
                 )
             ),
+            style: TextButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: Theme.of(context).colorScheme.secondary,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))
+            ),
             onPressed: () => _showDeleteAccountDialog(context)
         )
     );
