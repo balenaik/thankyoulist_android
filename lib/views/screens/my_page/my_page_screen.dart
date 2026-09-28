@@ -167,6 +167,7 @@ class DeleteAccountButton extends StatelessWidget {
             'Delete Account',
             'By deleting the account, all data will be permanently deleted and you will no longer access your Thank You List. Are you sure you want to delete your Thank You List account?',
             positiveButtonTitle: 'Next',
+            onNegativeButtonPressed: () {},
           );
         }
     );
