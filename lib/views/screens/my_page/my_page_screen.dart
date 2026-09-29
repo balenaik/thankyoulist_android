@@ -7,6 +7,7 @@ import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/viewmodels/my_page_view_model.dart';
 import 'package:thankyoulist/views/common/default_app_bar.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
+import 'package:thankyoulist/views/screens/confirm_delete_account/confirm_delete_account_screen.dart';
 
 class MyPageScreen extends StatelessWidget {
   @override
@@ -167,6 +168,12 @@ class DeleteAccountButton extends StatelessWidget {
             'Delete Account',
             'By deleting the account, all data will be permanently deleted and you will no longer access your Thank You List. Are you sure you want to delete your Thank You List account?',
             positiveButtonTitle: 'Next',
+            onPositiveButtonPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => ConfirmDeleteAccountScreen(),
+                fullscreenDialog: true,
+              ),
+            ),
             onNegativeButtonPressed: () {},
           );
         }
