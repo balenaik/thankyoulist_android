@@ -7,6 +7,7 @@ import 'package:thankyoulist/status.dart';
 import 'package:thankyoulist/viewmodels/my_page_view_model.dart';
 import 'package:thankyoulist/views/common/default_app_bar.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
+import 'package:thankyoulist/views/screens/confirm_delete_account/confirm_delete_account_screen.dart';
 
 class MyPageScreen extends StatelessWidget {
   @override
@@ -31,7 +32,8 @@ class MyPageScreenContent extends StatelessWidget {
             ListView(
                 children: <Widget>[
                   UserProfileWidget(),
-                  LogoutButton()
+                  LogoutButton(),
+                  DeleteAccountButton(),
                 ]
             ),
             MyPageStatusHandler()
@@ -134,6 +136,51 @@ class LogoutButton extends StatelessWidget {
   }
 }
 
+class DeleteAccountButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: 50,
+        margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+        child: TextButton(
+            child: Text(
+                'Delete Account',
+                style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.redAccent[200],
+                )
+            ),
+            style: TextButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: Theme.of(context).colorScheme.secondary,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))
+            ),
+            onPressed: () => _showDeleteAccountDialog(context)
+        )
+    );
+  }
+
+  void _showDeleteAccountDialog(BuildContext context) {
+    showDialog<DefaultDialog>(
+        context: context,
+        builder: (context) {
+          return DefaultDialog(
+            'Delete Account',
+            'By deleting the account, all data will be permanently deleted and you will no longer access your Thank You List. Are you sure you want to delete your Thank You List account?',
+            positiveButtonTitle: 'Next',
+            onPositiveButtonPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => ConfirmDeleteAccountScreen(),
+                fullscreenDialog: true,
+              ),
+            ),
+            onNegativeButtonPressed: () {},
+          );
+        }
+    );
+  }
+}
+
 class MyPageStatusHandler extends StatelessWidget {
   void _showErrorDialog(BuildContext context, String title, String message) {
     MyPageViewModel viewModel = Provider.of<MyPageViewModel>(context, listen: false);
@@ -164,7 +211,7 @@ class MyPageStatusHandler extends StatelessWidget {
             );
           case MyPageStatus.logOutSuccess:
             WidgetsBinding.instance?.addPostFrameCallback((_) {
-              Navigator.popUntil(context, (Route<dynamic> predicate) => predicate.isFirst);
+              Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
             });
             break;
           case MyPageStatus.logOutFailed:
