@@ -67,7 +67,7 @@ class ThankYouListViewModel with ChangeNotifier {
         }
       });
       notifyListeners();
-    });
+    }, onError: (_) {});
   }
 
   List<ThankYouListViewUiModel> _getThankYouListWithDate() {
