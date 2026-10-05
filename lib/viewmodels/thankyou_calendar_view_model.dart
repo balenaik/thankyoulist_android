@@ -89,7 +89,7 @@ class ThankYouCalendarViewModel with ChangeNotifier {
         }
       });
       notifyListeners();
-    });
+    }, onError: (_) {});
   }
 
   void _addThankYou(ThankYouListChange change) {
