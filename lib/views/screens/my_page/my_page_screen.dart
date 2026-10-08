@@ -9,6 +9,8 @@ import 'package:thankyoulist/views/common/default_app_bar.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
 import 'package:thankyoulist/views/screens/confirm_delete_account/confirm_delete_account_screen.dart';
 
+const _buttonHeight = 50.0;
+
 class MyPageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -99,7 +101,7 @@ class LogoutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 50,
+        height: _buttonHeight,
         margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
         child: TextButton(
             child: Text(
@@ -140,7 +142,7 @@ class DeleteAccountButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 50,
+        height: _buttonHeight,
         margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
         child: TextButton(
             child: Text(
