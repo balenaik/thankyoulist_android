@@ -35,6 +35,7 @@ class MyPageScreenContent extends StatelessWidget {
             ListView(
                 children: <Widget>[
                   UserProfileWidget(),
+                  FeedbackButton(),
                   LogoutButton(),
                   DeleteAccountButton(),
                 ]
@@ -94,6 +95,22 @@ class UserProfileWidget extends StatelessWidget {
                 )
             )
           ]),
+    );
+  }
+}
+
+class FeedbackButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: _buttonHeight,
+        margin: _buttonMargin,
+        child: TextButton(
+            child: Text(
+                'Give us Feedback',
+            ),
+            onPressed: null
+        )
     );
   }
 }
