@@ -12,6 +12,14 @@ import 'package:thankyoulist/views/screens/confirm_delete_account/confirm_delete
 const _buttonHeight = 50.0;
 const _buttonMargin = EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0);
 
+ButtonStyle _buttonStyle(BuildContext context) {
+  return TextButton.styleFrom(
+      backgroundColor: Colors.white,
+      foregroundColor: Theme.of(context).colorScheme.secondary,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))
+  );
+}
+
 class MyPageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -129,11 +137,7 @@ class LogoutButton extends StatelessWidget {
                   color: Colors.redAccent[200],
                 )
             ),
-            style: TextButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Theme.of(context).colorScheme.secondary,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))
-            ),
+            style: _buttonStyle(context),
             onPressed: () => _showLogoutDialog(context)
         )
     );
@@ -170,11 +174,7 @@ class DeleteAccountButton extends StatelessWidget {
                   color: Colors.redAccent[200],
                 )
             ),
-            style: TextButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Theme.of(context).colorScheme.secondary,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))
-            ),
+            style: _buttonStyle(context),
             onPressed: () => _showDeleteAccountDialog(context)
         )
     );
