@@ -10,6 +10,7 @@ import 'package:thankyoulist/views/common/default_dialog.dart';
 import 'package:thankyoulist/views/screens/confirm_delete_account/confirm_delete_account_screen.dart';
 
 const _buttonHeight = 50.0;
+const _buttonFontSize = 17.0;
 const _buttonMargin = EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0);
 
 ButtonStyle _buttonStyle(BuildContext context) {
@@ -133,7 +134,7 @@ class LogoutButton extends StatelessWidget {
             child: Text(
                 'Log out',
                 style: TextStyle(
-                  fontSize: 17,
+                  fontSize: _buttonFontSize,
                   color: Colors.redAccent[200],
                 )
             ),
@@ -170,7 +171,7 @@ class DeleteAccountButton extends StatelessWidget {
             child: Text(
                 'Delete Account',
                 style: TextStyle(
-                  fontSize: 17,
+                  fontSize: _buttonFontSize,
                   color: Colors.redAccent[200],
                 )
             ),
