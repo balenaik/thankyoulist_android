@@ -117,6 +117,10 @@ class FeedbackButton extends StatelessWidget {
         child: TextButton(
             child: Text(
                 'Give us Feedback',
+                style: TextStyle(
+                  fontSize: _buttonFontSize,
+                  color: AppColors.textColor,
+                )
             ),
             onPressed: null
         )
