@@ -8,6 +8,10 @@ import 'package:thankyoulist/viewmodels/my_page_view_model.dart';
 import 'package:thankyoulist/views/common/default_app_bar.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
 import 'package:thankyoulist/views/screens/confirm_delete_account/confirm_delete_account_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+const _feedbackToEmail = 'balenaik+thankyoulist-feedback@gmail.com';
+const _feedbackSubject = 'Thank You List Feedback';
 
 const _buttonHeight = 50.0;
 const _buttonFontSize = 17.0;
@@ -122,9 +126,18 @@ class FeedbackButton extends StatelessWidget {
                   color: AppColors.textColor,
                 )
             ),
-            onPressed: null
+            onPressed: () => _openMailApp()
         )
     );
+  }
+
+  Future<void> _openMailApp() async {
+    final uri = Uri(
+      scheme: 'mailto',
+      path: _feedbackToEmail,
+      queryParameters: {'subject': _feedbackSubject},
+    );
+    await launchUrl(uri);
   }
 }
 
