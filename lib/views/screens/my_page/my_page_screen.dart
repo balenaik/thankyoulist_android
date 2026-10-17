@@ -126,18 +126,39 @@ class FeedbackButton extends StatelessWidget {
                   color: AppColors.textColor,
                 )
             ),
-            onPressed: () => _openMailApp()
+            onPressed: () => _openMailApp(context)
         )
     );
   }
 
-  Future<void> _openMailApp() async {
+  Future<void> _openMailApp(BuildContext context) async {
     final uri = Uri(
       scheme: 'mailto',
       path: _feedbackToEmail,
       queryParameters: {'subject': _feedbackSubject},
     );
-    await launchUrl(uri);
+    bool launched;
+    try {
+      launched = await launchUrl(uri);
+    } catch (_) {
+      launched = false;
+    }
+    if (!launched && context.mounted) {
+      _showUnableToSendEmailDialog(context);
+    }
+  }
+
+  void _showUnableToSendEmailDialog(BuildContext context) {
+    showDialog<DefaultDialog>(
+        context: context,
+        builder: (context) {
+          return DefaultDialog(
+            'Could Not Send Email',
+            'Your device could not send email.\nPlease check your email configuration and try again. Or send email to balenaik@gmail.com',
+            onPositiveButtonPressed: () {},
+          );
+        }
+    );
   }
 }
 
