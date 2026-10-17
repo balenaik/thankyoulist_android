@@ -126,6 +126,7 @@ class FeedbackButton extends StatelessWidget {
                   color: AppColors.textColor,
                 )
             ),
+            style: _buttonStyle(context),
             onPressed: () => _openMailApp(context)
         )
     );
