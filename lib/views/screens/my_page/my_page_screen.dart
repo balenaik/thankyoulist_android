@@ -136,7 +136,7 @@ class FeedbackButton extends StatelessWidget {
     final uri = Uri(
       scheme: 'mailto',
       path: _feedbackToEmail,
-      queryParameters: {'subject': _feedbackSubject},
+      query: 'subject=${Uri.encodeComponent(_feedbackSubject)}',
     );
     bool launched;
     try {
