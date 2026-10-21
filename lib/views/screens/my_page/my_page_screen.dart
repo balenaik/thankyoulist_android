@@ -8,6 +8,22 @@ import 'package:thankyoulist/viewmodels/my_page_view_model.dart';
 import 'package:thankyoulist/views/common/default_app_bar.dart';
 import 'package:thankyoulist/views/common/default_dialog.dart';
 import 'package:thankyoulist/views/screens/confirm_delete_account/confirm_delete_account_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+const _feedbackToEmail = 'balenaik+thankyoulist-feedback@gmail.com';
+const _feedbackSubject = 'Thank You List Feedback';
+
+const _buttonHeight = 50.0;
+const _buttonFontSize = 17.0;
+const _buttonMargin = EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0);
+
+ButtonStyle _buttonStyle(BuildContext context) {
+  return TextButton.styleFrom(
+      backgroundColor: Colors.white,
+      foregroundColor: Theme.of(context).colorScheme.secondary,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))
+  );
+}
 
 class MyPageScreen extends StatelessWidget {
   @override
@@ -32,6 +48,7 @@ class MyPageScreenContent extends StatelessWidget {
             ListView(
                 children: <Widget>[
                   UserProfileWidget(),
+                  FeedbackButton(),
                   LogoutButton(),
                   DeleteAccountButton(),
                 ]
@@ -95,25 +112,72 @@ class UserProfileWidget extends StatelessWidget {
   }
 }
 
+class FeedbackButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: _buttonHeight,
+        margin: _buttonMargin,
+        child: TextButton(
+            child: Text(
+                'Give us Feedback',
+                style: TextStyle(
+                  fontSize: _buttonFontSize,
+                  color: AppColors.textColor,
+                )
+            ),
+            style: _buttonStyle(context),
+            onPressed: () => _openMailApp(context)
+        )
+    );
+  }
+
+  Future<void> _openMailApp(BuildContext context) async {
+    final uri = Uri(
+      scheme: 'mailto',
+      path: _feedbackToEmail,
+      query: 'subject=${Uri.encodeComponent(_feedbackSubject)}',
+    );
+    bool launched;
+    try {
+      launched = await launchUrl(uri);
+    } catch (_) {
+      launched = false;
+    }
+    if (!launched && context.mounted) {
+      _showUnableToSendEmailDialog(context);
+    }
+  }
+
+  void _showUnableToSendEmailDialog(BuildContext context) {
+    showDialog<DefaultDialog>(
+        context: context,
+        builder: (context) {
+          return DefaultDialog(
+            'Could Not Send Email',
+            'Your device could not send email.\nPlease check your email configuration and try again. Or send email to balenaik@gmail.com',
+            onPositiveButtonPressed: () {},
+          );
+        }
+    );
+  }
+}
+
 class LogoutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 50,
-        margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+        height: _buttonHeight,
+        margin: _buttonMargin,
         child: TextButton(
             child: Text(
                 'Log out',
                 style: TextStyle(
-                  fontSize: 17,
-                  color: Colors.redAccent[200],
+                  fontSize: _buttonFontSize,
+                  color: AppColors.textColor,
                 )
             ),
-            style: TextButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Theme.of(context).colorScheme.secondary,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))
-            ),
+            style: _buttonStyle(context),
             onPressed: () => _showLogoutDialog(context)
         )
     );
@@ -140,21 +204,17 @@ class DeleteAccountButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 50,
-        margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+        height: _buttonHeight,
+        margin: _buttonMargin,
         child: TextButton(
             child: Text(
                 'Delete Account',
                 style: TextStyle(
-                  fontSize: 17,
+                  fontSize: _buttonFontSize,
                   color: Colors.redAccent[200],
                 )
             ),
-            style: TextButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Theme.of(context).colorScheme.secondary,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))
-            ),
+            style: _buttonStyle(context),
             onPressed: () => _showDeleteAccountDialog(context)
         )
     );
