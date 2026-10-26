@@ -19,8 +19,8 @@ import 'package:thankyoulist/views/screens/my_page/my_page_screen.dart';
 class ThankYouListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ThankYouListViewModel>.value(
-        value: ThankYouListViewModel(
+    return ChangeNotifierProvider<ThankYouListViewModel>(
+        create: (_) => ThankYouListViewModel(
           Provider.of<ThankYouListRepositoryImpl>(context, listen: false),
           Provider.of<ThankYouRepositoryImpl>(context, listen: false),
           Provider.of<AuthRepositoryImpl>(context, listen: false),

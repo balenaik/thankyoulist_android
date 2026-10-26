@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:thankyoulist/models/thankyou_model.dart';
@@ -23,6 +24,7 @@ class ThankYouCalendarViewModel with ChangeNotifier {
   late DateTime _selectedDate;
   late DateTime _focusedDate;
   Status _status = Status.none;
+  StreamSubscription<List<ThankYouListChange>>? _thankYouListSubscription;
 
   Map<DateTime, List<ThankYouModel>> get thankYouEvents => _thankYouEvents;
   DateTime get selectedDate => _selectedDate;
@@ -70,10 +72,16 @@ class ThankYouCalendarViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  @override
+  void dispose() {
+    _thankYouListSubscription?.cancel();
+    super.dispose();
+  }
+
   void _addThankYousListener() async {
     final userId = await authRepository.getUserId();
     Stream<List<ThankYouListChange>> stream = thankYouListRepository.addThankYouListener(userId);
-    stream.listen((event) {
+    _thankYouListSubscription = stream.listen((event) {
       event.forEach((change) {
         switch (change.type) {
           case ModelChangeType.added:

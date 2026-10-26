@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'dart:collection';
 import 'package:collection/collection.dart';
 import 'package:thankyoulist/models/thankyou_list_view_ui_model.dart';
@@ -21,6 +22,7 @@ class ThankYouListViewModel with ChangeNotifier {
   SplayTreeMap<DateTime, List<ThankYouModel>> _thankYouListMap = SplayTreeMap<DateTime, List<ThankYouModel>>();
   SplayTreeMap<SectionMonthYearModel, Set<DateTime>> _datesByMonthsMap = SplayTreeMap<SectionMonthYearModel, Set<DateTime>>();
   Status _status = Status.none;
+  StreamSubscription<List<ThankYouListChange>>? _thankYouListSubscription;
 
   List<ThankYouListViewUiModel> get thankYouListWithDate => _getThankYouListWithDate();
   Status get status => _status;
@@ -48,10 +50,16 @@ class ThankYouListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  @override
+  void dispose() {
+    _thankYouListSubscription?.cancel();
+    super.dispose();
+  }
+
   void _addThankYouListListener() async {
     final userId = await authRepository.getUserId();
     Stream<List<ThankYouListChange>> stream = thankYouListRepository.addThankYouListener(userId);
-    stream.listen((event) {
+    _thankYouListSubscription = stream.listen((event) {
       event.forEach((change) {
         switch (change.type) {
           case ModelChangeType.added:
